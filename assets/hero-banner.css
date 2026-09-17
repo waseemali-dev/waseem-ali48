@@ -104,7 +104,7 @@
   bottom: 0;
   left: 0;
   max-width: 500px;
-  padding: clamp(1.5rem, 0.375rem + 2.3438vw, 3.1875rem);
+  padding: clamp(2.4rem, 3.61vw, 5rem);
   padding-left:5rem;
   z-index: 4;
 }
@@ -113,7 +113,7 @@
   position: relative;
   display:flex;
   flex-direction:column;
-  row-gap:clamp(1.5rem, 0.4167rem + 2.2569vw, 3.125rem);
+  row-gap:clamp(2.4rem, 3.61vw, 5rem);
 }
 
 /* ============================================================
