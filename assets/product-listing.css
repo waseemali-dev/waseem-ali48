@@ -1,31 +1,45 @@
-/* ===================================
-   PRODUCT LISTING SECTION
-   Grid: 2 cols mobile, 3 cols >=1024px
-   Modal: shared quick-add popup
-   =================================== */
+/* ============================================
+   PRODUCT LISTING SECTION - CSS
+   Mobile-First, BEM, Production Ready
+   ============================================ */
 
 :root {
   --primary: #000;
   --text: #333;
   --text-light: #666;
   --bg: #fff;
-  --border: #ccc;
+  --border: #e0e0e0;
   --overlay: rgba(0,0,0,0.5);
-  --anim: 300ms ease;
+  --gap-s: 12px;
+  --gap-m: 16px;
+  --gap-l: 20px;
+  --pad-s: 16px;
+  --pad-m: 24px;
+  --pad-l: 32px;
+  --hotspot-sz: 40px;
+  --modal-w: 90vw;
+  --modal-max: 500px;
+  --anim-fast: 200ms;
+  --anim-std: 300ms;
 }
+
+/* ============================================
+   BASE STYLES & RESET
+   ============================================ */
 
 .prod-list {
   width: 100%;
-  padding-top: var(--sp-m, 60px);
-  padding-bottom: var(--sp-m, 60px);
-  padding-left: 16px;
-  padding-right: 16px;
+  padding: var(--sp-m, 60px) var(--pad-s, 16px);
   background: var(--bg);
 }
 
 .prod-list * {
   box-sizing: border-box;
 }
+
+/* ============================================
+   HEADING
+   ============================================ */
 
 .prod-list__hd {
   margin-bottom: 24px;
@@ -34,14 +48,21 @@
 
 .prod-list__hd-txt {
   margin: 0;
-  font-size: clamp(22px, 4vw, 32px);
-  line-height: 1.2;
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 600;
   color: var(--text);
 }
 
-/* ========================
+@media (min-width: 768px) {
+  .prod-list__hd-txt {
+    font-size: 32px;
+  }
+}
+
+/* ============================================
    GRID LAYOUT
-   ======================== */
+   ============================================ */
 
 .prod-list__grid {
   display: grid;
@@ -58,60 +79,63 @@
   }
 }
 
-/* ========================
+/* ============================================
    PRODUCT CARD
-   ======================== */
+   ============================================ */
 
 .prod-list__card {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 200ms ease-out;
+}
+
+.prod-list__card:hover {
+  transform: translateY(-4px);
 }
 
 .prod-list__img-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;
   overflow: hidden;
-  background: #f0f0f0;
+  background: #f5f5f5;
+  aspect-ratio: 1;
 }
 
 .prod-list__img {
-  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  display: block;
 }
 
-@media (hover: hover) {
-  .prod-list__card:hover .prod-list__img {
-    transform: scale(1.05);
-  }
-}
-
-/* ========================
-   HOTSPOT BUTTON
-   ======================== */
+/* ============================================
+   HOTSPOT (+) ICON
+   ============================================ */
 
 .prod-list__hotspot {
   position: absolute;
-  left: clamp(5%, var(--hotspot-x, 50%), 95%);
-  top: clamp(5%, var(--hotspot-y, 50%), 95%);
-  transform: translate(-50%, -50%);
-  width: 40px;
-  height: 40px;
+  width: var(--hotspot-sz);
+  height: var(--hotspot-sz);
+  background: var(--bg);
   border: 2px solid var(--primary);
   border-radius: 50%;
-  background: var(--bg);
-  color: var(--primary);
-  font-size: 24px;
-  font-weight: 600;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--primary);
+  cursor: pointer;
   padding: 0;
   z-index: 10;
-  transition: all 200ms ease-out;
+
+  /* Clamp positioning (safe from edges) */
+  left: clamp(5%, var(--hotspot-x, 50%), 95%);
+  top: clamp(5%, var(--hotspot-y, 50%), 95%);
+  transform: translate(-50%, -50%);
+
+  transition: all var(--anim-fast) ease-out;
 }
 
 @media (hover: hover) {
@@ -130,59 +154,67 @@
   transform: translate(-50%, -50%) scale(0.95);
 }
 
-/* ========================
-   MODAL - OVERLAY & POPUP
-   ======================== */
+/* ============================================
+   MODAL - STRUCTURE
+   ============================================ */
 
 .prod-modal {
   position: fixed;
-  inset: 0;
-  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--anim-std) ease-out, visibility var(--anim-std) ease-out;
+}
+
+.prod-modal.is-open {
+  opacity: 1;
+  visibility: visible;
 }
 
 .prod-modal__overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0);
-  transition: background-color var(--anim);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--overlay);
   cursor: pointer;
 }
 
-.prod-modal[hidden] {
-  display: none;
-}
-
-.prod-modal.is-open .prod-modal__overlay {
-  background: var(--overlay);
-}
-
 .prod-modal__content {
-  width: 100%;
-  max-width: 350px;
+  position: relative;
+  width: var(--modal-w);
+  max-width: var(--modal-max);
+  background: #fff;
+  border-radius: 8px;
+  padding: var(--pad-m);
   max-height: 90vh;
   overflow-y: auto;
-  background: var(--bg);
-  border-radius: 8px;
-  padding: 28px 20px 24px;
-  position: relative;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  opacity: 0;
-  transform: scale(0.95);
-  transition: opacity var(--anim), transform var(--anim);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  animation: slideUp 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.prod-modal.is-open .prod-modal__content {
-  opacity: 1;
-  transform: scale(1);
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* ========================
+/* ============================================
    MODAL - CLOSE BUTTON
-   ======================== */
+   ============================================ */
 
 .prod-modal__close {
   position: absolute;
@@ -200,11 +232,13 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
-  transition: color 200ms ease;
+  transition: color var(--anim-fast) ease-out;
 }
 
-.prod-modal__close:hover {
-  color: var(--primary);
+@media (hover: hover) {
+  .prod-modal__close:hover {
+    color: var(--primary);
+  }
 }
 
 .prod-modal__close:focus-visible {
@@ -212,9 +246,9 @@
   outline-offset: 2px;
 }
 
-/* ========================
+/* ============================================
    MODAL - BODY (Image + Info)
-   ======================== */
+   ============================================ */
 
 .prod-modal__body {
   display: grid;
@@ -229,27 +263,27 @@
   height: auto;
   aspect-ratio: 1;
   object-fit: cover;
-  background: #f0f0f0;
   border-radius: 4px;
 }
 
 .prod-modal__info {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .prod-modal__name {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
+  color: var(--text);
   line-height: 1.3;
 }
 
 .prod-modal__price {
   margin: 0;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
   color: var(--text);
 }
 
@@ -258,34 +292,34 @@
   font-size: 13px;
   line-height: 1.4;
   color: var(--text-light);
-  overflow-wrap: break-word;
 }
 
 @media (max-width: 479px) {
   .prod-modal__body {
     grid-template-columns: 1fr;
-    gap: 12px;
-    margin-bottom: 16px;
   }
 
   .prod-modal__name {
-    font-size: 15px;
+    font-size: 16px;
   }
 }
 
-/* ========================
+/* ============================================
    MODAL - FORM SECTION
-   ======================== */
+   ============================================ */
 
 .prod-modal__form {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
 }
 
-/* ========================
-   COLOR SELECTOR
-   ======================== */
+/* ============================================
+   COLOR SELECTOR (Slider Style)
+   ============================================ */
 
 .prod-modal__colors {
   display: flex;
@@ -294,58 +328,46 @@
 }
 
 .prod-modal__color-label {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text);
 }
 
 .prod-modal__color-opts {
-  position: relative;
   display: flex;
-  border: 1px solid var(--border);
-  overflow: hidden;
-  background: var(--bg);
+  gap: 0;
+  position: relative;
 }
 
 .prod-modal__color-opt {
   flex: 1;
   padding: 10px 12px;
-  padding-left: 16px;
+  border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
-  border: none;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: color 200ms ease, background-color 200ms ease;
+  transition: all var(--anim-fast) ease-out;
   text-align: center;
-  position: relative;
-  z-index: 1;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.prod-modal__color-opt + .prod-modal__color-opt {
-  border-left: 1px solid var(--border);
+.prod-modal__color-opt:first-child {
+  border-right: none;
 }
 
-/* Color swatch indicator on left side of each button */
-.prod-modal__color-opt::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background-color: var(--swatch-color, transparent);
-}
-
-.prod-modal__color-opt[aria-pressed="true"] {
-  background: var(--primary);
-  color: var(--bg);
+.prod-modal__color-opt:last-child {
+  border-left: none;
 }
 
 @media (hover: hover) {
-  .prod-modal__color-opt:hover:not([aria-pressed="true"]) {
+  .prod-modal__color-opt:hover {
     background: #f5f5f5;
+    border-color: var(--text-light);
   }
 }
 
@@ -354,7 +376,13 @@
   outline-offset: -2px;
 }
 
-/* Sliding indicator bar - positioned at bottom with smooth animation */
+.prod-modal__color-opt.active {
+  background: var(--primary);
+  color: var(--bg);
+  border-color: var(--primary);
+}
+
+/* Sliding indicator bar */
 .prod-modal__slider {
   position: absolute;
   left: 0;
@@ -371,129 +399,76 @@
   transition: none;
 }
 
-/* ========================
+/* ============================================
    SIZE DROPDOWN
-   ======================== */
+   ============================================ */
 
 .prod-modal__size {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .prod-modal__size-label {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text);
 }
 
 .prod-modal__dropdown {
-  position: relative;
-}
-
-.prod-modal__dropdown-toggle {
-  width: 100%;
-  padding: 10px 12px;
+  padding: 11px 12px;
+  min-height: 44px;
   border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: border-color 200ms ease;
+  appearance: none;
+  padding-right: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23333' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px 8px;
+  transition: all var(--anim-fast) ease-out;
 }
 
-.prod-modal__dropdown-toggle:hover {
-  border-color: var(--text);
+@media (hover: hover) {
+  .prod-modal__dropdown:hover {
+    border-color: var(--primary);
+    background-color: #fafafa;
+  }
 }
 
-.prod-modal__dropdown-toggle:focus-visible {
+.prod-modal__dropdown:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: #fafafa;
+}
+
+.prod-modal__dropdown:focus-visible {
   outline: 2px solid var(--primary);
-  outline-offset: -2px;
+  outline-offset: 2px;
 }
 
-.prod-modal__dropdown-icon {
-  font-size: 10px;
-  transition: transform 200ms ease;
-  flex-shrink: 0;
+.prod-modal__dropdown:active {
+  background-color: var(--bg);
+  transition: background-color 100ms ease-out;
 }
 
-.prod-modal__dropdown-toggle[aria-expanded="true"] .prod-modal__dropdown-icon {
-  transform: rotate(180deg);
-}
-
-.prod-modal__dropdown-list {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(100% + 4px);
-  z-index: 150;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  max-height: 220px;
-  overflow-y: auto;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  opacity: 0;
-  transform: translateY(-4px);
-  transition: opacity 200ms ease, transform 200ms ease;
-}
-
-.prod-modal__dropdown-list[hidden] {
-  display: none;
-}
-
-.prod-modal__dropdown-list.is-open {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.prod-modal__dropdown-option {
-  display: block;
-  width: 100%;
-  padding: 10px 12px;
-  font-size: 13px;
-  text-align: left;
-  background: var(--bg);
-  color: var(--text);
-  border: none;
-  cursor: pointer;
-  transition: all 150ms ease;
-}
-
-.prod-modal__dropdown-option[aria-selected="true"],
-.prod-modal__dropdown-option:hover {
-  background: var(--primary);
-  color: var(--bg);
-}
-
-.prod-modal__dropdown-option:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: -2px;
-}
-
-.prod-modal__dropdown-option:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  text-decoration: line-through;
-}
-
-/* ========================
+/* ============================================
    ADD TO CART BUTTON
-   ======================== */
+   ============================================ */
 
 .prod-modal__btn {
-  padding: 12px 20px;
+  padding: 12px 24px;
   min-height: 44px;
   background: var(--primary);
   color: var(--bg);
   border: none;
-  border-radius: 0;
-  font-size: 12px;
+  border-radius: 4px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.5px;
   cursor: pointer;
@@ -501,17 +476,30 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: all 200ms ease;
+  transition: all var(--anim-fast) ease-out;
   text-transform: uppercase;
-  margin-top: 4px;
+  margin-top: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.prod-modal__btn:hover:not(:disabled) {
-  background: #222;
+.btn-arrow {
+  display: inline-block;
+  transition: transform var(--anim-fast) ease-out;
+  font-size: 14px;
 }
 
-.prod-modal__btn:active:not(:disabled) {
-  transform: scale(0.98);
+@media (hover: hover) {
+  .prod-modal__btn:hover {
+    background: #222;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+  }
+}
+
+.prod-modal__btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: all 100ms ease-out;
 }
 
 .prod-modal__btn:focus-visible {
@@ -522,53 +510,73 @@
 .prod-modal__btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
-.btn-arrow {
-  display: inline-block;
-  transition: transform var(--anim);
+/* ============================================
+   RESPONSIVE - MOBILE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 479px) {
+  .prod-list {
+    padding: var(--sp-m, 60px) 12px;
+  }
+
+  .prod-list__hd-txt {
+    font-size: 20px;
+  }
+
+  .prod-list__grid {
+    gap: 12px;
+  }
+
+  .prod-modal__content {
+    width: 95vw;
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .prod-modal__body {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .prod-modal__info {
+    gap: 6px;
+  }
 }
 
-.prod-modal__btn:hover:not(:disabled) .btn-arrow {
-  transform: translateX(2px);
-}
-
-/* ========================
-   STATUS MESSAGES
-   ======================== */
-
-.prod-modal__status {
-  margin: 0;
-  min-height: 18px;
-  font-size: 12px;
-  text-align: center;
-}
-
-.prod-modal__status[data-state="error"] {
-  color: #c0392b;
-}
-
-.prod-modal__status[data-state="success"] {
-  color: #1a7f37;
-}
-
-/* ========================
-   ACCESSIBILITY: reduced motion
-   ======================== */
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  .prod-list__img,
+  .prod-list__card,
   .prod-list__hotspot,
   .prod-modal,
-  .prod-modal__content,
-  .prod-modal__price,
   .prod-modal__color-opt,
   .prod-modal__slider,
-  .prod-modal__dropdown-icon,
-  .prod-modal__dropdown-list,
   .prod-modal__btn,
   .btn-arrow {
     transition: none !important;
     animation: none !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #e0e0e0;
+    --text-light: #999;
+    --bg: #1a1a1a;
+    --border: #333;
+    --overlay: rgba(0,0,0,0.7);
+  }
+
+  .prod-list__img-wrap {
+    background: #2a2a2a;
+  }
+
+  .prod-modal__dropdown {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23e0e0e0' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
   }
 }
