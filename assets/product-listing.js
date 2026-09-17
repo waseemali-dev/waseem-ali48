@@ -113,6 +113,8 @@
   }
 
   function updateColorIndicator(instant) {
+    if (!dom.slider || !dom.colors) return;
+
     const selectedBtn = dom.colors.querySelector(CONFIG.colorOpt + '.active');
 
     if (!selectedBtn) {
@@ -173,9 +175,6 @@
     state.isOpen = true;
     dom.modal.classList.add('is-open');
     dom.body.style.overflow = 'hidden';
-
-    // Position indicator instantly on first render
-    setTimeout(() => updateColorIndicator(true), 0);
   }
 
   function closeModal() {
