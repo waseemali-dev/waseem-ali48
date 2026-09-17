@@ -52,6 +52,37 @@
     var descriptionLimit = parseInt(section.getAttribute('data-description-limit'), 10) || 120;
 
     /* ----------------------------------------
+       COLOR HELPER
+       ---------------------------------------- */
+
+    function getColorValue(colorName) {
+      var colorMap = {
+        'white': '#ffffff',
+        'black': '#000000',
+        'red': '#e63946',
+        'blue': '#457b9d',
+        'navy': '#001f3f',
+        'green': '#2ecc71',
+        'gray': '#888888',
+        'grey': '#888888',
+        'beige': '#f5f5dc',
+        'tan': '#d2b48c',
+        'brown': '#8b4513',
+        'gold': '#ffd700',
+        'silver': '#c0c0c0',
+        'pink': '#ffb6c1',
+        'purple': '#800080',
+        'orange': '#ff8c00',
+        'yellow': '#ffff00',
+        'cream': '#fffdd0',
+        'charcoal': '#36454f',
+        'khaki': '#f0e68c'
+      };
+      var normalized = (colorName || '').toLowerCase().trim();
+      return colorMap[normalized] || '#cccccc';
+    }
+
+    /* ----------------------------------------
        OPEN / CLOSE
        ---------------------------------------- */
 
@@ -179,6 +210,7 @@
         button.textContent = value;
         button.setAttribute('aria-pressed', 'false');
         button.setAttribute('data-value', value);
+        button.style.setProperty('--swatch-color', getColorValue(value));
 
         button.addEventListener('click', function () {
           selectOption(colorIndex, value);
@@ -336,15 +368,20 @@
       }
 
       var apply = function () {
-        elements.colorIndicator.style.width = selectedButton.offsetWidth + 'px';
-        elements.colorIndicator.style.transform = 'translateX(' + selectedButton.offsetLeft + 'px)';
+        var buttonWidth = selectedButton.offsetWidth;
+        var indicatorWidth = Math.max(buttonWidth * 0.7, 20);
+        var offset = selectedButton.offsetLeft + (buttonWidth - indicatorWidth) / 2;
+
+        elements.colorIndicator.style.width = indicatorWidth + 'px';
+        elements.colorIndicator.style.transform = 'translateX(' + offset + 'px)';
       };
 
       if (instant || prefersReducedMotion) {
-        elements.colorIndicator.style.transition = 'none';
+        elements.colorIndicator.classList.add('is-instant');
         apply();
-        void elements.colorIndicator.offsetWidth;
-        elements.colorIndicator.style.transition = '';
+        requestAnimationFrame(function () {
+          elements.colorIndicator.classList.remove('is-instant');
+        });
       } else {
         apply();
       }
