@@ -12,6 +12,7 @@
   data-component="prod-list"
   data-description-limit="{{ description_limit }}"
 >
+  <div class="page-width">
   {%- if section.settings.enable -%}
     {%- if heading != blank -%}
       <div class="prod-list__hd">
@@ -46,6 +47,7 @@
 </svg>
               </button>
 
+
               {%- comment -%}
                 Product data for this card, read by product-listing.js
               {%- endcomment -%}
@@ -73,7 +75,7 @@
         {%- endif -%}
       {%- endfor -%}
     </div>
-
+  </div>
     {%- comment -%}Shared Popup Modal{%- endcomment -%}
     <div class="prod-modal" data-quick-add-overlay hidden>
       <div class="prod-modal__overlay" data-modal-overlay aria-hidden="true"></div>
