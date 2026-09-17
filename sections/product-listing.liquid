@@ -1,7 +1,7 @@
 {%- comment -%}
   Product Listing Section - Full Implementation
   Status: Production Ready
-  Version: 1.0.2
+  Version: 1.0.3
   Date: 2026-09-17
 {%- endcomment -%}
 
@@ -37,21 +37,34 @@
             ]
           {%- endcapture -%}
 
-          {%- assign color_array = "" | split: "," -%}
-          {%- assign size_array = "" | split: "," -%}
+          {%- assign colors_str = '' -%}
+          {%- assign sizes_str = '' -%}
 
           {%- for variant in product.variants -%}
             {%- if variant.available -%}
               {%- assign size_opt = variant.option1 -%}
               {%- assign color_opt = variant.option2 -%}
-              {%- unless size_array contains size_opt -%}
-                {%- assign size_array = size_array | push: size_opt -%}
+
+              {%- unless sizes_str contains size_opt -%}
+                {%- if sizes_str == '' -%}
+                  {%- assign sizes_str = size_opt -%}
+                {%- else -%}
+                  {%- assign sizes_str = sizes_str | append: '|' | append: size_opt -%}
+                {%- endif -%}
               {%- endunless -%}
-              {%- unless color_array contains color_opt -%}
-                {%- assign color_array = color_array | push: color_opt -%}
+
+              {%- unless colors_str contains color_opt -%}
+                {%- if colors_str == '' -%}
+                  {%- assign colors_str = color_opt -%}
+                {%- else -%}
+                  {%- assign colors_str = colors_str | append: '|' | append: color_opt -%}
+                {%- endif -%}
               {%- endunless -%}
             {%- endif -%}
           {%- endfor -%}
+
+          {%- assign color_array = colors_str | split: '|' -%}
+          {%- assign size_array = sizes_str | split: '|' -%}
 
           {%- capture colors_json -%}
             [
