@@ -341,8 +341,9 @@
 
 .prod-modal__color-opt {
   flex: 1;
-  padding: 10px 12px;
+  padding: 12px 14px;
   border: 2px solid var(--border);
+  border-left: 4px solid var(--border);
   background: var(--bg);
   color: var(--text);
   font-size: 13px;
@@ -361,7 +362,31 @@
 }
 
 .prod-modal__color-opt:last-child {
-  border-left: 1px solid var(--border);
+  border-left-width: 4px;
+}
+
+.prod-modal__color-opt[data-color="blue"] {
+  border-left-color: #0066ff;
+}
+
+.prod-modal__color-opt[data-color="black"] {
+  border-left-color: #000;
+}
+
+.prod-modal__color-opt[data-color="white"] {
+  border-left-color: #ccc;
+}
+
+.prod-modal__color-opt[data-color="red"] {
+  border-left-color: #ff0000;
+}
+
+.prod-modal__color-opt[data-color="grey"] {
+  border-left-color: #999;
+}
+
+.prod-modal__color-opt[data-color="gray"] {
+  border-left-color: #999;
 }
 
 @media (hover: hover) {
@@ -371,28 +396,14 @@
 }
 
 .prod-modal__color-opt:focus-visible {
-  outline: none;
-  border-color: var(--primary);
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
 }
 
 .prod-modal__color-opt.active {
-  background: var(--primary);
-  color: var(--bg);
-  border-color: var(--primary);
-  transform: scaleY(1.05);
+  border-bottom: 3px solid var(--primary);
 }
 
-/* Sliding indicator bar */
-.prod-modal__slider {
-  position: absolute;
-  bottom: -2px;
-  height: 2px;
-  background: var(--primary);
-  left: 0;
-  width: 50%;
-  transform: translateX(calc(var(--slider-pos, 0%) * 100%));
-  transition: transform var(--anim-std) ease-out;
-}
 
 /* ============================================
    SIZE DROPDOWN
@@ -473,12 +484,31 @@
   border-top: none;
   z-index: 100;
   animation: slideDown 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  max-height: 200px;
+  max-height: 300px;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .prod-modal__dropdown-list[hidden] {
   display: none;
+}
+
+/* Custom scrollbar */
+.prod-modal__dropdown-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.prod-modal__dropdown-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.prod-modal__dropdown-list::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.prod-modal__dropdown-list::-webkit-scrollbar-thumb:hover {
+  background: var(--text-light);
 }
 
 @keyframes slideDown {
@@ -498,7 +528,8 @@
   cursor: pointer;
   font-size: 14px;
   color: var(--text);
-  transition: background-color var(--anim-fast) ease-out;
+  background: var(--bg);
+  transition: all var(--anim-fast) cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .prod-modal__dropdown-option:last-child {
@@ -507,7 +538,8 @@
 
 @media (hover: hover) {
   .prod-modal__dropdown-option:hover {
-    background-color: #f5f5f5;
+    background-color: var(--primary);
+    color: var(--bg);
   }
 }
 
