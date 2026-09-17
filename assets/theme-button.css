@@ -73,7 +73,7 @@
   left: 0;
   width: 0;
   height: 100%;
-  transition: opacity var(--theme-button-animation-duration) var(--theme-button-animation-easing);
+  transition: width var(--theme-button-animation-duration) var(--theme-button-animation-easing);
 }
 .theme-button:hover::before{
 width: 100%;
@@ -92,6 +92,7 @@ width: 100%;
 .theme-button__text {
   display: inline-flex;
   white-space: nowrap;
+  position: relative;
   opacity: 1;
   transition: transform var(--theme-button-animation-duration) var(--theme-button-animation-easing),
               opacity var(--theme-button-animation-duration) var(--theme-button-animation-easing);

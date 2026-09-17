@@ -1,4 +1,4 @@
-// Site Header - Sticky Header Functionality
+// Site Header - Toggle & Sticky Header Functionality
 // Mobile-first responsive header with smooth transitions
 
 (function() {
@@ -6,6 +6,16 @@
   const toggle = document.querySelector('.site-header__toggle');
 
   if (!header) return;
+
+  // Setup Menu Toggle (hamburger animation)
+  function setupMenuToggle() {
+    if (!toggle) return;
+
+    toggle.addEventListener('click', function() {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', !isExpanded);
+    });
+  }
 
   // Setup Sticky Header
   function setupStickyHeader() {
@@ -39,5 +49,6 @@
   }
 
   // Initialize
+  setupMenuToggle();
   setupStickyHeader();
 })();
