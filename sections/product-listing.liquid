@@ -149,12 +149,22 @@
     <div class="prod-modal__form">
       <div class="prod-modal__colors">
         <label class="prod-modal__color-label">Color</label>
-        <div class="prod-modal__color-opts" data-colors></div>
+        <div class="prod-modal__color-opts" data-colors>
+          <span class="prod-modal__color-indicator" data-color-indicator aria-hidden="true"></span>
+        </div>
       </div>
 
       <div class="prod-modal__size">
         <label class="prod-modal__size-label">Size</label>
-        <div class="prod-modal__size-opts" data-size-list></div>
+        <div class="prod-modal__dropdown" data-size-dropdown>
+          <button class="prod-modal__dropdown-toggle" data-size-trigger aria-haspopup="listbox" aria-expanded="false">
+            <span data-size-value>Choose your size</span>
+            <svg class="prod-modal__dropdown-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" width="14" height="14">
+              <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <ul class="prod-modal__dropdown-list" data-size-list role="listbox" hidden></ul>
+        </div>
       </div>
 
       <button class="prod-modal__btn btn-primary" data-add-cart>
