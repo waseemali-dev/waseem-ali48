@@ -63,16 +63,25 @@
     "product_listing_aqWyD7": {
       "type": "product-listing",
       "blocks": {
+        "product_Bn3Nhz": {
+          "type": "product",
+          "settings": {
+            "product": "classic-leather-jacket",
+            "hotspot_x": 6,
+            "hotspot_y": 6
+          }
+        },
         "product_JU4D7C": {
           "type": "product",
           "settings": {
             "product": "black-leather-bag",
-            "hotspot_x": 47,
-            "hotspot_y": 8
+            "hotspot_x": 88,
+            "hotspot_y": 15
           }
         }
       },
       "block_order": [
+        "product_Bn3Nhz",
         "product_JU4D7C"
       ],
       "name": "Product Listing",
