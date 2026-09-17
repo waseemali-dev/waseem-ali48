@@ -1,0 +1,179 @@
+/* ==========================================
+   THEME BUTTON COMPONENT - STYLES & ANIMATIONS
+
+   Reusable CTA button with slide effect
+   Mobile-first, BEM methodology
+   Pure CSS animations (no JavaScript)
+   Fully accessible with keyboard support
+   ========================================== */
+
+/* ==========================================
+   CSS VARIABLES & DEFAULTS
+   ========================================== */
+
+:root {
+  --theme-button-font-size: 16px;
+  --theme-button-line-height: 20px;
+  --theme-button-font-weight: 400;
+  --theme-button-animation-duration: 300ms;
+  --theme-button-animation-easing: ease-out;
+  --theme-button-primary-bg: #000000;
+  --theme-button-primary-text: ##F5F5F5;
+  --theme-button-secondary-bg: ##FFF544;
+  --theme-button-secondary-text: #000000;
+}
+
+/* ==========================================
+   BASE THEME BUTTON STYLES
+   ========================================== */
+
+.theme-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  padding: 15px 25px 15px 55px;
+  min-width: auto;
+  font-size: var(--theme-button-font-size);
+  line-height: var(--theme-button-line-height);
+  font-weight: var(--theme-button-font-weight);
+  text-transform: uppercase;
+  letter-spacing: 0;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  appearance: none;
+  overflow: hidden;
+  transition: background-color var(--theme-button-animation-duration) var(--theme-button-animation-easing),
+              color var(--theme-button-animation-duration) var(--theme-button-animation-easing),
+              opacity var(--theme-button-animation-duration) var(--theme-button-animation-easing);
+}
+
+
+/* ==========================================
+   THEME BUTTON TYPES - MODIFIERS (BEM)
+   ========================================== */
+
+/* Primary Button Type - Black */
+.theme-button--primary {
+  background-color: var(--theme-button-primary-bg);
+  color: var(--theme-button-primary-text);
+}
+
+/* Secondary Button Type - Yellow */
+.theme-button--secondary {
+  background-color: var(--theme-button-secondary-bg);
+  color: var(--theme-button-secondary-text);
+}
+
+/* ==========================================
+   THEME BUTTON ELEMENTS - TEXT & ARROW (BEM)
+   ========================================== */
+
+.theme-button__text {
+  display: inline-flex;
+  white-space: nowrap;
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform var(--theme-button-animation-duration) var(--theme-button-animation-easing),
+              opacity var(--theme-button-animation-duration) var(--theme-button-animation-easing);
+}
+
+.theme-button__arrow {
+  display: inline-flex;
+  white-space: nowrap;
+  font-size: 0;
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform var(--theme-button-animation-duration) var(--theme-button-animation-easing),
+              opacity var(--theme-button-animation-duration) var(--theme-button-animation-easing);
+}
+
+/* ==========================================
+   HOVER ANIMATION - SLIDE EFFECT
+   ========================================== */
+
+@media (hover: hover) {
+  .theme-button:hover:not([data-enabled="false"]) .theme-button__text {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+
+  .theme-button:hover:not([data-enabled="false"]) .theme-button__arrow {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+}
+
+/* Mobile touch active state */
+@media (hover: none) {
+  .theme-button:active:not([data-enabled="false"]) {
+    opacity: 0.8;
+  }
+}
+
+/* ==========================================
+   DISABLED STATE
+   ========================================== */
+
+.theme-button[data-enabled="false"],
+.theme-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ==========================================
+   FOCUS STATE (ACCESSIBILITY)
+   ========================================== */
+
+.theme-button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Fallback for older browsers */
+.theme-button:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ==========================================
+   ACTIVE STATE
+   ========================================== */
+
+@media (hover: hover) {
+  .theme-button:active:not([data-enabled="false"]) {
+    opacity: 0.85;
+  }
+}
+
+
+/* ==========================================
+   ACCESSIBILITY - REDUCED MOTION
+
+   Respect user's motion preferences
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-button,
+  .theme-button__text,
+  .theme-button__arrow {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* ==========================================
+   HIGH CONTRAST MODE
+   ========================================== */
+
+@media (prefers-contrast: more) {
+  .theme-button {
+    border: 2px solid currentColor;
+  }
+
+  .theme-button:focus-visible {
+    outline-width: 3px;
+  }
+}
