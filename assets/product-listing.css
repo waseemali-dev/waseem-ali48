@@ -310,6 +310,7 @@
 .prod-modal__color-opt {
   flex: 1;
   padding: 10px 12px;
+  padding-left: 16px;
   background: var(--bg);
   color: var(--text);
   border: none;
@@ -324,6 +325,17 @@
 
 .prod-modal__color-opt + .prod-modal__color-opt {
   border-left: 1px solid var(--border);
+}
+
+/* Color swatch indicator on left side of each button */
+.prod-modal__color-opt::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--swatch-color, transparent);
 }
 
 .prod-modal__color-opt[aria-pressed="true"] {
@@ -348,7 +360,7 @@
   bottom: 0;
   left: 0;
   width: 0;
-  height: 3px;
+  height: 2px;
   background: var(--primary);
   transition: transform var(--anim), width var(--anim);
   z-index: 0;
