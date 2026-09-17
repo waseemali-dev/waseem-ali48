@@ -318,7 +318,7 @@
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: color 200ms ease, background-color 200ms ease;
+   transition: color 350ms cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
   position: relative;
   z-index: 1;
@@ -340,7 +340,7 @@
 }
 
 .prod-modal__color-opt[aria-pressed="true"] {
-  background: var(--primary);
+  /* background: var(--primary); */
   color: var(--bg);
 }
 
@@ -363,9 +363,12 @@
   bottom: 0;
   width: 0;
   background: var(--primary);
-  transition: transform 0.35s ease, width 0.35s ease;
+  transition:
+    transform 350ms cubic-bezier(0.4, 0, 0.2, 1),
+    width 350ms cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 0;
   pointer-events: none;
+  will-change: transform, width;
 }
 
 .prod-modal__slider.is-instant {
