@@ -217,7 +217,7 @@
 
   /* ========== Heading & Text ========== */
   .hero-banner__heading {
-    font-size: clamp(2rem, 0.4167rem + 3.2986vw, 4.375rem);
+    font-size: clamp(3.2rem, 5.28vw, 7rem);
   }
 
 }
