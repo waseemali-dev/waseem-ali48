@@ -19,7 +19,9 @@
     closeBtn: '[data-modal-close]',
     colors: '[data-colors]',
     colorOpt: '[data-color-opt]',
-    size: '[data-size]',
+    sizeTrigger: '[data-size-trigger]',
+    sizeList: '[data-size-list]',
+    sizeValue: '[data-size-value]',
     addBtn: '[data-add-cart]',
     modalImg: '[data-modal-img]',
     modalName: '[data-modal-name]',
@@ -53,7 +55,9 @@
     dom.overlay = dom.modal.querySelector(CONFIG.overlay);
     dom.closeBtn = dom.modal.querySelector(CONFIG.closeBtn);
     dom.colors = dom.modal.querySelector(CONFIG.colors);
-    dom.size = dom.modal.querySelector(CONFIG.size);
+    dom.sizeTrigger = dom.modal.querySelector(CONFIG.sizeTrigger);
+    dom.sizeList = dom.modal.querySelector(CONFIG.sizeList);
+    dom.sizeValue = dom.modal.querySelector(CONFIG.sizeValue);
     dom.addBtn = dom.modal.querySelector(CONFIG.addBtn);
     dom.img = dom.modal.querySelector(CONFIG.modalImg);
     dom.name = dom.modal.querySelector(CONFIG.modalName);
@@ -80,7 +84,8 @@
     document.addEventListener('keydown', handleKeydown);
 
     dom.colors.addEventListener('click', handleColorSelect);
-    dom.size.addEventListener('change', handleSizeChange);
+    dom.sizeTrigger.addEventListener('click', toggleSizeDropdown);
+    document.addEventListener('click', handleOutsideClick);
     dom.addBtn.addEventListener('click', handleAddToCart);
   }
 
@@ -120,6 +125,49 @@
 
   function handleSizeChange(e) {
     state.size = e.target.value;
+  }
+
+  function toggleSizeDropdown(e) {
+    e.stopPropagation();
+    const isOpen = dom.sizeList.hasAttribute('hidden');
+
+    if (isOpen) {
+      dom.sizeList.removeAttribute('hidden');
+      dom.sizeTrigger.classList.add('is-open');
+    } else {
+      dom.sizeList.setAttribute('hidden', '');
+      dom.sizeTrigger.classList.remove('is-open');
+    }
+  }
+
+  function handleSizeOptionClick(e) {
+    if (!e.target.matches('.prod-modal__dropdown-option')) return;
+
+    const selectedSize = e.target.textContent.trim();
+    state.size = selectedSize;
+
+    // Update trigger text
+    dom.sizeTrigger.querySelector('.prod-modal__dropdown-text').textContent = selectedSize;
+
+    // Update visual feedback
+    dom.sizeList.querySelectorAll('.prod-modal__dropdown-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+    e.target.classList.add('selected');
+
+    // Close dropdown
+    dom.sizeList.setAttribute('hidden', '');
+    dom.sizeTrigger.classList.remove('is-open');
+  }
+
+  function handleOutsideClick(e) {
+    if (!dom.modal.classList.contains('is-open')) return;
+
+    const wrapper = dom.sizeTrigger.closest('.prod-modal__dropdown-wrapper');
+    if (!wrapper.contains(e.target) && dom.sizeList && !dom.sizeList.hasAttribute('hidden')) {
+      dom.sizeList.setAttribute('hidden', '');
+      dom.sizeTrigger.classList.remove('is-open');
+    }
   }
 
   function handleKeydown(e) {
@@ -167,7 +215,12 @@
   function resetModal() {
     state.color = null;
     state.size = null;
-    dom.size.value = '';
+    dom.sizeTrigger.querySelector('.prod-modal__dropdown-text').textContent = 'Choose your size';
+    dom.sizeList.setAttribute('hidden', '');
+    dom.sizeTrigger.classList.remove('is-open');
+    dom.sizeList.querySelectorAll('.prod-modal__dropdown-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
     dom.colors.querySelectorAll(CONFIG.colorOpt).forEach(opt => {
       opt.classList.remove('active');
     });
@@ -234,13 +287,17 @@
   }
 
   function renderSizes(sizes) {
-    dom.size.innerHTML = '<option value="">Choose your size</option>';
+    dom.sizeList.innerHTML = '';
+    dom.sizeTrigger.querySelector('.prod-modal__dropdown-text').textContent = 'Choose your size';
+    state.size = null;
 
     sizes.forEach(size => {
-      const opt = document.createElement('option');
-      opt.value = size;
+      const opt = document.createElement('button');
+      opt.className = 'prod-modal__dropdown-option';
+      opt.type = 'button';
       opt.textContent = size;
-      dom.size.appendChild(opt);
+      opt.addEventListener('click', handleSizeOptionClick);
+      dom.sizeList.appendChild(opt);
     });
   }
 
