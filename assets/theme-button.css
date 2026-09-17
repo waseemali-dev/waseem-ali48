@@ -109,6 +109,7 @@ left: 0;
   display: inline-flex;
   white-space: nowrap;
   position: relative;
+  z-index:2;
   opacity: 1;
   transition: transform var(--theme-button-animation-duration) var(--theme-button-animation-easing),
               opacity var(--theme-button-animation-duration) var(--theme-button-animation-easing);
@@ -122,6 +123,8 @@ transition-delay: calc(var(--theme-button-animation-duration) / 2);
   font-size: 0;
   transform: translateX(0);
   opacity: 1;
+  position: relative;
+  z-index:2;
   transition: transform var(--theme-button-animation-duration) var(--theme-button-animation-easing),
               opacity var(--theme-button-animation-duration) var(--theme-button-animation-easing);
 }
