@@ -131,7 +131,7 @@ row-gap:clamp(2.4rem, 3.61vw, 5rem);
 
 .hero-banner__mobile-cta {
 position: absolute;
-bottom: 16px;
+bottom: 39px;
 left: 50%;
 transform: translateX(-50%);
 z-index: 3;
