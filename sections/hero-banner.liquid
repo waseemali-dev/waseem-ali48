@@ -1,0 +1,283 @@
+{%- liquid
+  # ============================================================
+  # HERO BANNER SECTION
+  # ============================================================
+  # Purpose: Full-width responsive hero with optional announcement
+  # Mobile (<768px): Stacked card, image, overlaid CTA
+  # Desktop (≥768px): Full image with bottom-left content box
+  #
+  # Features:
+  # - Optional announcement banner (toggle + editable)
+  # - Separate desktop/mobile images
+  # - Flexible content box sizing
+  # - CTA uses theme-button component
+  # - Fallback color for missing images
+  # - No JavaScript required (pure CSS)
+  # ============================================================
+-%}
+
+<section class="section-hero-banner" data-section-id="{{ section.id }}" data-component="hero-banner">
+
+  {%- comment -%} ANNOUNCEMENT BANNER (Optional) {%- endcomment -%}
+  {%- if section.settings.enable_announcement -%}
+    <div class="hero-banner__announcement" data-component="announcement-banner">
+      <div class="hero-banner__announcement-content">
+        {{ section.settings.announcement_text }}
+      </div>
+    </div>
+    <style>
+      .hero-banner__announcement {
+        background-color: {{ section.settings.announcement_bg_color }};
+        color: {{ section.settings.announcement_text_color }};
+      }
+    </style>
+  {%- endif -%}
+
+  {%- comment -%} MAIN HERO WRAPPER {%- endcomment -%}
+  <div class="hero-banner__wrapper" data-component="hero-wrapper">
+
+    {%- comment -%} IMAGE CONTAINER (Desktop & Mobile Images) {%- endcomment -%}
+    <div class="hero-banner__image-container"
+      data-component="image-container"
+      style="background-color: {{ section.settings.image_fallback_color }};">
+
+      {%- comment -%} Desktop Image (Hidden on mobile, shown on desktop ≥768px) {%- endcomment -%}
+      {%- if section.settings.desktop_image -%}
+        <img
+          class="hero-banner__image hero-banner__image--desktop"
+          src="{{ section.settings.desktop_image | image_url: width: 1400 }}"
+          alt="{{ section.settings.heading }}"
+          loading="lazy"
+          data-image-type="desktop"
+        >
+      {%- endif -%}
+
+      {%- comment -%} Mobile Image (Hidden on desktop, shown on mobile <768px) {%- endcomment -%}
+      {%- if section.settings.mobile_image -%}
+        <img
+          class="hero-banner__image hero-banner__image--mobile"
+          src="{{ section.settings.mobile_image | image_url: width: 600 }}"
+          alt="{{ section.settings.heading }}"
+          loading="lazy"
+          data-image-type="mobile"
+        >
+      {%- endif -%}
+
+    </div>
+
+    {%- comment -%} MOBILE CONTENT CARD (Visible <768px) {%- endcomment -%}
+    <div class="hero-banner__mobile-card" data-component="mobile-card">
+      <div class="hero-banner__mobile-card-content">
+
+        {%- comment -%} Heading {%- endcomment -%}
+        {%- if section.settings.heading -%}
+          <h1 class="hero-banner__heading" style="color: {{ section.settings.heading_color }};">
+            {{ section.settings.heading }}
+          </h1>
+        {%- endif -%}
+
+        {%- comment -%} Description {%- endcomment -%}
+        {%- if section.settings.description -%}
+          <div class="hero-banner__description" style="color: {{ section.settings.text_color }};">
+            {{ section.settings.description }}
+          </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+
+    {%- comment -%} DESKTOP CONTENT BOX (Visible ≥768px) {%- endcomment -%}
+    <div class="hero-banner__content-box"
+      data-component="content-box"
+      style="background-color: {{ section.settings.content_bg_color }};">
+
+      <div class="hero-banner__content-inner">
+
+        {%- comment -%} Heading {%- endcomment -%}
+        {%- if section.settings.heading -%}
+          <h1 class="hero-banner__heading" style="color: {{ section.settings.heading_color }};">
+            {{ section.settings.heading }}
+          </h1>
+        {%- endif -%}
+
+        {%- comment -%} Description {%- endcomment -%}
+        {%- if section.settings.description -%}
+          <div class="hero-banner__description" style="color: {{ section.settings.text_color }};">
+            {{ section.settings.description }}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} CTA Button (Desktop) {%- endcomment -%}
+        {%- if section.settings.show_cta -%}
+          <div class="hero-banner__cta-button" data-component="cta-button">
+            {%- render 'theme-button',
+              button_enabled: section.settings.show_cta,
+              button_type: section.settings.cta_button_type,
+              button_text: section.settings.cta_text,
+              button_link: section.settings.cta_link
+            -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+
+    </div>
+
+    {%- comment -%} MOBILE CTA OVERLAY (Visible <768px) {%- endcomment -%}
+    <div class="hero-banner__mobile-cta" data-component="mobile-cta">
+      {%- if section.settings.show_cta -%}
+        {%- render 'theme-button',
+          button_enabled: section.settings.show_cta,
+          button_type: section.settings.cta_button_type,
+          button_text: section.settings.cta_text,
+          button_link: section.settings.cta_link
+        -%}
+      {%- endif -%}
+    </div>
+
+  </div>
+
+</section>
+
+{{ 'hero-banner.css' | asset_url | stylesheet_tag }}
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Announcement Banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_announcement",
+      "label": "Enable Announcement Banner",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement Text",
+      "default": "Special Offer"
+    },
+    {
+      "type": "color",
+      "id": "announcement_bg_color",
+      "label": "Announcement Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "announcement_text_color",
+      "label": "Announcement Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Hero Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Discover joy and find the perfect gifts to delight your loved ones this holiday season.</p>"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Description Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "color",
+      "id": "image_fallback_color",
+      "label": "Image Fallback Color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image Aspect Ratio",
+      "options": [
+        { "value": "16-9", "label": "16:9" },
+        { "value": "4-3", "label": "4:3" },
+        { "value": "3-2", "label": "3:2" }
+      ],
+      "default": "16-9"
+    },
+    {
+      "type": "header",
+      "content": "CTA Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show CTA Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "select",
+      "id": "cta_button_type",
+      "label": "Button Type",
+      "options": [
+        { "value": "primary", "label": "Primary (Black)" },
+        { "value": "secondary", "label": "Secondary (Yellow)" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "header",
+      "content": "Content Box (Desktop)"
+    },
+    {
+      "type": "color",
+      "id": "content_bg_color",
+      "label": "Content Box Background Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}

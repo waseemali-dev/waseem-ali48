@@ -28,7 +28,7 @@
   align-items: center;
   justify-content: center;
   gap: 30px;
-  padding: 15px 25px 15px 55px;
+  padding: 12.5px 20px 12.5px 35px;
   min-width: auto;
   font-size: var(--theme-button-font-size);
   line-height: var(--theme-button-line-height);
@@ -113,6 +113,11 @@ transition-delay: calc(var(--theme-button-animation-duration) / 2);
 .theme-button:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
+}
+@media (min-width: 768px) {
+  .theme-button {
+    padding: 15px 25px 15px 55px;
+  }
 }
 
 /*  ACCESSIBILITY - REDUCED MOTION */

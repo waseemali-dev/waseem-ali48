@@ -1,0 +1,339 @@
+/* ============================================================
+   HERO BANNER SECTION - STYLESHEET
+   ============================================================
+   Mobile-First Responsive Design (< 768px | ≥ 768px)
+   - No JavaScript required
+   - Pure CSS positioning & layout
+   - Flexible responsive sizing with clamp()
+   ============================================================ */
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES (Variables)
+   ============================================================ */
+
+:root {
+  --hero-aspect-16-9: 16 / 9;
+  --hero-aspect-4-3: 4 / 3;
+  --hero-aspect-3-2: 3 / 2;
+
+  --hero-mobile-cta-bottom: 16px;
+  --hero-content-max-width: 500px;
+
+  --hero-z-image: 1;
+  --hero-z-mobile-card: 2;
+  --hero-z-mobile-cta: 3;
+  --hero-z-content-box: 4;
+}
+
+/* ============================================================
+   ANNOUNCEMENT BANNER
+   ============================================================ */
+
+.hero-banner__announcement {
+  width: 100%;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.hero-banner__announcement-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   MAIN WRAPPER
+   ============================================================ */
+
+.section-hero-banner {
+  width: 100%;
+  position: relative;
+}
+
+.hero-banner__wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   IMAGE CONTAINER
+   ============================================================
+   Mobile: Shows mobile image, aspect ratio locked
+   Desktop: Shows desktop image, full height
+   ============================================================ */
+
+.hero-banner__image-container {
+  position: relative;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+
+  /* Mobile: Default aspect ratio 16:9 */
+  aspect-ratio: var(--hero-aspect-16-9);
+}
+
+.hero-banner__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Desktop image hidden on mobile */
+.hero-banner__image--desktop {
+  display: none;
+}
+
+/* Mobile image shown by default */
+.hero-banner__image--mobile {
+  display: block;
+}
+
+/* ============================================================
+   MOBILE CONTENT CARD
+   Mobile (<768px): Visible styled card above image
+   Desktop (≥768px): Hidden
+   ============================================================ */
+
+.hero-banner__mobile-card {
+  order: -2;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.hero-banner__mobile-card-content {
+  position: relative;
+  z-index: var(--hero-z-mobile-card);
+}
+
+/* ============================================================
+   DESKTOP CONTENT BOX
+   Mobile (<768px): Hidden
+   Desktop (≥768px): Visible, absolutely positioned bottom-left
+   ============================================================ */
+
+.hero-banner__content-box {
+  display: none;
+  position: absolute;
+  bottom: 32px;
+  left: 16px;
+  max-width: var(--hero-content-max-width);
+  z-index: var(--hero-z-content-box);
+}
+
+.hero-banner__content-inner {
+  position: relative;
+}
+
+.hero-banner__cta-button {
+  margin-top: 20px;
+}
+
+/* ============================================================
+   MOBILE CTA OVERLAY
+   Mobile (<768px): Visible, centered at bottom of image
+   Desktop (≥768px): Hidden
+   ============================================================ */
+
+.hero-banner__mobile-cta {
+  position: absolute;
+  bottom: var(--hero-mobile-cta-bottom);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--hero-z-mobile-cta);
+  width: auto;
+}
+
+/* ============================================================
+   HEADING & TEXT STYLING
+   ============================================================ */
+
+.hero-banner__heading {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.hero-banner__description {
+  margin: 12px 0 0 0;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.hero-banner__description p {
+  margin: 0;
+  padding: 0;
+}
+
+.hero-banner__description p + p {
+  margin-top: 12px;
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINT: TABLET & DESKTOP (≥768px)
+   ============================================================ */
+
+@media (min-width: 768px) {
+
+  /* ========== Image Container ========== */
+  .hero-banner__image-container {
+    min-height: 500px;
+    max-height: 600px;
+  }
+
+  /* Show desktop image, hide mobile image */
+  .hero-banner__image--desktop {
+    display: block;
+  }
+
+  .hero-banner__image--mobile {
+    display: none;
+  }
+
+  /* ========== Mobile Card (Hidden) ========== */
+  .hero-banner__mobile-card {
+    display: none;
+  }
+
+  /* ========== Desktop Content Box (Visible) ========== */
+  .hero-banner__content-box {
+    display: block;
+  }
+
+  /* ========== Mobile CTA (Hidden) ========== */
+  .hero-banner__mobile-cta {
+    display: none;
+  }
+
+  /* ========== Main Wrapper ========== */
+  .hero-banner__wrapper {
+    position: relative;
+    min-height: 500px;
+  }
+
+  /* ========== Heading & Text ========== */
+  .hero-banner__heading {
+    font-size: 32px;
+    line-height: 1.2;
+  }
+
+  .hero-banner__description {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-top: 16px;
+  }
+
+  /* ========== Content Box Positioning ========== */
+  .hero-banner__content-box {
+    bottom: 40px;
+    left: 40px;
+  }
+
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINT: LARGE DESKTOP (≥1024px)
+   ============================================================ */
+
+@media (min-width: 1024px) {
+
+  .hero-banner__image-container {
+    min-height: 600px;
+    max-height: 700px;
+  }
+
+  .hero-banner__heading {
+    font-size: 40px;
+    line-height: 1.2;
+  }
+
+  .hero-banner__description {
+    font-size: 16px;
+    line-height: 1.7;
+    margin-top: 20px;
+  }
+
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+/* Focus states for keyboard navigation */
+.hero-banner__content-box:focus-within {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.hero-banner__mobile-cta:focus-within {
+  outline: none;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  .hero-banner__heading {
+    font-weight: 700;
+  }
+
+  .hero-banner__description {
+    font-weight: 500;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .hero-banner__image,
+  .hero-banner__content-box,
+  .hero-banner__mobile-cta {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
+
+@media print {
+  .hero-banner__announcement {
+    display: none;
+  }
+
+  .hero-banner__mobile-cta {
+    display: none;
+  }
+
+  .hero-banner__image-container {
+    max-height: 300px;
+  }
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+/* Hide elements responsively */
+@media (max-width: 767px) {
+  .hero-banner__image--desktop {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-banner__image--mobile {
+    display: none !important;
+  }
+}
