@@ -34,10 +34,12 @@
 
 .prod-list__hd-txt {
   margin: 0;
-  font-size: 36px;
+  font-size: 24px;
   line-height: 1.2;
+  font-weight:400;
   color: var(--primary);
-  margin: 0 0 30px;
+  margin: 0 0 20px;
+  text-align:center;
 }
 
 /* ========================
@@ -261,7 +263,13 @@
   color: var(--text-light);
   overflow-wrap: break-word;
 }
-
+@media (min-width: 768px) {
+.prod-list__hd-txt {
+  font-size: 36px;
+  margin-bottom: 30px;
+  text-align:left;
+}
+}
 @media (max-width: 479px) {
   .prod-modal__body {
     grid-template-columns: 1fr;
