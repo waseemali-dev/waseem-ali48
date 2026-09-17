@@ -102,9 +102,10 @@
   display: none;
   position: absolute;
   bottom: 0;
-  left: clamp(16px, 4vw, 32px);
+  left: 0;
   max-width: 500px;
-  padding: clamp(16px, 4vw, 32px);
+  padding: clamp(1.5rem, 0.375rem + 2.3438vw, 3.1875rem);
+  padding-left:0;
   z-index: 4;
 }
 
