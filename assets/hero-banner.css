@@ -207,13 +207,16 @@
   /* ========== Desktop Content Box (Visible) ========== */
   .hero-banner__content-box {
     display: block;
+    background-color:#FFFFFF;
   }
 .hero-banner__content-box::before {
-	content: '';
+	content: "";
 	top: 0;
 	height: 100%;
 	right: 0;
-	width: 2000px;
+	width: 10000%;
+	position: absolute;
+	background: #ffffff;
 }
   /* ========== Mobile CTA (Hidden) ========== */
   .hero-banner__mobile-cta {
