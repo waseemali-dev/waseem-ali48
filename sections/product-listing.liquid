@@ -71,55 +71,55 @@
         {%- endif -%}
       {%- endfor -%}
     </div>
+
+    {%- comment -%}Shared Popup Modal{%- endcomment -%}
+    <div class="prod-modal" data-quick-add-overlay hidden>
+      <div class="prod-modal__overlay" data-modal-overlay aria-hidden="true"></div>
+
+      <div class="prod-modal__content" role="dialog" aria-modal="true" data-quick-add-popup>
+        <button class="prod-modal__close" data-action="close-quick-add" aria-label="Close product details">
+          ×
+        </button>
+
+        <div class="prod-modal__body">
+          <img class="prod-modal__img" data-modal-img src="" alt="">
+
+          <div class="prod-modal__info">
+            <h2 class="prod-modal__name" data-modal-name></h2>
+            <p class="prod-modal__price" data-modal-price></p>
+            <p class="prod-modal__desc" data-modal-desc></p>
+          </div>
+        </div>
+
+        <div class="prod-modal__form">
+          <div class="prod-modal__colors" data-color-wrap hidden>
+            <label class="prod-modal__color-label" data-color-label>Color</label>
+            <div class="prod-modal__color-opts" data-color-options>
+              <span class="prod-modal__slider" data-color-indicator aria-hidden="true"></span>
+            </div>
+          </div>
+
+          <div class="prod-modal__size" data-size-wrap hidden>
+            <label class="prod-modal__size-label" data-size-label>Size</label>
+            <div class="prod-modal__dropdown" data-size-dropdown>
+              <button type="button" class="prod-modal__dropdown-toggle" data-dropdown-toggle aria-haspopup="listbox" aria-expanded="false">
+                <span data-dropdown-value>Choose your size</span>
+                <span class="prod-modal__dropdown-icon">▼</span>
+              </button>
+              <ul class="prod-modal__dropdown-list" data-dropdown-list role="listbox" hidden></ul>
+            </div>
+          </div>
+
+          <p class="prod-modal__status" data-modal-status role="status" aria-live="polite"></p>
+
+          <button class="prod-modal__btn btn-primary" data-action="add-to-cart">
+            ADD TO CART <span class="btn-arrow">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
   {%- endif -%}
 </section>
-
-{%- comment -%}Shared Popup Modal{%- endcomment -%}
-<div class="prod-modal" data-quick-add-overlay hidden>
-  <div class="prod-modal__overlay" data-modal-overlay aria-hidden="true"></div>
-
-  <div class="prod-modal__content" role="dialog" aria-modal="true" data-quick-add-popup>
-    <button class="prod-modal__close" data-action="close-quick-add" aria-label="Close product details">
-      ×
-    </button>
-
-    <div class="prod-modal__body">
-      <img class="prod-modal__img" data-modal-img src="" alt="">
-
-      <div class="prod-modal__info">
-        <h2 class="prod-modal__name" data-modal-name></h2>
-        <p class="prod-modal__price" data-modal-price></p>
-        <p class="prod-modal__desc" data-modal-desc></p>
-      </div>
-    </div>
-
-    <div class="prod-modal__form">
-      <div class="prod-modal__colors" data-color-wrap hidden>
-        <label class="prod-modal__color-label" data-color-label>Color</label>
-        <div class="prod-modal__color-opts" data-color-options>
-          <span class="prod-modal__slider" data-color-indicator aria-hidden="true"></span>
-        </div>
-      </div>
-
-      <div class="prod-modal__size" data-size-wrap hidden>
-        <label class="prod-modal__size-label" data-size-label>Size</label>
-        <div class="prod-modal__dropdown" data-size-dropdown>
-          <button type="button" class="prod-modal__dropdown-toggle" data-dropdown-toggle aria-haspopup="listbox" aria-expanded="false">
-            <span data-dropdown-value>Choose your size</span>
-            <span class="prod-modal__dropdown-icon">▼</span>
-          </button>
-          <ul class="prod-modal__dropdown-list" data-dropdown-list role="listbox" hidden></ul>
-        </div>
-      </div>
-
-      <p class="prod-modal__status" data-modal-status role="status" aria-live="polite"></p>
-
-      <button class="prod-modal__btn btn-primary" data-action="add-to-cart">
-        ADD TO CART <span class="btn-arrow">→</span>
-      </button>
-    </div>
-  </div>
-</div>
 
 {{ 'product-listing.css' | asset_url | stylesheet_tag }}
 {{ 'product-listing.js' | asset_url | script_tag }}
