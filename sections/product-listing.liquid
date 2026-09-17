@@ -1,7 +1,7 @@
 {%- comment -%}
   Product Listing Section - Full Implementation
   Status: Production Ready
-  Version: 1.0.0
+  Version: 1.0.1
   Date: 2026-09-17
 {%- endcomment -%}
 
@@ -23,51 +23,33 @@
         {%- assign product = block.settings.product -%}
 
         {%- if product != blank -%}
-          {%- comment -%}Parse product variants{%- endcomment -%}
-          {%- assign colors_str = '' -%}
-          {%- assign sizes_str = '' -%}
-          {%- assign variants_list = '' -%}
-
-          {%- for variant in product.variants -%}
-            {%- if variant.available -%}
-              {%- assign size_opt = variant.option1 -%}
-              {%- assign color_opt = variant.option2 -%}
-              {%- assign color_val = color_opt | downcase | replace: ' ', '-' -%}
-
-              {%- unless sizes_str contains size_opt -%}
-                {%- if sizes_str == '' -%}
-                  {%- assign sizes_str = size_opt -%}
-                {%- else -%}
-                  {%- assign sizes_str = sizes_str | append: '|' | append: size_opt -%}
-                {%- endif -%}
-              {%- endunless -%}
-
-              {%- unless colors_str contains color_opt -%}
-                {%- if colors_str == '' -%}
-                  {%- assign colors_str = color_opt -%}
-                {%- else -%}
-                  {%- assign colors_str = colors_str | append: '|' | append: color_opt -%}
-                {%- endif -%}
-              {%- endunless -%}
-
-              {%- capture var_obj -%}{"id":"{{ variant.id }}","size":"{{ size_opt }}","color":"{{ color_val }}"}{%- endcapture -%}
-              {%- if variants_list == '' -%}
-                {%- assign variants_list = var_obj -%}
-              {%- else -%}
-                {%- assign variants_list = variants_list | append: ',' | append: var_obj -%}
-              {%- endif -%}
-            {%- endif -%}
-          {%- endfor -%}
-
-          {%- assign color_array = colors_str | split: '|' -%}
-          {%- assign size_array = sizes_str | split: '|' -%}
+          {%- comment -%}Build proper variants array with options{%- endcomment -%}
+          {%- capture variants_json -%}
+            [
+              {%- for variant in product.variants -%}
+                {
+                  "id": {{ variant.id | json }},
+                  "available": {{ variant.available | json }},
+                  "price": {{ variant.price | money | json }},
+                  "options": {{ variant.options | json }}
+                }
+                {%- unless forloop.last -%},{%- endunless -%}
+              {%- endfor -%}
+            ]
+          {%- endcapture -%}
 
           {%- capture colors_json -%}
             [
-              {%- for color in color_array -%}
-                {%- if color != blank -%}
-                  {"name":"{{ color }}","value":"{{ color | downcase | replace: ' ', '-' }}"}
-                  {%- unless forloop.last -%},{%- endunless -%}
+              {%- assign color_values = "" -%}
+              {%- for variant in product.variants -%}
+                {%- if variant.available -%}
+                  {%- assign color_name = variant.option2 -%}
+                  {%- assign color_val = color_name | downcase | replace: ' ', '-' -%}
+                  {%- unless color_values contains color_val -%}
+                    {"name":"{{ color_name }}","value":"{{ color_val }}"}
+                    {%- assign color_values = color_values | append: ',' | append: color_val -%}
+                    {%- unless forloop.last -%},{%- endunless -%}
+                  {%- endunless -%}
                 {%- endif -%}
               {%- endfor -%}
             ]
@@ -75,16 +57,19 @@
 
           {%- capture sizes_json -%}
             [
-              {%- for size in size_array -%}
-                {%- if size != blank -%}
-                  "{{ size }}"
-                  {%- unless forloop.last -%},{%- endunless -%}
+              {%- assign size_values = "" -%}
+              {%- for variant in product.variants -%}
+                {%- if variant.available -%}
+                  {%- assign size_name = variant.option1 -%}
+                  {%- unless size_values contains size_name -%}
+                    "{{ size_name }}"
+                    {%- assign size_values = size_values | append: ',' | append: size_name -%}
+                    {%- unless forloop.last -%},{%- endunless -%}
+                  {%- endunless -%}
                 {%- endif -%}
               {%- endfor -%}
             ]
           {%- endcapture -%}
-
-          {%- capture variants_json -%}[{{ variants_list }}]{%- endcapture -%}
 
           <div class="prod-list__card"
                data-prod-card
@@ -240,6 +225,7 @@
           "type": "text",
           "id": "hotspot_x",
           "label": "Hotspot X Position",
+          "default": "50%",
           "placeholder": "50%",
           "info": "Use %, clamp() safe from edges"
         },
@@ -247,6 +233,7 @@
           "type": "text",
           "id": "hotspot_y",
           "label": "Hotspot Y Position",
+          "default": "50%",
           "placeholder": "50%",
           "info": "Use %, clamp() safe from edges"
         }
