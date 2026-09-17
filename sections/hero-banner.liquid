@@ -17,22 +17,6 @@
 -%}
 
 <section class="section-hero-banner" data-section-id="{{ section.id }}" data-component="hero-banner">
-
-  {%- comment -%} ANNOUNCEMENT BANNER (Optional) {%- endcomment -%}
-  {%- if section.settings.enable_announcement -%}
-    <div class="hero-banner__announcement" data-component="announcement-banner">
-      <div class="hero-banner__announcement-content">
-        {{ section.settings.announcement_text }}
-      </div>
-    </div>
-    <style>
-      .hero-banner__announcement {
-        background-color: {{ section.settings.announcement_bg_color }};
-        color: {{ section.settings.announcement_text_color }};
-      }
-    </style>
-  {%- endif -%}
-
   {%- comment -%} MAIN HERO WRAPPER {%- endcomment -%}
   <div class="hero-banner__wrapper" data-component="hero-wrapper">
 
@@ -87,7 +71,7 @@
     </div>
 
     {%- comment -%} DESKTOP CONTENT BOX (Visible ≥768px) {%- endcomment -%}
-    <div class="hero-banner__content-box"
+    <div class="hero-banner__content-box hero-banner__page-width"
       data-component="content-box"
       style="background-color: {{ section.settings.content_bg_color }};">
 
@@ -134,8 +118,22 @@
         -%}
       {%- endif -%}
     </div>
-
   </div>
+
+  {%- comment -%} ANNOUNCEMENT BANNER (Optional) {%- endcomment -%}
+  {%- if section.settings.enable_announcement -%}
+    <div class="hero-banner__announcement" data-component="announcement-banner">
+      <div class="hero-banner__announcement-content">
+        {{ section.settings.announcement_text }}
+      </div>
+    </div>
+    <style>
+      .hero-banner__announcement {
+        background-color: {{ section.settings.announcement_bg_color }};
+        color: {{ section.settings.announcement_text_color }};
+      }
+    </style>
+  {%- endif -%}
 
 </section>
 
@@ -220,17 +218,6 @@
       "id": "image_fallback_color",
       "label": "Image Fallback Color",
       "default": "#f5f5f5"
-    },
-    {
-      "type": "select",
-      "id": "image_aspect_ratio",
-      "label": "Image Aspect Ratio",
-      "options": [
-        { "value": "16-9", "label": "16:9" },
-        { "value": "4-3", "label": "4:3" },
-        { "value": "3-2", "label": "3:2" }
-      ],
-      "default": "16-9"
     },
     {
       "type": "header",

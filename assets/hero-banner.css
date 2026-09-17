@@ -7,20 +7,6 @@
    - Flexible responsive sizing with clamp()
    ============================================================ */
 
-/* ============================================================
-   CSS CUSTOM PROPERTIES (Variables)
-   ============================================================ */
-
-:root {
-  --hero-mobile-cta-bottom: 16px;
-  --hero-content-max-width: 500px;
-  --hero-content-box-padding: clamp(16px, 4vw, 32px);
-
-  --hero-z-image: 1;
-  --hero-z-mobile-card: 2;
-  --hero-z-mobile-cta: 3;
-  --hero-z-content-box: 4;
-}
 
 /* ============================================================
    ANNOUNCEMENT BANNER (Positioned at bottom of section)
@@ -110,7 +96,7 @@
 
 .hero-banner__mobile-card-content {
   position: relative;
-  z-index: var(--hero-z-mobile-card);
+  z-index: 2;
 }
 
 /* ============================================================
@@ -124,9 +110,9 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  max-width: var(--hero-content-max-width);
-  padding: var(--hero-content-box-padding);
-  z-index: var(--hero-z-content-box);
+  max-width: 500px;
+  padding: clamp(16px, 4vw, 32px);
+  z-index: 4;
 }
 
 .hero-banner__content-inner {
@@ -146,10 +132,10 @@
 
 .hero-banner__mobile-cta {
   position: absolute;
-  bottom: var(--hero-mobile-cta-bottom);
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: var(--hero-z-mobile-cta);
+  z-index: 3;
   width: auto;
 }
 
