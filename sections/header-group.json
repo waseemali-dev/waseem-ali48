@@ -68,12 +68,7 @@
         "button_enable": true,
         "button_type": "secondary",
         "button_text": "CHOOSE GIFT",
-        "button_link": "",
-        "header_bg_color": "#F5F5F5",
-        "header_text_color": "#000000",
-        "sticky_enable": true,
-        "sticky_shadow": true,
-        "menu_text": "Menu items will appear here"
+        "button_link": "shopify://collections/all"
       }
     }
   },
