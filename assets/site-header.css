@@ -83,7 +83,7 @@
 .site-header__text {
   display: none;
   font-size: 16px;
-  font-weight: 400;
+  line-height1.3;
   white-space: nowrap;
   flex: 1;
 }
@@ -204,7 +204,6 @@ body.header-sticky-enabled {
 
   .site-header__text {
     display: flex;
-    font-size: 16px;
     line-height:13.42px;
   }
 
