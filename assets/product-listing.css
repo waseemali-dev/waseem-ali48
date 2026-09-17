@@ -304,7 +304,7 @@
   display: flex;
   border: 1px solid var(--border);
   overflow: hidden;
-  background: var(--bg);
+  background: transparent
 }
 
 .prod-modal__color-opt {
