@@ -19,7 +19,7 @@
       </div>
     {%- endif -%}
 
-    <div class="prod-list__grid" style="--sp-d: {{ spacing_d }}px; --sp-m: {{ spacing_m }}px;">
+    <div class="prod-list__grid">
       {%- for block in section.blocks -%}
         {%- assign product = block.settings.product -%}
         {%- if product != blank -%}
