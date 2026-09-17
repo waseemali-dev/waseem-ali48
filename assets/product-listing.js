@@ -48,19 +48,47 @@
 
   function cacheDOM() {
     dom.section = document.querySelector(CONFIG.section);
-    if (!dom.section) return false;
+    if (!dom.section) {
+      console.error('[ProductListing] Section not found:', CONFIG.section);
+      return false;
+    }
 
     dom.modal = document.querySelector(CONFIG.modal);
+    if (!dom.modal) {
+      console.error('[ProductListing] Modal not found:', CONFIG.modal);
+      return false;
+    }
+
     dom.overlay = dom.modal.querySelector(CONFIG.overlay);
+    if (!dom.overlay) console.warn('[ProductListing] Overlay not found');
+
     dom.closeBtn = dom.modal.querySelector(CONFIG.closeBtn);
+    if (!dom.closeBtn) console.warn('[ProductListing] Close button not found');
+
     dom.colors = dom.modal.querySelector(CONFIG.colors);
+    if (!dom.colors) console.warn('[ProductListing] Colors container not found');
+
     dom.size = dom.modal.querySelector(CONFIG.size);
+    if (!dom.size) console.warn('[ProductListing] Size select not found');
+
     dom.addBtn = dom.modal.querySelector(CONFIG.addBtn);
+    if (!dom.addBtn) console.warn('[ProductListing] Add to cart button not found');
+
     dom.img = dom.modal.querySelector(CONFIG.modalImg);
+    if (!dom.img) console.warn('[ProductListing] Modal image not found');
+
     dom.name = dom.modal.querySelector(CONFIG.modalName);
+    if (!dom.name) console.warn('[ProductListing] Modal name not found');
+
     dom.price = dom.modal.querySelector(CONFIG.modalPrice);
+    if (!dom.price) console.warn('[ProductListing] Modal price not found');
+
     dom.desc = dom.modal.querySelector(CONFIG.modalDesc);
+    if (!dom.desc) console.warn('[ProductListing] Modal description not found');
+
     dom.slider = dom.modal.querySelector(CONFIG.slider);
+    if (!dom.slider) console.warn('[ProductListing] Slider not found');
+
     dom.body = document.body;
 
     return true;
@@ -76,13 +104,13 @@
       hotspot.addEventListener('click', handleHotspotClick);
     });
 
-    dom.closeBtn.addEventListener('click', closeModal);
-    dom.overlay.addEventListener('click', closeModal);
+    if (dom.closeBtn) dom.closeBtn.addEventListener('click', closeModal);
+    if (dom.overlay) dom.overlay.addEventListener('click', closeModal);
     document.addEventListener('keydown', handleKeydown);
 
-    dom.colors.addEventListener('click', handleColorSelect);
-    dom.size.addEventListener('change', handleSizeChange);
-    dom.addBtn.addEventListener('click', handleAddToCart);
+    if (dom.colors) dom.colors.addEventListener('click', handleColorSelect);
+    if (dom.size) dom.size.addEventListener('change', handleSizeChange);
+    if (dom.addBtn) dom.addBtn.addEventListener('click', handleAddToCart);
   }
 
   /* ========================================
@@ -111,7 +139,7 @@
     state.color = e.target.dataset.color;
 
     // Update slider position
-    if (total > 1) {
+    if (total > 1 && dom.slider) {
       const pos = (index / (total - 1)) * 100;
       dom.slider.style.setProperty('--slider-pos', pos + '%');
     }
@@ -178,10 +206,12 @@
   function resetModal() {
     state.color = null;
     state.size = null;
-    dom.size.value = '';
-    dom.colors.querySelectorAll(CONFIG.colorOpt).forEach(opt => {
-      opt.classList.remove('active');
-    });
+    if (dom.size) dom.size.value = '';
+    if (dom.colors) {
+      dom.colors.querySelectorAll(CONFIG.colorOpt).forEach(opt => {
+        opt.classList.remove('active');
+      });
+    }
   }
 
   /* ========================================
@@ -209,17 +239,20 @@
   function renderModal() {
     const p = state.current;
 
-    dom.img.src = p.image;
-    dom.img.alt = p.name;
-    dom.name.textContent = p.name;
-    dom.price.textContent = p.price;
-    dom.desc.textContent = p.desc;
+    if (dom.img) {
+      dom.img.src = p.image;
+      dom.img.alt = p.name;
+    }
+    if (dom.name) dom.name.textContent = p.name;
+    if (dom.price) dom.price.textContent = p.price;
+    if (dom.desc) dom.desc.textContent = p.desc;
 
     renderColors(p.colors);
     renderSizes(p.sizes);
   }
 
   function renderColors(colors) {
+    if (!dom.colors) return;
     dom.colors.innerHTML = '';
 
     colors.forEach((color, idx) => {
@@ -241,10 +274,11 @@
     });
 
     // Reset slider
-    dom.slider.style.setProperty('--slider-pos', '0%');
+    if (dom.slider) dom.slider.style.setProperty('--slider-pos', '0%');
   }
 
   function renderSizes(sizes) {
+    if (!dom.size) return;
     dom.size.innerHTML = '<option value="">Choose your size</option>';
 
     sizes.forEach(size => {
@@ -295,8 +329,12 @@
      ======================================== */
 
   function init() {
-    if (!cacheDOM()) return;
+    if (!cacheDOM()) {
+      console.error('[ProductListing] Failed to cache DOM elements');
+      return;
+    }
     bindEvents();
+    console.log('[ProductListing] Initialized successfully');
   }
 
   if (document.readyState === 'loading') {
