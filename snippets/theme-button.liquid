@@ -3,7 +3,7 @@
 # Description: Customizable slide-effect button section with primary/secondary types
 # Usage: Add as section to theme or use with render {% render 'theme-button', button_type: 'primary', button_text: 'Shop Now', button_link: '/shop', button_enabled: true %}
 -%}
-
+{{ 'theme-button.css' | asset_url | stylesheet_tag }}
 {%- if section.settings.button_enabled == true or section.settings.button_enabled == blank -%}
 <a
   href="{{ section.settings.button_link | default: '#' }}"

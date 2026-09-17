@@ -41,10 +41,10 @@
       {%- if section.settings.button_enable -%}
         <div class="site-header__button-wrapper">
           {%- render 'theme-button',
+            button_enabled: section.settings.button_enable,
             button_type: section.settings.button_type,
             button_text: section.settings.button_text,
-            button_link: section.settings.button_link,
-            button_enabled: section.settings.button_enable
+            button_link: section.settings.button_link
           -%}
         </div>
       {%- endif -%}
