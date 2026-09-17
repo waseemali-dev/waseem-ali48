@@ -111,7 +111,9 @@
 
 .hero-banner__content-inner {
   position: relative;
-  /* Content stays within container via parent max-width */
+  display:flex;
+  flex-direction:column;
+  row-gap:clamp(1.5rem, 0.4167rem + 2.2569vw, 3.125rem);
 }
 
 .hero-banner__cta-button {
