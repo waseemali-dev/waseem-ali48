@@ -23,10 +23,6 @@
         {%- assign product = block.settings.product -%}
 
         {%- if product != blank -%}
-          {%- assign colors = '' -%}
-          {%- assign sizes = '' -%}
-          {%- assign variants_json = '' -%}
-
           {%- comment -%}Parse product variants{%- endcomment -%}
           {%- assign colors_str = '' -%}
           {%- assign sizes_str = '' -%}
@@ -104,7 +100,9 @@
             <div class="prod-list__img-wrap">
               <img class="prod-list__img"
                    src="{{ product.featured_image | image_url: width: 500 }}"
-                   alt="{{ product.title }}">
+                   alt="{{ product.title }}"
+                   width="500"
+                   height="500">
 
               {%- assign hotspot_x = block.settings.hotspot_x | default: '50%' -%}
               {%- assign hotspot_y = block.settings.hotspot_y | default: '50%' -%}
@@ -139,7 +137,7 @@
     </button>
 
     <div class="prod-modal__body">
-      <img class="prod-modal__img" data-modal-img src="" alt="">
+      <img class="prod-modal__img" data-modal-img src="" alt="" width="500" height="500">
 
       <div class="prod-modal__info">
         <h2 class="prod-modal__name" data-modal-name></h2>
