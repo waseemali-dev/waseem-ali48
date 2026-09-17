@@ -90,12 +90,12 @@
 
               {%- assign hotspot_x = block.settings.hotspot_x | default: '50%' -%}
               {%- assign hotspot_y = block.settings.hotspot_y | default: '50%' -%}
-              {%- if hotspot_x != blank and hotspot_x does not contain '%' -%}
+              {%- unless hotspot_x == blank or hotspot_x contains '%' -%}
                 {%- assign hotspot_x = hotspot_x | append: '%' -%}
-              {%- endif -%}
-              {%- if hotspot_y != blank and hotspot_y does not contain '%' -%}
+              {%- endunless -%}
+              {%- unless hotspot_y == blank or hotspot_y contains '%' -%}
                 {%- assign hotspot_y = hotspot_y | append: '%' -%}
-              {%- endif -%}
+              {%- endunless -%}
 
               <button class="prod-list__hotspot"
                       data-hotspot
