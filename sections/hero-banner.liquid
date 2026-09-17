@@ -50,9 +50,9 @@
       {%- if section.settings.desktop_image -%}
         <img
           class="hero-banner__image hero-banner__image--desktop"
-          src="{{ section.settings.desktop_image | image_url: width: 1920 }}"
+          src="{{ section.settings.desktop_image | image_url: width: 1440 }}"
           alt="{{ section.settings.heading }}"
-          loading="lazy" width="1920" height="780"
+          loading="lazy" width="1440" height="780"
           data-image-type="desktop"
         >
       {%- endif -%}
@@ -63,7 +63,7 @@
           class="hero-banner__image hero-banner__image--mobile"
           src="{{ section.settings.mobile_image | image_url: width: 686 }}"
           alt="{{ section.settings.heading }}"
-          loading="lazy" width="686" height="264"
+          loading="lazy" width="375" height="264"
           data-image-type="mobile"
         >
       {%- endif -%}
