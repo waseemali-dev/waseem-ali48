@@ -17,37 +17,38 @@
 -%}
 
 <section class="section-hero-banner" data-section-id="{{ section.id }}" data-component="hero-banner">
+
+  {%- comment -%} IMAGE CONTAINER (Full-Bleed, Desktop & Mobile Images) {%- endcomment -%}
+  <div class="hero-banner__image-container"
+    data-component="image-container"
+    style="background-color: {{ section.settings.image_fallback_color }};">
+
+    {%- comment -%} Desktop Image (Hidden on mobile, shown on desktop ≥768px) {%- endcomment -%}
+    {%- if section.settings.desktop_image -%}
+      <img
+        class="hero-banner__image hero-banner__image--desktop"
+        src="{{ section.settings.desktop_image | image_url: width: 1400 }}"
+        alt="{{ section.settings.heading }}"
+        loading="lazy"
+        data-image-type="desktop"
+      >
+    {%- endif -%}
+
+    {%- comment -%} Mobile Image (Hidden on desktop, shown on mobile <768px) {%- endcomment -%}
+    {%- if section.settings.mobile_image -%}
+      <img
+        class="hero-banner__image hero-banner__image--mobile"
+        src="{{ section.settings.mobile_image | image_url: width: 600 }}"
+        alt="{{ section.settings.heading }}"
+        loading="lazy"
+        data-image-type="mobile"
+      >
+    {%- endif -%}
+
+  </div>
+
   {%- comment -%} MAIN HERO WRAPPER {%- endcomment -%}
   <div class="hero-banner__wrapper" data-component="hero-wrapper">
-
-    {%- comment -%} IMAGE CONTAINER (Desktop & Mobile Images) {%- endcomment -%}
-    <div class="hero-banner__image-container"
-      data-component="image-container"
-      style="background-color: {{ section.settings.image_fallback_color }};">
-
-      {%- comment -%} Desktop Image (Hidden on mobile, shown on desktop ≥768px) {%- endcomment -%}
-      {%- if section.settings.desktop_image -%}
-        <img
-          class="hero-banner__image hero-banner__image--desktop"
-          src="{{ section.settings.desktop_image | image_url: width: 1400 }}"
-          alt="{{ section.settings.heading }}"
-          loading="lazy"
-          data-image-type="desktop"
-        >
-      {%- endif -%}
-
-      {%- comment -%} Mobile Image (Hidden on desktop, shown on mobile <768px) {%- endcomment -%}
-      {%- if section.settings.mobile_image -%}
-        <img
-          class="hero-banner__image hero-banner__image--mobile"
-          src="{{ section.settings.mobile_image | image_url: width: 600 }}"
-          alt="{{ section.settings.heading }}"
-          loading="lazy"
-          data-image-type="mobile"
-        >
-      {%- endif -%}
-
-    </div>
 
     {%- comment -%} MOBILE CONTENT CARD (Visible <768px) {%- endcomment -%}
     <div class="hero-banner__mobile-card" data-component="mobile-card">
@@ -70,38 +71,43 @@
       </div>
     </div>
 
-    {%- comment -%} DESKTOP CONTENT BOX (Visible ≥768px) {%- endcomment -%}
-    <div class="hero-banner__content-box page-width"
-      data-component="content-box"
-      style="background-color: {{ section.settings.content_bg_color }};">
+    {%- comment -%} PAGE WIDTH CONTAINER FOR CONTENT BOX {%- endcomment -%}
+    <div class="page-width">
 
-      <div class="hero-banner__content-inner">
+      {%- comment -%} DESKTOP CONTENT BOX (Visible ≥768px) {%- endcomment -%}
+      <div class="hero-banner__content-box"
+        data-component="content-box"
+        style="background-color: {{ section.settings.content_bg_color }};">
 
-        {%- comment -%} Heading {%- endcomment -%}
-        {%- if section.settings.heading -%}
-          <h1 class="hero-banner__heading" style="color: {{ section.settings.heading_color }};">
-            {{ section.settings.heading }}
-          </h1>
-        {%- endif -%}
+        <div class="hero-banner__content-inner">
 
-        {%- comment -%} Description {%- endcomment -%}
-        {%- if section.settings.description -%}
-          <div class="hero-banner__description" style="color: {{ section.settings.text_color }};">
-            {{ section.settings.description }}
-          </div>
-        {%- endif -%}
+          {%- comment -%} Heading {%- endcomment -%}
+          {%- if section.settings.heading -%}
+            <h1 class="hero-banner__heading" style="color: {{ section.settings.heading_color }};">
+              {{ section.settings.heading }}
+            </h1>
+          {%- endif -%}
 
-        {%- comment -%} CTA Button (Desktop) {%- endcomment -%}
-        {%- if section.settings.show_cta -%}
-          <div class="hero-banner__cta-button" data-component="cta-button">
-            {%- render 'theme-button',
-              button_enabled: section.settings.show_cta,
-              button_type: section.settings.cta_button_type,
-              button_text: section.settings.cta_text,
-              button_link: section.settings.cta_link
-            -%}
-          </div>
-        {%- endif -%}
+          {%- comment -%} Description {%- endcomment -%}
+          {%- if section.settings.description -%}
+            <div class="hero-banner__description" style="color: {{ section.settings.text_color }};">
+              {{ section.settings.description }}
+            </div>
+          {%- endif -%}
+
+          {%- comment -%} CTA Button (Desktop) {%- endcomment -%}
+          {%- if section.settings.show_cta -%}
+            <div class="hero-banner__cta-button" data-component="cta-button">
+              {%- render 'theme-button',
+                button_enabled: section.settings.show_cta,
+                button_type: section.settings.cta_button_type,
+                button_text: section.settings.cta_text,
+                button_link: section.settings.cta_link
+              -%}
+            </div>
+          {%- endif -%}
+
+        </div>
 
       </div>
 
@@ -118,6 +124,7 @@
         -%}
       {%- endif -%}
     </div>
+
   </div>
 
   {%- comment -%} ANNOUNCEMENT BANNER (Optional) {%- endcomment -%}

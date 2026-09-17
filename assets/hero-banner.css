@@ -44,21 +44,25 @@
   display: flex;
   flex-direction: column;
   order: 1;
+  min-height: 0;
 }
 
 /* ============================================================
-   IMAGE CONTAINER
+   IMAGE CONTAINER (Full-Bleed)
    ============================================================
    Mobile: Shows mobile image, aspect ratio locked
    Desktop: Shows desktop image, full height
    ============================================================ */
 
 .hero-banner__image-container {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   background-size: cover;
   background-position: center;
   overflow: hidden;
+  z-index: 1;
 
   /* Mobile: Default aspect ratio 16:9 */
   aspect-ratio: 16 / 9;
@@ -105,14 +109,27 @@
    Desktop (≥768px): Visible, absolutely positioned bottom-left
    ============================================================ */
 
-.hero-banner__content-box {
+.page-width {
   display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.page-width > * {
+  pointer-events: auto;
+}
+
+.hero-banner__content-box {
   position: absolute;
   bottom: 0;
   left: clamp(16px, 4vw, 32px);
   max-width: 500px;
   padding: clamp(16px, 4vw, 32px);
-  z-index: 4;
 }
 
 .hero-banner__content-inner {
@@ -178,15 +195,16 @@
 
 @media (min-width: 768px) {
 
+  /* ========== Image Container ========== */
+  .hero-banner__image-container {
+    height: 500px;
+    max-height: 600px;
+  }
+
   /* ========== Wrapper Layout ========== */
   .hero-banner__wrapper {
     position: relative;
-    min-height: 500px;
-  }
-
-  /* ========== Image Container ========== */
-  .hero-banner__image-container {
-    min-height: 500px;
+    height: 500px;
     max-height: 600px;
   }
 
@@ -205,7 +223,7 @@
   }
 
   /* ========== Desktop Content Box (Visible) ========== */
-  .hero-banner__content-box {
+  .page-width {
     display: block;
   }
 
@@ -235,7 +253,12 @@
 @media (min-width: 1024px) {
 
   .hero-banner__image-container {
-    min-height: 600px;
+    height: 600px;
+    max-height: 700px;
+  }
+
+  .hero-banner__wrapper {
+    height: 600px;
     max-height: 700px;
   }
 
