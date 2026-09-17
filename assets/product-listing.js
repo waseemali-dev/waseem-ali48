@@ -131,12 +131,12 @@
   function handleAddToCart(e) {
     e.preventDefault();
 
-    if (!state.color || !state.size) {
-      alert('Please select color and size');
+    if (!state.size || !state.color) {
+      alert('Please select size and color');
       return;
     }
 
-    const variantId = findVariant(state.current, state.color, state.size);
+    const variantId = findVariant(state.current, state.size, state.color);
     if (!variantId) {
       alert('Variant not available');
       return;
@@ -248,9 +248,9 @@
      VARIANT MATCHING
      ======================================== */
 
-  function findVariant(product, color, size) {
+  function findVariant(product, size, color) {
     const variant = product.variants.find(
-      v => v.color === color && v.size === size
+      v => v.size === size && v.color === color
     );
     return variant ? variant.id : null;
   }
@@ -258,6 +258,18 @@
   /* ========================================
      CART API
      ======================================== */
+
+  function showSuccessMessage() {
+    const msg = document.createElement('div');
+    msg.className = 'prod-modal__success';
+    msg.textContent = '✓ Product added to cart';
+    document.body.appendChild(msg);
+
+    setTimeout(() => {
+      msg.style.animation = 'slideInUp 300ms cubic-bezier(0.34, 1.56, 0.64, 1) reverse';
+      setTimeout(() => msg.remove(), 300);
+    }, 2000);
+  }
 
   function addToCart(variantId, callback) {
     fetch('/cart/add.js', {
@@ -271,6 +283,7 @@
     })
       .then(res => res.json())
       .then(() => {
+        showSuccessMessage();
         if (callback) callback();
       })
       .catch(err => {
