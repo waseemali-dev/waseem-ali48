@@ -285,8 +285,6 @@
       if (selectedSize) {
         elements.dropdownValue.textContent = selectedSize;
       }
-
-      updateColorIndicator();
     }
 
     /* ----------------------------------------
@@ -360,7 +358,6 @@
 
     function updateColorIndicator(instant) {
       var selectedColor = state.selectedOptions[state.colorIndex];
-
       var selectedButton = elements.colorOptions.querySelector(
         '.prod-modal__color-opt[aria-pressed="true"]'
       );
@@ -371,20 +368,17 @@
       }
 
       var apply = function () {
-        var buttonRect = selectedButton.getBoundingClientRect();
-        var containerRect = elements.colorOptions.getBoundingClientRect();
+        var buttonWidth = selectedButton.offsetWidth;
+        var indicatorWidth = Math.max(buttonWidth * 0.7, 20);
+        var offset = selectedButton.offsetLeft + (buttonWidth - indicatorWidth) / 2;
 
-        var left = buttonRect.left - containerRect.left;
-
-        elements.colorIndicator.style.width = buttonRect.width + 'px';
-        elements.colorIndicator.style.transform =
-          'translateX(' + left + 'px)';
+        elements.colorIndicator.style.width = indicatorWidth + 'px';
+        elements.colorIndicator.style.transform = 'translateX(' + offset + 'px)';
       };
 
       if (instant || prefersReducedMotion) {
         elements.colorIndicator.classList.add('is-instant');
         apply();
-
         requestAnimationFrame(function () {
           elements.colorIndicator.classList.remove('is-instant');
         });
@@ -392,7 +386,6 @@
         apply();
       }
     }
-
 
     /* ----------------------------------------
        DROPDOWN
