@@ -123,11 +123,10 @@
       "name": "Product Listing",
       "settings": {
         "heading": "Featured Products",
-        "heading_tag": "h2",
         "enable": true,
+        "description_limit": 120,
         "spacing_d": 90,
-        "spacing_m": 60,
-        "description_limit": 120
+        "spacing_m": 40
       }
     }
   },
