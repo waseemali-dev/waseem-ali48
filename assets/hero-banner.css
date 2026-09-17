@@ -76,9 +76,7 @@ width: 100%;
 background-size: cover;
 background-position: center;
 overflow: hidden;
-
-/* Mobile: Default aspect ratio 16:9 */
-aspect-ratio: 16 / 9;
+aspect-ratio: auto 1440 / 780;
 }
 
 .hero-banner__image {
@@ -242,8 +240,7 @@ font-size: 16px;
 @media (min-width: 1024px) {
 
 .hero-banner__image-container {
-  min-height: 600px;
-  max-height: 700px;
+  min-height: 780;
 }
 
 .hero-banner__description {
