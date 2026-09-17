@@ -10,6 +10,7 @@
      CONFIG
      ======================================== */
 
+    
   const CONFIG = {
     section: '[data-comp="prod-list"]',
     card: '[data-prod-card]',
