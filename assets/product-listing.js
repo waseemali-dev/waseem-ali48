@@ -108,34 +108,8 @@
     opts.forEach(opt => opt.classList.remove('active'));
     e.target.classList.add('active');
 
-    // Update slider
+    // Update slider with animation
     updateColorIndicator();
-  }
-
-  function updateColorIndicator(instant) {
-    if (!dom.slider || !dom.colors) return;
-
-    const selectedBtn = dom.colors.querySelector(CONFIG.colorOpt + '.active');
-
-    if (!selectedBtn) {
-      dom.slider.style.width = '0';
-      return;
-    }
-
-    const apply = function() {
-      dom.slider.style.width = selectedBtn.offsetWidth + 'px';
-      dom.slider.style.transform = 'translateX(' + selectedBtn.offsetLeft + 'px)';
-    };
-
-    if (instant) {
-      dom.slider.classList.add('is-instant');
-      apply();
-      // Force reflow
-      void dom.slider.offsetWidth;
-      dom.slider.classList.remove('is-instant');
-    } else {
-      apply();
-    }
   }
 
   function handleSizeChange(e) {
@@ -165,6 +139,35 @@
     addToCart(variantId, () => {
       closeModal();
     });
+  }
+
+  /* ========================================
+     SLIDER INDICATOR
+     ======================================== */
+
+  function updateColorIndicator(instant) {
+    if (!dom.slider || !dom.colors) return;
+
+    const selectedBtn = dom.colors.querySelector(CONFIG.colorOpt + '.active');
+
+    if (!selectedBtn) {
+      dom.slider.style.width = '0';
+      return;
+    }
+
+    const apply = function() {
+      dom.slider.style.width = selectedBtn.offsetWidth + 'px';
+      dom.slider.style.transform = 'translateX(' + selectedBtn.offsetLeft + 'px)';
+    };
+
+    if (instant) {
+      dom.slider.classList.add('is-instant');
+      apply();
+      void dom.slider.offsetWidth;
+      dom.slider.classList.remove('is-instant');
+    } else {
+      apply();
+    }
   }
 
   /* ========================================
@@ -240,7 +243,6 @@
       btn.textContent = color.name;
       btn.setAttribute('aria-label', `Select ${color.name}`);
 
-      // Auto-select first
       if (idx === 0) {
         btn.classList.add('active');
         state.color = color.value;
@@ -249,7 +251,6 @@
       dom.colors.appendChild(btn);
     });
 
-    // Position slider for first color (instant, no animation)
     updateColorIndicator(true);
   }
 

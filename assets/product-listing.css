@@ -130,7 +130,6 @@
   padding: 0;
   z-index: 10;
 
-  /* Clamp positioning (safe from edges) */
   left: clamp(5%, var(--hotspot-x, 50%), 95%);
   top: clamp(5%, var(--hotspot-y, 50%), 95%);
   transform: translate(-50%, -50%);
@@ -318,7 +317,7 @@
 }
 
 /* ============================================
-   COLOR SELECTOR (Slider Style)
+   COLOR SELECTOR
    ============================================ */
 
 .prod-modal__colors {
@@ -354,6 +353,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
 .prod-modal__color-opt:first-child {
@@ -380,6 +381,21 @@
   background: var(--primary);
   color: var(--bg);
   border-color: var(--primary);
+}
+
+.prod-modal__color-opt::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--swatch-color, transparent);
+  transition: opacity 0.2s ease;
+}
+
+.prod-modal__color-opt.active::before {
+  opacity: 0;
 }
 
 /* Sliding indicator bar */
@@ -560,23 +576,5 @@
   .btn-arrow {
     transition: none !important;
     animation: none !important;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #e0e0e0;
-    --text-light: #999;
-    --bg: #1a1a1a;
-    --border: #333;
-    --overlay: rgba(0,0,0,0.7);
-  }
-
-  .prod-list__img-wrap {
-    background: #2a2a2a;
-  }
-
-  .prod-modal__dropdown {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23e0e0e0' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
   }
 }
