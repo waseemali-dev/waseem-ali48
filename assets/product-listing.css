@@ -304,6 +304,7 @@
   display: flex;
   border: 1px solid var(--border);
   overflow: hidden;
+  background: var(--bg);
 }
 
 .prod-modal__color-opt {
@@ -315,7 +316,7 @@
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 200ms ease;
+  transition: color 200ms ease, background-color 200ms ease;
   text-align: center;
   position: relative;
   z-index: 1;
@@ -328,11 +329,10 @@
 .prod-modal__color-opt[aria-pressed="true"] {
   background: var(--primary);
   color: var(--bg);
-  border-color: var(--primary);
 }
 
 @media (hover: hover) {
-  .prod-modal__color-opt:hover {
+  .prod-modal__color-opt:hover:not([aria-pressed="true"]) {
     background: #f5f5f5;
   }
 }
@@ -342,13 +342,13 @@
   outline-offset: -2px;
 }
 
-/* Sliding indicator bar */
+/* Sliding indicator bar - positioned at bottom with smooth animation */
 .prod-modal__slider {
   position: absolute;
-  bottom: -1px;
+  bottom: 0;
   left: 0;
   width: 0;
-  height: 2px;
+  height: 3px;
   background: var(--primary);
   transition: transform var(--anim), width var(--anim);
   z-index: 0;
@@ -401,6 +401,7 @@
 .prod-modal__dropdown-icon {
   font-size: 10px;
   transition: transform 200ms ease;
+  flex-shrink: 0;
 }
 
 .prod-modal__dropdown-toggle[aria-expanded="true"] .prod-modal__dropdown-icon {
@@ -536,7 +537,7 @@
 }
 
 /* ========================
-   ACCESSIBILITY
+   ACCESSIBILITY: reduced motion
    ======================== */
 
 @media (prefers-reduced-motion: reduce) {
