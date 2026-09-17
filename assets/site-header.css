@@ -35,10 +35,15 @@
   padding: 0;
   background: none;
   border: none;
+  outline: none;
   cursor: pointer;
   gap: 6px;
   flex-shrink: 0;
   transition: all 0.3s ease;
+}
+
+.site-header__toggle:focus {
+  outline: none;
 }
 
 .site-header__toggle-line {
@@ -48,11 +53,6 @@
   background-color: #000000;
   transition: all 0.3s ease;
   transform-origin: center;
-}
-
-.site-header__toggle:focus {
-  outline: 2px solid #000000;
-  outline-offset: 2px;
 }
 
 /* Logo Section */
@@ -91,47 +91,18 @@
   flex-shrink: 0;
 }
 
-/* Mobile Menu (Hidden by default) */
-.site-header__menu {
-  position: absolute;
-  top: 56px;
-  left: 0;
-  right: 0;
-  width: 100%;
-  max-height: 0;
-  background-color: #ffffff;
-  overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
-  opacity: 0;
-  visibility: hidden;
-  border-top: 1px solid #f0f0f0;
-}
-
-.site-header__menu-content {
-  padding: 16px;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
 /* Hamburger Animation - Close to Open */
 .site-header__toggle[aria-expanded="true"] .site-header__toggle-line:nth-child(1) {
-  transform: rotate(45deg) translateY(10px);
+  transform: rotate(45deg) translateY(8px);
 }
 
 .site-header__toggle[aria-expanded="true"] .site-header__toggle-line:nth-child(2) {
   opacity: 0;
-  transform: translateX(-10px);
+  transform: translateX(-8px);
 }
 
 .site-header__toggle[aria-expanded="true"] .site-header__toggle-line:nth-child(3) {
-  transform: rotate(-45deg) translateY(-10px);
-}
-
-/* Menu Open State */
-.site-header__menu.menu-open {
-  max-height: 400px;
-  opacity: 1;
-  visibility: visible;
+  transform: rotate(-45deg) translateY(-8px);
 }
 
 /* Sticky Header State */
@@ -197,10 +168,6 @@ body.header-sticky-enabled {
   .site-header__logo-text {
     font-size: 16px;
   }
-
-  .site-header__menu {
-    top: 64px;
-  }
 }
 
 /* ======================
@@ -244,11 +211,6 @@ body.header-sticky-enabled {
     display: flex;
     flex: 0 0 auto;
   }
-
-  /* Hide mobile menu on desktop */
-  .site-header__menu {
-    display: none;
-  }
 }
 
 /* ======================
@@ -277,8 +239,7 @@ body.header-sticky-enabled {
 @media (prefers-reduced-motion: reduce) {
   .site-header,
   .site-header__toggle,
-  .site-header__toggle-line,
-  .site-header__menu {
+  .site-header__toggle-line {
     transition: none;
   }
 }
@@ -290,20 +251,6 @@ body.header-sticky-enabled {
   }
 
   .site-header__toggle:focus {
-    outline-width: 3px;
+    outline: 2px solid #000000;
   }
-}
-
-/* ======================
-   UTILITY CLASSES
-   ====================== */
-
-.site-header--no-shadow {
-  box-shadow: none;
-}
-
-.site-header__menu--open {
-  max-height: 500px;
-  opacity: 1;
-  visibility: visible;
 }

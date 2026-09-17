@@ -14,10 +14,10 @@
   --theme-button-line-height: 20px;
   --theme-button-font-weight: 400;
   --theme-button-animation-duration: 300ms;
-  --theme-button-animation-easing: ease-out;
+  --theme-button-animation-easing: ease;
   --theme-button-primary-bg: #000000;
-  --theme-button-primary-text: ##F5F5F5;
-  --theme-button-secondary-bg: ##FFF544;
+  --theme-button-primary-text: #F5F5F5;
+  --theme-button-secondary-bg: #FFF544;
   --theme-button-secondary-text: #000000;
 }
 
@@ -40,6 +40,7 @@
   cursor: pointer;
   appearance: none;
   overflow: hidden;
+  position: relative;
   transition: background-color var(--theme-button-animation-duration) var(--theme-button-animation-easing),
               color var(--theme-button-animation-duration) var(--theme-button-animation-easing),
               opacity var(--theme-button-animation-duration) var(--theme-button-animation-easing);
@@ -56,16 +57,46 @@
   background-color: var(--theme-button-secondary-bg);
   color: var(--theme-button-secondary-text);
 }
+.theme-button--primary:hover {
+  color: var(--theme-button-secondary-text);
+}
+
+/* Secondary Button Type - Yellow */
+.theme-button--secondary:hover {
+  color: var(--theme-button-primary-text);
+}
+
+.theme-button::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  transition: opacity var(--theme-button-animation-duration) var(--theme-button-animation-easing);
+}
+.theme-button:hover::before{
+width: 100%;
+}
+.theme-button--secondary:before {
+  background-color: var(--theme-button-primary-bg);
+}
+
+/* Secondary Button Type - Yellow */
+.theme-button--primary:before {
+  background-color: var(--theme-button-secondary-bg);
+}
 
 /*  THEME BUTTON ELEMENTS - TEXT & ARROW (BEM) */
 
 .theme-button__text {
   display: inline-flex;
   white-space: nowrap;
-  transform: translateX(0);
   opacity: 1;
   transition: transform var(--theme-button-animation-duration) var(--theme-button-animation-easing),
               opacity var(--theme-button-animation-duration) var(--theme-button-animation-easing);
+transition-delay: calc(var(--theme-button-animation-duration) / 2);
+  
 }
 
 .theme-button__arrow {
@@ -83,62 +114,7 @@
   outline-offset: 2px;
 }
 
-/*  HOVER ANIMATION - SLIDE EFFECT */
-
-@media (hover: hover) {
-  .theme-button:hover:not([data-enabled="false"]) .theme-button__text {
-    transform: translateX(120%);
-    opacity: 0;
-  }
-
-  .theme-button:hover:not([data-enabled="false"]) .theme-button__arrow {
-    transform: translateX(-120%);
-    opacity: 0;
-  }
-}
-
-/* Mobile touch active state */
-@media (hover: none) {
-  .theme-button:active:not([data-enabled="false"]) {
-    opacity: 0.8;
-  }
-}
-
-/* DISABLED STATE  */
-
-.theme-button[data-enabled="false"],
-.theme-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-/*  FOCUS STATE (ACCESSIBILITY) */
-
-.theme-button:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
-}
-
-/* Fallback for older browsers */
-.theme-button:focus {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
-}
-
-/*  ACTIVE STATE*/
-
-@media (hover: hover) {
-  .theme-button:active:not([data-enabled="false"]) {
-    opacity: 0.85;
-  }
-}
-
-
-/*  ACCESSIBILITY - REDUCED MOTION
-
-   Respect user's motion preferences
-     */
+/*  ACCESSIBILITY - REDUCED MOTION */
 
 @media (prefers-reduced-motion: reduce) {
   .theme-button,
