@@ -150,14 +150,12 @@
     "name": "t:settings_schema.layout.name",
     "settings": [
       {
-        "type": "range",
+        "type": "text",
         "id": "page_width",
-        "min": 1000,
-        "max": 1600,
-        "step": 100,
-        "default": 1200,
+        "default": "1369",
         "unit": "px",
-        "label": "t:settings_schema.layout.settings.page_width.label"
+        "label": "t:settings_schema.layout.settings.page_width.label",
+        "placeholder": "1369"
       },
       {
         "type": "range",
