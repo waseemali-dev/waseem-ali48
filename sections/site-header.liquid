@@ -14,9 +14,9 @@
       <a href="{{ shop.url }}" class="site-header__logo">
         {%- if section.settings.logo_image -%}
           <img 
-            src="{{ section.settings.logo_image | image_url: width: 200 }}" 
+            src="{{ section.settings.logo_image | image_url: width: 151 }}" 
             alt="{{ section.settings.logo_text }}"
-            loading="eager"
+            loading="eager" width="151" height="19"
             style="width: {{ section.settings.logo_width }}px; height: auto; display: block;"
           >
         {%- else -%}
@@ -182,12 +182,7 @@
       "type": "header",
       "content": "Advanced"
     },
-    {
-      "type": "checkbox",
-      "id": "sticky_enable",
-      "label": "Enable Sticky Header",
-      "default": false
-    },
+ 
     {
       "type": "checkbox",
       "id": "sticky_shadow",
