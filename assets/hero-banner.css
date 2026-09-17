@@ -95,6 +95,8 @@ display: none;
 /* Mobile image shown by default */
 .hero-banner__image--mobile {
 display: block;
+aspect-ratio: auto 375 / 264;
+min-height:264px;
 }
 
 /* ============================================================
