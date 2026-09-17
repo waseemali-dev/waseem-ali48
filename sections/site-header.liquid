@@ -1,8 +1,8 @@
 <header class="site-header" data-section-id="{{ section.id }}" data-component="site-header">
   <div class="site-header__container">
-
+    
     {%- if section.settings.header_enable -%}
-
+      
       {%- comment -%} Mobile Hamburger Toggle {%- endcomment -%}
       <button class="site-header__toggle" aria-label="Toggle navigation menu" aria-expanded="false">
         <span class="site-header__toggle-line"></span>
@@ -13,8 +13,8 @@
       {%- comment -%} Logo / Branding {%- endcomment -%}
       <a href="{{ shop.url }}" class="site-header__logo">
         {%- if section.settings.logo_image -%}
-          <img
-            src="{{ section.settings.logo_image | image_url: width: 200 }}"
+          <img 
+            src="{{ section.settings.logo_image | image_url: width: 200 }}" 
             alt="{{ section.settings.logo_text }}"
             loading="eager"
             style="width: {{ section.settings.logo_width }}px; height: auto; display: block;"
@@ -31,7 +31,7 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} CTA Button {%- endcomment -%}
+      {%- comment -%} CTA Button (Desktop Only) {%- endcomment -%}
       {%- if section.settings.button_enable -%}
         <div class="site-header__button-wrapper">
           {%- render 'theme-button',
@@ -42,6 +42,32 @@
           -%}
         </div>
       {%- endif -%}
+
+      {%- comment -%} Mobile Menu (Collapsed by default) {%- endcomment -%}
+      <nav class="site-header__menu" data-component="mobile-menu">
+        <div class="site-header__menu-content">
+          
+          {%- comment -%} Center Text in Menu {%- endcomment -%}
+          {%- if section.settings.center_text_enable -%}
+            <div class="site-header__menu-text">
+              {{ section.settings.center_text }}
+            </div>
+          {%- endif -%}
+
+          {%- comment -%} Button in Menu {%- endcomment -%}
+          {%- if section.settings.button_enable -%}
+            <div class="site-header__menu-button">
+              {%- render 'theme-button',
+                button_enabled: section.settings.button_enable,
+                button_type: section.settings.button_type,
+                button_text: section.settings.button_text,
+                button_link: section.settings.button_link
+              -%}
+            </div>
+          {%- endif -%}
+
+        </div>
+      </nav>
 
     {%- endif -%}
 
@@ -91,7 +117,7 @@
     },
     {
       "type": "header",
-      "content": "Center Text (Desktop)"
+      "content": "Center Text (Desktop & Mobile Menu)"
     },
     {
       "type": "checkbox",
@@ -107,7 +133,7 @@
     },
     {
       "type": "header",
-      "content": "CTA Button"
+      "content": "CTA Button (Desktop & Mobile Menu)"
     },
     {
       "type": "checkbox",
