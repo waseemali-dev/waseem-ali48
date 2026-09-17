@@ -62,7 +62,7 @@
 .prod-list__img-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 433 / 444;
+  aspect-ratio: 169 / 186;
   overflow: hidden;
   background: #f0f0f0;
 }
@@ -233,6 +233,9 @@
   font-size: 36px;
   margin-bottom: 30px;
   text-align:left;
+}
+.prod-list__img-wrap {
+  aspect-ratio: 433 / 444;
 }
 .prod-list__hotspot{
   width:22px;
