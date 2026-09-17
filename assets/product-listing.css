@@ -104,22 +104,6 @@
   transition: all 200ms ease-out;
 }
 
-@media (hover: hover) {
-  .prod-list__hotspot:hover {
-    background: var(--primary);
-    color: var(--bg);
-  }
-}
-
-.prod-list__hotspot:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
-}
-
-.prod-list__hotspot:active {
-  transform: translate(-50%, -50%) scale(0.95);
-}
-
 /* ========================
    MODAL - OVERLAY & POPUP
    ======================== */
@@ -255,6 +239,10 @@
   font-size: 36px;
   margin-bottom: 30px;
   text-align:left;
+}
+.prod-list__hotspot{
+  width:22px;
+  height:22px;
 }
 }
 @media (max-width: 479px) {
