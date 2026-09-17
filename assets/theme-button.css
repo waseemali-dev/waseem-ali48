@@ -1,15 +1,13 @@
-/* ==========================================
+/*  
    THEME BUTTON COMPONENT - STYLES & ANIMATIONS
 
    Reusable CTA button with slide effect
    Mobile-first, BEM methodology
    Pure CSS animations (no JavaScript)
    Fully accessible with keyboard support
-   ========================================== */
+     */
 
-/* ==========================================
-   CSS VARIABLES & DEFAULTS
-   ========================================== */
+/*  CSS VARIABLES & DEFAULTS */
 
 :root {
   --theme-button-font-size: 16px;
@@ -23,9 +21,7 @@
   --theme-button-secondary-text: #000000;
 }
 
-/* ==========================================
-   BASE THEME BUTTON STYLES
-   ========================================== */
+/* BASE THEME BUTTON STYLE */
 
 .theme-button {
   display: inline-flex;
@@ -49,11 +45,6 @@
               opacity var(--theme-button-animation-duration) var(--theme-button-animation-easing);
 }
 
-
-/* ==========================================
-   THEME BUTTON TYPES - MODIFIERS (BEM)
-   ========================================== */
-
 /* Primary Button Type - Black */
 .theme-button--primary {
   background-color: var(--theme-button-primary-bg);
@@ -66,9 +57,7 @@
   color: var(--theme-button-secondary-text);
 }
 
-/* ==========================================
-   THEME BUTTON ELEMENTS - TEXT & ARROW (BEM)
-   ========================================== */
+/*  THEME BUTTON ELEMENTS - TEXT & ARROW (BEM) */
 
 .theme-button__text {
   display: inline-flex;
@@ -89,9 +78,12 @@
               opacity var(--theme-button-animation-duration) var(--theme-button-animation-easing);
 }
 
-/* ==========================================
-   HOVER ANIMATION - SLIDE EFFECT
-   ========================================== */
+.theme-button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/*  HOVER ANIMATION - SLIDE EFFECT */
 
 @media (hover: hover) {
   .theme-button:hover:not([data-enabled="false"]) .theme-button__text {
@@ -112,9 +104,7 @@
   }
 }
 
-/* ==========================================
-   DISABLED STATE
-   ========================================== */
+/* DISABLED STATE  */
 
 .theme-button[data-enabled="false"],
 .theme-button:disabled {
@@ -123,9 +113,7 @@
   pointer-events: none;
 }
 
-/* ==========================================
-   FOCUS STATE (ACCESSIBILITY)
-   ========================================== */
+/*  FOCUS STATE (ACCESSIBILITY) */
 
 .theme-button:focus-visible {
   outline: 2px solid currentColor;
@@ -138,9 +126,7 @@
   outline-offset: 2px;
 }
 
-/* ==========================================
-   ACTIVE STATE
-   ========================================== */
+/*  ACTIVE STATE*/
 
 @media (hover: hover) {
   .theme-button:active:not([data-enabled="false"]) {
@@ -149,11 +135,10 @@
 }
 
 
-/* ==========================================
-   ACCESSIBILITY - REDUCED MOTION
+/*  ACCESSIBILITY - REDUCED MOTION
 
    Respect user's motion preferences
-   ========================================== */
+     */
 
 @media (prefers-reduced-motion: reduce) {
   .theme-button,
@@ -164,9 +149,7 @@
   }
 }
 
-/* ==========================================
-   HIGH CONTRAST MODE
-   ========================================== */
+/*  HIGH CONTRAST MODE  */
 
 @media (prefers-contrast: more) {
   .theme-button {
@@ -177,3 +160,4 @@
     outline-width: 3px;
   }
 }
+
