@@ -37,7 +37,6 @@
     current: null,
     color: null,
     size: null,
-    bundle: null,
   };
 
   /* ========================================
@@ -94,10 +93,8 @@
     if (!card) return;
 
     const productId = card.dataset.productId;
-    const bundleId = card.dataset.bundleId || null;
 
     loadProduct(productId);
-    state.bundle = bundleId;
     openModal();
   }
 
@@ -145,16 +142,8 @@
       return;
     }
 
-    // Add primary product
     addToCart(variantId, () => {
-      // Add bundle if exists
-      if (state.bundle) {
-        addToCart(state.bundle, () => {
-          closeModal();
-        });
-      } else {
-        closeModal();
-      }
+      closeModal();
     });
   }
 

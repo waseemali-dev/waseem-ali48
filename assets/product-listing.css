@@ -192,12 +192,12 @@
   position: relative;
   width: var(--modal-w);
   max-width: var(--modal-max);
-  background: var(--bg);
+  background: #fff;
   border-radius: 8px;
   padding: var(--pad-m);
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
   animation: slideUp var(--anim-std) ease-out;
 }
 

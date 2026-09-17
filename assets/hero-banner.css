@@ -208,7 +208,13 @@
   .hero-banner__content-box {
     display: block;
   }
-
+.hero-banner__content-box::before {
+	content: '';
+	top: 0;
+	height: 100%;
+	right: 0;
+	width: 2000px;
+}
   /* ========== Mobile CTA (Hidden) ========== */
   .hero-banner__mobile-cta {
     display: none;

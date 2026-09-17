@@ -23,7 +23,6 @@
         {%- assign product = block.settings.product -%}
 
         {%- if product != blank -%}
-          {%- assign bundle_id = block.settings.bundle_product.selected_or_first_available_variant.id | default: '' -%}
           {%- assign colors = '' -%}
           {%- assign sizes = '' -%}
           {%- assign variants_json = '' -%}
@@ -46,7 +45,7 @@
                 {%- assign size_arr = size_arr | push: size_opt -%}
               {%- endunless -%}
 
-              {%- capture var_obj -%}{"id":"{{ variant.id }}","color":"{{ color_opt }}","size":"{{ size_opt }}"}{%- endcapture -%}
+              {%- capture var_obj -%}{"id":"{{ variant.id }}","color":"{{ color_opt | downcase | replace: ' ', '-' }}","size":"{{ size_opt }}"}{%- endcapture -%}
               {%- assign variants_arr = variants_arr | push: var_obj -%}
             {%- endif -%}
           {%- endfor -%}
@@ -76,7 +75,6 @@
           <div class="prod-list__card"
                data-prod-card
                data-product-id="{{ product.id }}"
-               {% if bundle_id != blank %}data-bundle-id="{{ bundle_id }}"{% endif %}
                data-product-name="{{ product.title | escape }}"
                data-product-price="{{ product.price | money }}"
                data-product-image="{{ product.featured_image | image_url: width: 500 }}"
@@ -92,6 +90,12 @@
 
               {%- assign hotspot_x = block.settings.hotspot_x | default: '50%' -%}
               {%- assign hotspot_y = block.settings.hotspot_y | default: '50%' -%}
+              {%- if hotspot_x != blank and hotspot_x does not contain '%' -%}
+                {%- assign hotspot_x = hotspot_x | append: '%' -%}
+              {%- endif -%}
+              {%- if hotspot_y != blank and hotspot_y does not contain '%' -%}
+                {%- assign hotspot_y = hotspot_y | append: '%' -%}
+              {%- endif -%}
 
               <button class="prod-list__hotspot"
                       data-hotspot
@@ -222,11 +226,6 @@
           "label": "Hotspot Y Position",
           "placeholder": "50%",
           "info": "Use %, clamp() safe from edges"
-        },
-        {
-          "type": "product",
-          "id": "bundle_product",
-          "label": "Bundle/Cross-Sell Product (Optional)"
         }
       ]
     }
