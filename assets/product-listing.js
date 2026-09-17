@@ -368,8 +368,12 @@
       }
 
       var apply = function () {
-        elements.colorIndicator.style.width = selectedButton.offsetWidth + 'px';
-        elements.colorIndicator.style.transform = 'translateX(' + selectedButton.offsetLeft + 'px)';
+        var buttonWidth = selectedButton.offsetWidth;
+        var indicatorWidth = Math.max(buttonWidth * 0.7, 20);
+        var offset = selectedButton.offsetLeft + (buttonWidth - indicatorWidth) / 2;
+
+        elements.colorIndicator.style.width = indicatorWidth + 'px';
+        elements.colorIndicator.style.transform = 'translateX(' + offset + 'px)';
       };
 
       if (instant || prefersReducedMotion) {
