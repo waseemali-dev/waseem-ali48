@@ -176,18 +176,8 @@ body.header-sticky-enabled {
    ====================== */
 
 @media (min-width: 480px) {
-  .site-header__container {
-    min-height: 60px;
-    padding: 0 20px;
-    gap: 16px;
-  }
-
-  .site-header__logo {
-    height: 60px;
-  }
-
   .site-header__logo-text {
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .site-header__toggle {
@@ -210,19 +200,13 @@ body.header-sticky-enabled {
 
 @media (min-width: 768px) {
   .site-header__container {
-    min-height: 64px;
-    padding: 0 24px;
     gap: 20px;
     flex-wrap: nowrap;
   }
 
-  .site-header__logo {
-    height: 64px;
-  }
-
   .site-header__text {
     display: flex;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .site-header__button-wrapper {
@@ -261,14 +245,8 @@ body.header-sticky-enabled {
 
 @media (min-width: 992px) {
   .site-header__container {
-    min-height: 70px;
-    padding: 0 32px;
     gap: 24px;
     flex-wrap: nowrap;
-  }
-
-  .site-header__logo {
-    height: 70px;
   }
 
   /* Hide hamburger on desktop */
@@ -284,7 +262,7 @@ body.header-sticky-enabled {
   }
 
   .site-header__logo-text {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   /* Center text in middle */
@@ -313,16 +291,7 @@ body.header-sticky-enabled {
    ====================== */
 
 @media (min-width: 1280px) {
-  .site-header__container {
-    min-height: 72px;
-    padding: 0 40px;
-  }
-
-  .site-header__logo {
-    height: 72px;
-  }
-
-  .site-header__text {
+    .site-header__text {
     font-size: 16px;
   }
 
@@ -341,16 +310,5 @@ body.header-sticky-enabled {
   .site-header__toggle-line,
   .site-header__menu {
     transition: none;
-  }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: more) {
-  .site-header {
-    border-bottom: 2px solid #000000;
-  }
-
-  .site-header__toggle:focus {
-    outline: 2px solid #000000;
   }
 }

@@ -12,12 +12,9 @@
    ============================================================ */
 
 :root {
-  --hero-aspect-16-9: 16 / 9;
-  --hero-aspect-4-3: 4 / 3;
-  --hero-aspect-3-2: 3 / 2;
-
   --hero-mobile-cta-bottom: 16px;
   --hero-content-max-width: 500px;
+  --hero-content-box-padding: clamp(16px, 4vw, 32px);
 
   --hero-z-image: 1;
   --hero-z-mobile-card: 2;
@@ -26,7 +23,7 @@
 }
 
 /* ============================================================
-   ANNOUNCEMENT BANNER
+   ANNOUNCEMENT BANNER (Positioned at bottom of section)
    ============================================================ */
 
 .hero-banner__announcement {
@@ -36,6 +33,7 @@
   font-size: 14px;
   line-height: 1.5;
   font-weight: 400;
+  order: 10;
 }
 
 .hero-banner__announcement-content {
@@ -50,6 +48,8 @@
 .section-hero-banner {
   width: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .hero-banner__wrapper {
@@ -57,6 +57,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  order: 1;
 }
 
 /* ============================================================
@@ -74,7 +75,7 @@
   overflow: hidden;
 
   /* Mobile: Default aspect ratio 16:9 */
-  aspect-ratio: var(--hero-aspect-16-9);
+  aspect-ratio: 16 / 9;
 }
 
 .hero-banner__image {
@@ -121,18 +122,20 @@
 .hero-banner__content-box {
   display: none;
   position: absolute;
-  bottom: 32px;
-  left: 16px;
+  bottom: 0;
+  left: 0;
   max-width: var(--hero-content-max-width);
+  padding: var(--hero-content-box-padding);
   z-index: var(--hero-z-content-box);
 }
 
 .hero-banner__content-inner {
   position: relative;
+  /* Content stays within container via parent max-width */
 }
 
 .hero-banner__cta-button {
-  margin-top: 20px;
+  margin-top: clamp(12px, 2vw, 20px);
 }
 
 /* ============================================================
@@ -189,6 +192,12 @@
 
 @media (min-width: 768px) {
 
+  /* ========== Wrapper Layout ========== */
+  .hero-banner__wrapper {
+    position: relative;
+    min-height: 500px;
+  }
+
   /* ========== Image Container ========== */
   .hero-banner__image-container {
     min-height: 500px;
@@ -219,12 +228,6 @@
     display: none;
   }
 
-  /* ========== Main Wrapper ========== */
-  .hero-banner__wrapper {
-    position: relative;
-    min-height: 500px;
-  }
-
   /* ========== Heading & Text ========== */
   .hero-banner__heading {
     font-size: 32px;
@@ -235,12 +238,6 @@
     font-size: 16px;
     line-height: 1.6;
     margin-top: 16px;
-  }
-
-  /* ========== Content Box Positioning ========== */
-  .hero-banner__content-box {
-    bottom: 40px;
-    left: 40px;
   }
 
 }
@@ -277,10 +274,6 @@
 .hero-banner__content-box:focus-within {
   outline: 2px solid currentColor;
   outline-offset: 2px;
-}
-
-.hero-banner__mobile-cta:focus-within {
-  outline: none;
 }
 
 /* High contrast mode support */
