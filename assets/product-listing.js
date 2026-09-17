@@ -1,10 +1,13 @@
 /* ============================================
    PRODUCT LISTING - JAVASCRIPT
    Vanilla JS, IIFE, Production Ready
+   Matches product-gallery reference implementation
    ============================================ */
 
 (function() {
   'use strict';
+
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ========================================
      CONFIG
@@ -19,7 +22,11 @@
     closeBtn: '[data-modal-close]',
     colors: '[data-colors]',
     colorOpt: '[data-color-opt]',
+    colorIndicator: '[data-color-indicator]',
+    sizeDropdown: '[data-size-dropdown]',
+    sizeTrigger: '[data-size-trigger]',
     sizeList: '[data-size-list]',
+    sizeValue: '[data-size-value]',
     addBtn: '[data-add-cart]',
     modalImg: '[data-modal-img]',
     modalName: '[data-modal-name]',
@@ -34,8 +41,11 @@
   const state = {
     isOpen: false,
     current: null,
-    color: null,
-    size: null,
+    selectedOptions: {},
+    activeTrigger: null,
+    isSubmitting: false,
+    colorIndex: -1,
+    sizeIndex: -1,
   };
 
   /* ========================================
@@ -52,7 +62,11 @@
     dom.overlay = dom.modal.querySelector(CONFIG.overlay);
     dom.closeBtn = dom.modal.querySelector(CONFIG.closeBtn);
     dom.colors = dom.modal.querySelector(CONFIG.colors);
+    dom.colorIndicator = dom.modal.querySelector(CONFIG.colorIndicator);
+    dom.sizeDropdown = dom.modal.querySelector(CONFIG.sizeDropdown);
+    dom.sizeTrigger = dom.modal.querySelector(CONFIG.sizeTrigger);
     dom.sizeList = dom.modal.querySelector(CONFIG.sizeList);
+    dom.sizeValue = dom.modal.querySelector(CONFIG.sizeValue);
     dom.addBtn = dom.modal.querySelector(CONFIG.addBtn);
     dom.img = dom.modal.querySelector(CONFIG.modalImg);
     dom.name = dom.modal.querySelector(CONFIG.modalName);
@@ -78,8 +92,15 @@
     document.addEventListener('keydown', handleKeydown);
 
     dom.colors.addEventListener('click', handleColorSelect);
-    dom.sizeList.addEventListener('click', handleSizeSelect);
+    dom.sizeTrigger.addEventListener('click', toggleDropdown);
+    document.addEventListener('click', handleOutsideClick);
     dom.addBtn.addEventListener('click', handleAddToCart);
+
+    window.addEventListener('resize', function() {
+      if (state.isOpen) {
+        updateColorIndicator(true);
+      }
+    });
   }
 
   /* ========================================
@@ -91,7 +112,6 @@
     if (!card) return;
 
     const productId = card.dataset.productId;
-
     loadProduct(productId);
     openModal();
   }
@@ -99,34 +119,76 @@
   function handleColorSelect(e) {
     if (!e.target.matches(CONFIG.colorOpt)) return;
 
-    const opts = dom.colors.querySelectorAll(CONFIG.colorOpt);
-    const index = Array.from(opts).indexOf(e.target);
-    const total = opts.length;
+    const value = e.target.dataset.color;
+    selectOption(state.colorIndex, value);
+  }
 
-    state.color = e.target.dataset.color;
+  function selectOption(index, value) {
+    state.selectedOptions[index] = value;
+    syncSelectionUI();
+    refreshVariantUI();
 
-    // Update slider position
-    if (total > 1) {
-      const pos = index / (total - 1);
-      dom.colors.style.setProperty('--color-pos', pos);
-    } else {
-      dom.colors.style.setProperty('--color-pos', 0);
+    if (index === state.colorIndex) {
+      updateColorIndicator();
     }
   }
 
-  function handleSizeChange(e) {
-    state.size = e.target.value;
+  function syncSelectionUI() {
+    const selectedColor = state.selectedOptions[state.colorIndex];
+    dom.colors.querySelectorAll(CONFIG.colorOpt).forEach(btn => {
+      const isSelected = btn.getAttribute('data-color') === selectedColor;
+      btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    });
+
+    const selectedSize = state.selectedOptions[state.sizeIndex];
+    dom.sizeList.querySelectorAll('.prod-modal__dropdown-option').forEach(btn => {
+      const isSelected = btn.getAttribute('data-value') === selectedSize;
+      btn.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+    });
+    if (selectedSize) {
+      dom.sizeValue.textContent = selectedSize;
+    }
   }
 
-  function handleSizeSelect(e) {
-    if (!e.target.matches('.prod-modal__size-opt')) return;
+  function toggleDropdown() {
+    if (isDropdownOpen()) {
+      closeDropdown();
+    } else {
+      openDropdown();
+    }
+  }
 
-    const opts = dom.sizeList.querySelectorAll('.prod-modal__size-opt');
-    state.size = e.target.textContent.trim();
+  function openDropdown() {
+    dom.sizeList.hidden = false;
+    requestAnimationFrame(() => {
+      dom.sizeList.classList.add('is-open');
+    });
+    dom.sizeTrigger.setAttribute('aria-expanded', 'true');
+  }
 
-    // Update visual feedback
-    opts.forEach(opt => opt.classList.remove('selected'));
-    e.target.classList.add('selected');
+  function closeDropdown() {
+    dom.sizeList.classList.remove('is-open');
+    dom.sizeTrigger.setAttribute('aria-expanded', 'false');
+
+    const finish = () => {
+      dom.sizeList.hidden = true;
+    };
+    if (prefersReducedMotion) {
+      finish();
+    } else {
+      dom.sizeList.addEventListener('transitionend', finish, { once: true });
+    }
+  }
+
+  function isDropdownOpen() {
+    return !dom.sizeList.hidden;
+  }
+
+  function handleOutsideClick(e) {
+    if (!state.isOpen) return;
+    if (!dom.sizeDropdown.contains(e.target) && isDropdownOpen()) {
+      closeDropdown();
+    }
   }
 
   function handleKeydown(e) {
@@ -138,20 +200,38 @@
   function handleAddToCart(e) {
     e.preventDefault();
 
-    if (!state.size || !state.color) {
-      alert('Please select size and color');
+    if (state.isSubmitting) return;
+
+    const variant = findMatchingVariant();
+    if (!variant || !variant.available) {
+      alert('This combination is unavailable.');
       return;
     }
 
-    const variantId = findVariant(state.current, state.size, state.color);
-    if (!variantId) {
-      alert('Variant not available');
-      return;
-    }
+    state.isSubmitting = true;
+    dom.addBtn.disabled = true;
+    dom.addBtn.textContent = 'Adding...';
 
-    addToCart(variantId, () => {
-      closeModal();
-    });
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: [{ id: variant.id, quantity: 1 }] })
+    })
+      .then(res => res.json())
+      .then(() => {
+        showSuccessMessage();
+        closeModal();
+        state.isSubmitting = false;
+        dom.addBtn.disabled = false;
+        dom.addBtn.textContent = 'ADD TO CART →';
+      })
+      .catch(err => {
+        console.error('Cart error:', err);
+        alert('Failed to add to cart');
+        state.isSubmitting = false;
+        dom.addBtn.disabled = false;
+        dom.addBtn.textContent = 'ADD TO CART →';
+      });
   }
 
   /* ========================================
@@ -162,22 +242,25 @@
     state.isOpen = true;
     dom.modal.classList.add('is-open');
     dom.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleKeydown);
   }
 
   function closeModal() {
     state.isOpen = false;
     dom.modal.classList.remove('is-open');
     dom.body.style.overflow = '';
+    closeDropdown();
     resetModal();
+    document.removeEventListener('keydown', handleKeydown);
   }
 
   function resetModal() {
-    state.color = null;
-    state.size = null;
-    dom.colors.style.setProperty('--color-pos', 0);
-    dom.sizeList.querySelectorAll('.prod-modal__size-opt').forEach(opt => {
-      opt.classList.remove('selected');
-    });
+    state.selectedOptions = {};
+    state.colorIndex = -1;
+    state.sizeIndex = -1;
+    dom.sizeValue.textContent = 'Choose your size';
+    dom.sizeList.innerHTML = '';
+    dom.colorIndicator.style.width = '0';
   }
 
   /* ========================================
@@ -199,7 +282,22 @@
       variants: JSON.parse(card.dataset.productVariants),
     };
 
+    // Find color and size indices
+    state.colorIndex = findOptionIndex(['Color'], 'color');
+    state.sizeIndex = findOptionIndex(['Size'], 'size');
+
     renderModal();
+    preselectDefaultOptions();
+  }
+
+  function findOptionIndex(options, keyword) {
+    if (!options) return -1;
+    for (let i = 0; i < options.length; i++) {
+      if (options[i] && options[i].toLowerCase().indexOf(keyword) !== -1) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   function renderModal() {
@@ -216,7 +314,10 @@
   }
 
   function renderColors(colors) {
+    // Preserve indicator element
+    const indicator = dom.colorIndicator;
     dom.colors.innerHTML = '';
+    dom.colors.appendChild(indicator);
 
     colors.forEach((color, idx) => {
       const btn = document.createElement('button');
@@ -225,47 +326,124 @@
       btn.dataset.colorOpt = '';
       btn.dataset.color = color.value;
       btn.textContent = color.name;
+      btn.setAttribute('aria-pressed', 'false');
       btn.setAttribute('aria-label', `Select ${color.name}`);
 
-      // Auto-select first
-      if (idx === 0) {
-        state.color = color.value;
+      // Set swatch color for the left accent bar
+      if (window.CSS && window.CSS.supports && window.CSS.supports('color', color.value)) {
+        btn.style.setProperty('--swatch-color', color.value);
       }
 
       dom.colors.appendChild(btn);
     });
 
-    // Reset slider position to 0
-    dom.colors.style.setProperty('--color-pos', 0);
+    // Reset indicator
+    dom.colorIndicator.style.width = '0';
   }
 
   function renderSizes(sizes) {
     dom.sizeList.innerHTML = '';
-    state.size = null;
+    state.selectedOptions[state.sizeIndex] = null;
 
     sizes.forEach(size => {
-      const btn = document.createElement('button');
-      btn.className = 'prod-modal__size-opt';
-      btn.type = 'button';
-      btn.textContent = size;
-      btn.setAttribute('aria-label', `Select size ${size}`);
-      dom.sizeList.appendChild(btn);
+      const li = document.createElement('li');
+      li.setAttribute('role', 'presentation');
+
+      const opt = document.createElement('button');
+      opt.className = 'prod-modal__dropdown-option';
+      opt.type = 'button';
+      opt.textContent = size;
+      opt.setAttribute('role', 'option');
+      opt.setAttribute('aria-selected', 'false');
+      opt.setAttribute('data-value', size);
+
+      opt.addEventListener('click', () => {
+        selectOption(state.sizeIndex, size);
+        closeDropdown();
+      });
+
+      li.appendChild(opt);
+      dom.sizeList.appendChild(li);
     });
+  }
+
+  function preselectDefaultOptions() {
+    if (state.current && state.current.variants.length > 0) {
+      const firstVariant = state.current.variants[0];
+      if (firstVariant.options) {
+        firstVariant.options.forEach((value, index) => {
+          state.selectedOptions[index] = value;
+        });
+      }
+    }
+
+    syncSelectionUI();
+    refreshVariantUI();
+    updateColorIndicator(true);
+  }
+
+  /* ========================================
+     COLOR INDICATOR UPDATE
+     ======================================== */
+
+  function updateColorIndicator(instant) {
+    const selectedColor = state.selectedOptions[state.colorIndex];
+    const selectedButton = dom.colors.querySelector(
+      '.prod-modal__color-opt[aria-pressed="true"]'
+    );
+
+    if (!selectedButton || !selectedColor) {
+      dom.colorIndicator.style.width = '0';
+      return;
+    }
+
+    const apply = () => {
+      dom.colorIndicator.style.width = selectedButton.offsetWidth + 'px';
+      dom.colorIndicator.style.transform = 'translateX(' + selectedButton.offsetLeft + 'px)';
+    };
+
+    if (instant || prefersReducedMotion) {
+      dom.colorIndicator.style.transition = 'none';
+      apply();
+      void dom.colorIndicator.offsetWidth; // force reflow
+      dom.colorIndicator.style.transition = '';
+    } else {
+      apply();
+    }
   }
 
   /* ========================================
      VARIANT MATCHING
      ======================================== */
 
-  function findVariant(product, size, color) {
-    const variant = product.variants.find(
-      v => v.size === size && v.color === color
-    );
-    return variant ? variant.id : null;
+  function findMatchingVariant() {
+    if (!state.current) return null;
+
+    return state.current.variants.find(v => {
+      return v.options.every((value, index) => {
+        const selected = state.selectedOptions[index];
+        return selected === undefined || selected === value;
+      });
+    });
+  }
+
+  function refreshVariantUI() {
+    const variant = findMatchingVariant();
+
+    if (variant) {
+      dom.price.textContent = variant.price;
+      if (variant.available) {
+        dom.addBtn.disabled = false;
+      } else {
+        dom.addBtn.disabled = true;
+      }
+    } else {
+      dom.addBtn.disabled = true;
+    }
   }
 
   /* ========================================
-     CART API
+     SUCCESS MESSAGE
      ======================================== */
 
   function showSuccessMessage() {
@@ -278,27 +456,6 @@
       msg.style.animation = 'slideInUp 300ms cubic-bezier(0.34, 1.56, 0.64, 1) reverse';
       setTimeout(() => msg.remove(), 300);
     }, 2000);
-  }
-
-  function addToCart(variantId, callback) {
-    fetch('/cart/add.js', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        items: [{ id: variantId, quantity: 1 }],
-      }),
-    })
-      .then(res => res.json())
-      .then(() => {
-        showSuccessMessage();
-        if (callback) callback();
-      })
-      .catch(err => {
-        console.error('Cart error:', err);
-        alert('Failed to add to cart');
-      });
   }
 
   /* ========================================
