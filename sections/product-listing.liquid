@@ -1,233 +1,64 @@
-{%- liquid
-  assign heading = section.settings.heading
-  assign heading_tag = section.settings.heading_tag
-  assign spacing_d = section.settings.spacing_d
-  assign spacing_m = section.settings.spacing_m
-  assign description_limit = section.settings.description_limit
--%}
+<section class="prod-list" data-comp="prod-list">
+  <div class="prod-list__hd">
+    <h2 class="prod-list__hd-txt">Featured Products</h2>
+  </div>
 
-<section
-  class="prod-list"
-  data-section-id="{{ section.id }}"
-  data-component="prod-list"
-  data-description-limit="{{ description_limit }}"
->
-  {%- if section.settings.enable -%}
-    {%- if heading != blank -%}
-      <div class="prod-list__hd">
-        <{{ heading_tag }} class="prod-list__hd-txt">{{ heading }}</{{ heading_tag }}>
+  <div class="prod-list__grid">
+    {% for product in collection.products limit: 6 %}
+      <div class="prod-list__card" data-prod-card data-product-id="{{ product.id }}" data-product-name="{{ product.title | escape }}" data-product-price="{{ product.price | money }}" data-product-image="{{ product.featured_image | image_url: width: 400 }}" data-product-desc="{{ product.description | strip_html | escape }}" data-product-colors='[{"name": "Black", "value": "#000000"}, {"name": "White", "value": "#FFFFFF"}]' data-product-sizes='["XS", "S", "M", "L", "XL", "XXL"]' data-product-variants='[{"id": 1, "size": "M", "color": "#000000"}, {"id": 2, "size": "L", "color": "#000000"}, {"id": 3, "size": "M", "color": "#FFFFFF"}]'>
+        <div class="prod-list__img-wrap">
+          <img class="prod-list__img" src="{{ product.featured_image | image_url: width: 400 }}" alt="{{ product.featured_image.alt | default: product.title }}">
+          <button class="prod-list__hotspot" data-hotspot type="button" aria-label="Quick view {{ product.title | escape }}" aria-haspopup="dialog">+</button>
+        </div>
       </div>
-    {%- endif -%}
+    {% endfor %}
+  </div>
 
-    <div class="prod-list__grid" style="--sp-d: {{ spacing_d }}px; --sp-m: {{ spacing_m }}px;">
-      {%- for block in section.blocks -%}
-        {%- assign product = block.settings.product -%}
-        {%- if product != blank -%}
-          <div class="prod-list__card" {{ block.shopify_attributes }}>
-            <div
-              class="prod-list__img-wrap"
-              style="--hotspot-x: {{ block.settings.hotspot_x | default: '50%' }}; --hotspot-y: {{ block.settings.hotspot_y | default: '50%' }};"
-            >
-              <img
-                class="prod-list__img"
-                src="{{ product.featured_image | image_url: width: 500 }}"
-                alt="{{ product.title }}"
-              >
+  <!-- MODAL -->
+  <div class="prod-modal" data-modal="prod">
+    <div class="prod-modal__overlay" data-modal-overlay></div>
 
-              <button
-                type="button"
-                class="prod-list__hotspot"
-                data-action="open-quick-add"
-                aria-label="Quick add {{ product.title | escape }}"
-                aria-haspopup="dialog"
-              >
-                +
-              </button>
+    <div class="prod-modal__content">
+      <button class="prod-modal__close" data-modal-close type="button" aria-label="Close">×</button>
 
-              {%- comment -%}
-                Product data for this card, read by product-listing.js
-              {%- endcomment -%}
-              <script type="application/json" data-product-json>
-                {
-                  "id": {{ product.id | json }},
-                  "title": {{ product.title | json }},
-                  "image": {{ product.featured_image | image_url: width: 200 | json }},
-                  "description": {{ product.description | strip_html | json }},
-                  "optionNames": {{ product.options | json }},
-                  "variants": [
-                    {%- for variant in product.variants -%}
-                      {
-                        "id": {{ variant.id | json }},
-                        "available": {{ variant.available | json }},
-                        "price": {{ variant.price | money | json }},
-                        "options": {{ variant.options | json }}
-                      }{%- unless forloop.last -%},{%- endunless -%}
-                    {%- endfor -%}
-                  ]
-                }
-              </script>
-            </div>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
+      <div class="prod-modal__body">
+        <img class="prod-modal__img" data-modal-img src="" alt="">
 
-    {%- comment -%}Shared Popup Modal{%- endcomment -%}
-    <div class="prod-modal" data-quick-add-overlay hidden>
-      <div class="prod-modal__overlay" data-modal-overlay aria-hidden="true"></div>
+        <div class="prod-modal__info">
+          <h3 class="prod-modal__name" data-modal-name></h3>
+          <p class="prod-modal__price" data-modal-price></p>
+          <p class="prod-modal__desc" data-modal-desc></p>
+        </div>
+      </div>
 
-      <div class="prod-modal__content" role="dialog" aria-modal="true" data-quick-add-popup>
-        <button class="prod-modal__close" data-action="close-quick-add" aria-label="Close product details">
-          ×
-        </button>
-
-        <div class="prod-modal__body">
-          <img class="prod-modal__img" data-modal-img src="" alt="">
-
-          <div class="prod-modal__info">
-            <h2 class="prod-modal__name" data-modal-name></h2>
-            <p class="prod-modal__price" data-modal-price></p>
-            <p class="prod-modal__desc" data-modal-desc></p>
+      <div class="prod-modal__form">
+        <!-- COLOR OPTIONS -->
+        <div class="prod-modal__colors">
+          <label class="prod-modal__color-label">Color</label>
+          <div class="prod-modal__color-opts" data-colors>
+            <div class="prod-modal__slider"></div>
           </div>
         </div>
 
-        <div class="prod-modal__form">
-          <div class="prod-modal__colors" data-color-wrap hidden>
-            <label class="prod-modal__color-label" data-color-label>Color</label>
-            <div class="prod-modal__color-opts" data-color-options>
-              <span class="prod-modal__slider" data-color-indicator aria-hidden="true"></span>
-            </div>
-          </div>
-
-          <div class="prod-modal__size" data-size-wrap hidden>
-            <label class="prod-modal__size-label" data-size-label>Size</label>
-            <div class="prod-modal__dropdown" data-size-dropdown>
-              <button type="button" class="prod-modal__dropdown-toggle" data-dropdown-toggle aria-haspopup="listbox" aria-expanded="false">
-                <span data-dropdown-value>Choose your size</span>
-                <span class="prod-modal__dropdown-icon">▼</span>
-              </button>
-              <ul class="prod-modal__dropdown-list" data-dropdown-list role="listbox" hidden></ul>
-            </div>
-          </div>
-
-          <p class="prod-modal__status" data-modal-status role="status" aria-live="polite"></p>
-
-          <button class="prod-modal__btn btn-primary" data-action="add-to-cart">
-            ADD TO CART <span class="btn-arrow">→</span>
-          </button>
+        <!-- SIZE DROPDOWN -->
+        <div class="prod-modal__size">
+          <label class="prod-modal__size-label">Size</label>
+          <select class="prod-modal__dropdown" data-size>
+            <option value="">Choose your size</option>
+          </select>
         </div>
+
+        <!-- ADD TO CART -->
+        <button class="prod-modal__btn" data-add-cart type="button">Add to Cart</button>
       </div>
     </div>
-  {%- endif -%}
+  </div>
 </section>
 
-{{ 'product-listing.css' | asset_url | stylesheet_tag }}
-{{ 'product-listing.js' | asset_url | script_tag }}
+<style>
+  {% include 'product-listing.css' %}
+</style>
 
-{% schema %}
-{
-  "name": "Product Listing",
-  "settings": [
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
-      "default": "Featured Products"
-    },
-    {
-      "type": "select",
-      "id": "heading_tag",
-      "label": "Heading Tag",
-      "options": [
-        { "value": "h1", "label": "H1" },
-        { "value": "h2", "label": "H2" },
-        { "value": "h3", "label": "H3" },
-        { "value": "h4", "label": "H4" }
-      ],
-      "default": "h2"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable",
-      "label": "Enable Section",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "spacing_d",
-      "min": 40,
-      "max": 120,
-      "step": 10,
-      "unit": "px",
-      "label": "Desktop Spacing",
-      "default": 90
-    },
-    {
-      "type": "range",
-      "id": "spacing_m",
-      "min": 20,
-      "max": 80,
-      "step": 10,
-      "unit": "px",
-      "label": "Mobile Spacing",
-      "default": 60
-    },
-    {
-      "type": "range",
-      "id": "description_limit",
-      "min": 20,
-      "max": 300,
-      "step": 10,
-      "unit": "ch",
-      "label": "Description character limit",
-      "default": 120
-    }
-  ],
-  "blocks": [
-    {
-      "type": "product",
-      "name": "Product",
-      "settings": [
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Select Product"
-        },
-        {
-          "type": "range",
-          "id": "hotspot_x",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "label": "Hotspot X Position",
-          "default": 50
-        },
-        {
-          "type": "range",
-          "id": "hotspot_y",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "label": "Hotspot Y Position",
-          "default": 50
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Product Listing",
-      "blocks": [
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" }
-      ]
-    }
-  ]
-}
-{% endschema %}
+<script>
+  {% include 'product-listing.js' %}
+</script>
