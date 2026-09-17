@@ -19,9 +19,7 @@
     closeBtn: '[data-modal-close]',
     colors: '[data-colors]',
     colorOpt: '[data-color-opt]',
-    sizeTrigger: '[data-size-trigger]',
     sizeList: '[data-size-list]',
-    sizeValue: '[data-size-value]',
     addBtn: '[data-add-cart]',
     modalImg: '[data-modal-img]',
     modalName: '[data-modal-name]',
@@ -54,9 +52,7 @@
     dom.overlay = dom.modal.querySelector(CONFIG.overlay);
     dom.closeBtn = dom.modal.querySelector(CONFIG.closeBtn);
     dom.colors = dom.modal.querySelector(CONFIG.colors);
-    dom.sizeTrigger = dom.modal.querySelector(CONFIG.sizeTrigger);
     dom.sizeList = dom.modal.querySelector(CONFIG.sizeList);
-    dom.sizeValue = dom.modal.querySelector(CONFIG.sizeValue);
     dom.addBtn = dom.modal.querySelector(CONFIG.addBtn);
     dom.img = dom.modal.querySelector(CONFIG.modalImg);
     dom.name = dom.modal.querySelector(CONFIG.modalName);
@@ -82,8 +78,7 @@
     document.addEventListener('keydown', handleKeydown);
 
     dom.colors.addEventListener('click', handleColorSelect);
-    dom.sizeTrigger.addEventListener('click', toggleSizeDropdown);
-    document.addEventListener('click', handleOutsideClick);
+    dom.sizeList.addEventListener('click', handleSizeSelect);
     dom.addBtn.addEventListener('click', handleAddToCart);
   }
 
@@ -105,58 +100,33 @@
     if (!e.target.matches(CONFIG.colorOpt)) return;
 
     const opts = dom.colors.querySelectorAll(CONFIG.colorOpt);
+    const index = Array.from(opts).indexOf(e.target);
+    const total = opts.length;
+
     state.color = e.target.dataset.color;
 
-    // Visual feedback - active class shows bottom border indicator
-    opts.forEach(opt => opt.classList.remove('active'));
-    e.target.classList.add('active');
+    // Update slider position
+    if (total > 1) {
+      const pos = index / (total - 1);
+      dom.colors.style.setProperty('--color-pos', pos);
+    } else {
+      dom.colors.style.setProperty('--color-pos', 0);
+    }
   }
 
   function handleSizeChange(e) {
     state.size = e.target.value;
   }
 
-  function toggleSizeDropdown(e) {
-    e.stopPropagation();
-    const isOpen = dom.sizeList.hasAttribute('hidden');
+  function handleSizeSelect(e) {
+    if (!e.target.matches('.prod-modal__size-opt')) return;
 
-    if (isOpen) {
-      dom.sizeList.removeAttribute('hidden');
-      dom.sizeTrigger.classList.add('is-open');
-    } else {
-      dom.sizeList.setAttribute('hidden', '');
-      dom.sizeTrigger.classList.remove('is-open');
-    }
-  }
-
-  function handleSizeOptionClick(e) {
-    if (!e.target.matches('.prod-modal__dropdown-option')) return;
-
-    const selectedSize = e.target.textContent.trim();
-    state.size = selectedSize;
-
-    // Update trigger text
-    dom.sizeTrigger.querySelector('.prod-modal__dropdown-text').textContent = selectedSize;
+    const opts = dom.sizeList.querySelectorAll('.prod-modal__size-opt');
+    state.size = e.target.textContent.trim();
 
     // Update visual feedback
-    dom.sizeList.querySelectorAll('.prod-modal__dropdown-option').forEach(opt => {
-      opt.classList.remove('selected');
-    });
+    opts.forEach(opt => opt.classList.remove('selected'));
     e.target.classList.add('selected');
-
-    // Close dropdown
-    dom.sizeList.setAttribute('hidden', '');
-    dom.sizeTrigger.classList.remove('is-open');
-  }
-
-  function handleOutsideClick(e) {
-    if (!dom.modal.classList.contains('is-open')) return;
-
-    const wrapper = dom.sizeTrigger.closest('.prod-modal__dropdown-wrapper');
-    if (!wrapper.contains(e.target) && dom.sizeList && !dom.sizeList.hasAttribute('hidden')) {
-      dom.sizeList.setAttribute('hidden', '');
-      dom.sizeTrigger.classList.remove('is-open');
-    }
   }
 
   function handleKeydown(e) {
@@ -204,14 +174,9 @@
   function resetModal() {
     state.color = null;
     state.size = null;
-    dom.sizeTrigger.querySelector('.prod-modal__dropdown-text').textContent = 'Choose your size';
-    dom.sizeList.setAttribute('hidden', '');
-    dom.sizeTrigger.classList.remove('is-open');
-    dom.sizeList.querySelectorAll('.prod-modal__dropdown-option').forEach(opt => {
+    dom.colors.style.setProperty('--color-pos', 0);
+    dom.sizeList.querySelectorAll('.prod-modal__size-opt').forEach(opt => {
       opt.classList.remove('selected');
-    });
-    dom.colors.querySelectorAll(CONFIG.colorOpt).forEach(opt => {
-      opt.classList.remove('active');
     });
   }
 
@@ -264,26 +229,27 @@
 
       // Auto-select first
       if (idx === 0) {
-        btn.classList.add('active');
         state.color = color.value;
       }
 
       dom.colors.appendChild(btn);
     });
+
+    // Reset slider position to 0
+    dom.colors.style.setProperty('--color-pos', 0);
   }
 
   function renderSizes(sizes) {
     dom.sizeList.innerHTML = '';
-    dom.sizeTrigger.querySelector('.prod-modal__dropdown-text').textContent = 'Choose your size';
     state.size = null;
 
     sizes.forEach(size => {
-      const opt = document.createElement('button');
-      opt.className = 'prod-modal__dropdown-option';
-      opt.type = 'button';
-      opt.textContent = size;
-      opt.addEventListener('click', handleSizeOptionClick);
-      dom.sizeList.appendChild(opt);
+      const btn = document.createElement('button');
+      btn.className = 'prod-modal__size-opt';
+      btn.type = 'button';
+      btn.textContent = size;
+      btn.setAttribute('aria-label', `Select size ${size}`);
+      dom.sizeList.appendChild(btn);
     });
   }
 
