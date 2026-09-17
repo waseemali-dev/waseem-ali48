@@ -82,9 +82,11 @@ collection-component {
 /* base */
 
 .page-width {
+  width: 100%;
   max-width: var(--page-width);
   margin: 0 auto;
   padding: 0 1.5rem;
+  position: relative;
 }
 
 body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
