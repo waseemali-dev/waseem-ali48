@@ -211,6 +211,10 @@
 	position: absolute;
 	background: #ffffff;
 }
+  .hero-banner__description {
+    line-height: 1.4;
+  }
+
   /* ========== Mobile CTA (Hidden) ========== */
   .hero-banner__mobile-cta {
     display: none;
@@ -238,7 +242,6 @@
 
   .hero-banner__description {
     font-size: 20px;
-    line-height: 1.3;
   }
 
 }
