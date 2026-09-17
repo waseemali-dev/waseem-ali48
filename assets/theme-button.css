@@ -54,6 +54,9 @@
 .theme-button--primary:hover {
   color: var(--theme-button-secondary-text);
 }
+.theme-button--primary:after {
+  background-color: var(--theme-button-primary-bg);
+}
 
 /* Secondary Button Type - Yellow */
 .theme-button--secondary {
@@ -65,9 +68,7 @@
   color: var(--theme-button-primary-text);
 }
 
-.theme-button--primary:after {
-  background-color: var(--theme-button-primary-bg);
-}
+
 
 .theme-button--secondary:before {
   background-color: var(--theme-button-primary-bg);
