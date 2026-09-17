@@ -368,12 +368,19 @@
       }
 
       var apply = function () {
-        var buttonWidth = selectedButton.offsetWidth;
-        var indicatorWidth = Math.max(buttonWidth * 0.7, 20);
-        var offset = selectedButton.offsetLeft + (buttonWidth - indicatorWidth) / 2;
+        // var buttonWidth = selectedButton.offsetWidth;
+        // var indicatorWidth = Math.max(buttonWidth * 0.7, 20);
+        // var offset = selectedButton.offsetLeft + (buttonWidth - indicatorWidth) / 2;
 
-        elements.colorIndicator.style.width = indicatorWidth + 'px';
-        elements.colorIndicator.style.transform = 'translateX(' + offset + 'px)';
+        // elements.colorIndicator.style.width = indicatorWidth + 'px';
+        // elements.colorIndicator.style.transform = 'translateX(' + offset + 'px)';
+
+        var buttonWidth = selectedButton.getBoundingClientRect().width;
+var offset = selectedButton.offsetLeft;
+
+elements.colorIndicator.style.width = buttonWidth + 'px';
+elements.colorIndicator.style.transform =
+  'translateX(' + offset + 'px)';
       };
 
       if (instant || prefersReducedMotion) {
