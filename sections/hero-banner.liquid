@@ -70,38 +70,43 @@
       </div>
     </div>
 
-    {%- comment -%} DESKTOP CONTENT BOX (Visible ≥768px) {%- endcomment -%}
-    <div class="hero-banner__content-box page-width"
-      data-component="content-box"
-      style="background-color: {{ section.settings.content_bg_color }};">
+    {%- comment -%} PAGE WIDTH CONTAINER {%- endcomment -%}
+    <div class="page-width">
 
-      <div class="hero-banner__content-inner">
+      {%- comment -%} DESKTOP CONTENT BOX (Visible ≥768px) {%- endcomment -%}
+      <div class="hero-banner__content-box"
+        data-component="content-box"
+        style="background-color: {{ section.settings.content_bg_color }};">
 
-        {%- comment -%} Heading {%- endcomment -%}
-        {%- if section.settings.heading -%}
-          <h1 class="hero-banner__heading" style="color: {{ section.settings.heading_color }};">
-            {{ section.settings.heading }}
-          </h1>
-        {%- endif -%}
+        <div class="hero-banner__content-inner">
 
-        {%- comment -%} Description {%- endcomment -%}
-        {%- if section.settings.description -%}
-          <div class="hero-banner__description" style="color: {{ section.settings.text_color }};">
-            {{ section.settings.description }}
-          </div>
-        {%- endif -%}
+          {%- comment -%} Heading {%- endcomment -%}
+          {%- if section.settings.heading -%}
+            <h1 class="hero-banner__heading" style="color: {{ section.settings.heading_color }};">
+              {{ section.settings.heading }}
+            </h1>
+          {%- endif -%}
 
-        {%- comment -%} CTA Button (Desktop) {%- endcomment -%}
-        {%- if section.settings.show_cta -%}
-          <div class="hero-banner__cta-button" data-component="cta-button">
-            {%- render 'theme-button',
-              button_enabled: section.settings.show_cta,
-              button_type: section.settings.cta_button_type,
-              button_text: section.settings.cta_text,
-              button_link: section.settings.cta_link
-            -%}
-          </div>
-        {%- endif -%}
+          {%- comment -%} Description {%- endcomment -%}
+          {%- if section.settings.description -%}
+            <div class="hero-banner__description" style="color: {{ section.settings.text_color }};">
+              {{ section.settings.description }}
+            </div>
+          {%- endif -%}
+
+          {%- comment -%} CTA Button (Desktop) {%- endcomment -%}
+          {%- if section.settings.show_cta -%}
+            <div class="hero-banner__cta-button" data-component="cta-button">
+              {%- render 'theme-button',
+                button_enabled: section.settings.show_cta,
+                button_type: section.settings.cta_button_type,
+                button_text: section.settings.cta_text,
+                button_link: section.settings.cta_link
+              -%}
+            </div>
+          {%- endif -%}
+
+        </div>
 
       </div>
 
