@@ -16,10 +16,6 @@
 
 .prod-list {
   width: 100%;
-  padding-top: var(--sp-m, 60px);
-  padding-bottom: var(--sp-m, 60px);
-  padding-left: 16px;
-  padding-right: 16px;
   background: var(--bg);
 }
 
@@ -49,7 +45,7 @@
 .prod-list__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 4px;
   margin: 0;
   padding: 0;
 }
@@ -57,7 +53,7 @@
 @media (min-width: 1024px) {
   .prod-list__grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--sp-d, 90px);
+    gap: 20px;
   }
 }
 
