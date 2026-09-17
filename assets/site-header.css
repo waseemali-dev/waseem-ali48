@@ -16,8 +16,6 @@
 
 .site-header__container {
   width: 100%;
-  min-height: 56px;
-  padding: 0 16px;
   display: flex;
   align-items: center;
   gap: 12px;
