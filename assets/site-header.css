@@ -205,6 +205,7 @@ body.header-sticky-enabled {
   .site-header__text {
     display: flex;
     font-size: 16px;
+    line-height:13.42px;
   }
 
   .site-header__button-wrapper {
