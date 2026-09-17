@@ -16,12 +16,13 @@
 
 .site-header__container {
   width: 100%;
-  height: 56px;
+  min-height: 56px;
   padding: 0 16px;
   display: flex;
   align-items: center;
   gap: 12px;
   position: relative;
+  flex-wrap: wrap;
 }
 
 /* Hamburger Toggle Button (Mobile) */
@@ -64,6 +65,8 @@
   min-width: 80px;
   text-decoration: none;
   color: inherit;
+  height: 56px;
+  align-self: center;
 }
 
 .site-header__logo img {
@@ -95,8 +98,8 @@
 
 /* Mobile Menu (Collapsed by default) */
 .site-header__menu {
-  position: absolute;
-  top: 56px;
+  position: relative;
+  top: 0;
   left: 0;
   right: 0;
   width: 100%;
@@ -107,6 +110,8 @@
   opacity: 0;
   visibility: hidden;
   border-top: 1px solid #f0f0f0;
+  order: 999;
+  flex-basis: 100%;
 }
 
 .site-header__menu-content {
@@ -172,9 +177,13 @@ body.header-sticky-enabled {
 
 @media (min-width: 480px) {
   .site-header__container {
-    height: 60px;
+    min-height: 60px;
     padding: 0 20px;
     gap: 16px;
+  }
+
+  .site-header__logo {
+    height: 60px;
   }
 
   .site-header__logo-text {
@@ -190,10 +199,6 @@ body.header-sticky-enabled {
     width: 26px;
   }
 
-  .site-header__menu {
-    top: 60px;
-  }
-
   .site-header__menu-text {
     font-size: 14px;
   }
@@ -205,9 +210,14 @@ body.header-sticky-enabled {
 
 @media (min-width: 768px) {
   .site-header__container {
-    height: 64px;
+    min-height: 64px;
     padding: 0 24px;
     gap: 20px;
+    flex-wrap: nowrap;
+  }
+
+  .site-header__logo {
+    height: 64px;
   }
 
   .site-header__text {
@@ -224,7 +234,9 @@ body.header-sticky-enabled {
   }
 
   .site-header__menu {
-    top: 64px;
+    order: auto;
+    flex-basis: auto;
+    position: relative;
   }
 
   .site-header__menu-content {
@@ -249,9 +261,14 @@ body.header-sticky-enabled {
 
 @media (min-width: 992px) {
   .site-header__container {
-    height: 70px;
+    min-height: 70px;
     padding: 0 32px;
     gap: 24px;
+    flex-wrap: nowrap;
+  }
+
+  .site-header__logo {
+    height: 70px;
   }
 
   /* Hide hamburger on desktop */
@@ -297,8 +314,12 @@ body.header-sticky-enabled {
 
 @media (min-width: 1280px) {
   .site-header__container {
-    height: 72px;
+    min-height: 72px;
     padding: 0 40px;
+  }
+
+  .site-header__logo {
+    height: 72px;
   }
 
   .site-header__text {
