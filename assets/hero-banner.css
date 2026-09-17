@@ -44,25 +44,38 @@
   display: flex;
   flex-direction: column;
   order: 1;
-  min-height: 0;
 }
 
 /* ============================================================
-   IMAGE CONTAINER (Full-Bleed)
+   MOBILE CONTENT CARD
+   Mobile (<768px): Visible styled card above image
+   Desktop (≥768px): Hidden
+   ============================================================ */
+
+.hero-banner__mobile-card {
+  order: -2;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.hero-banner__mobile-card-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* ============================================================
+   IMAGE CONTAINER
    ============================================================
    Mobile: Shows mobile image, aspect ratio locked
    Desktop: Shows desktop image, full height
    ============================================================ */
 
 .hero-banner__image-container {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
   background-size: cover;
   background-position: center;
   overflow: hidden;
-  z-index: 1;
 
   /* Mobile: Default aspect ratio 16:9 */
   aspect-ratio: 16 / 9;
@@ -87,49 +100,19 @@
 }
 
 /* ============================================================
-   MOBILE CONTENT CARD
-   Mobile (<768px): Visible styled card above image
-   Desktop (≥768px): Hidden
-   ============================================================ */
-
-.hero-banner__mobile-card {
-  order: -2;
-  width: 100%;
-  padding: 0 16px;
-}
-
-.hero-banner__mobile-card-content {
-  position: relative;
-  z-index: 2;
-}
-
-/* ============================================================
    DESKTOP CONTENT BOX
    Mobile (<768px): Hidden
    Desktop (≥768px): Visible, absolutely positioned bottom-left
    ============================================================ */
 
-.page-width {
-  display: none;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 4;
-  pointer-events: none;
-}
-
-.page-width > * {
-  pointer-events: auto;
-}
-
 .hero-banner__content-box {
+  display: none;
   position: absolute;
   bottom: 0;
   left: clamp(16px, 4vw, 32px);
   max-width: 500px;
   padding: clamp(16px, 4vw, 32px);
+  z-index: 4;
 }
 
 .hero-banner__content-inner {
@@ -195,16 +178,15 @@
 
 @media (min-width: 768px) {
 
-  /* ========== Image Container ========== */
-  .hero-banner__image-container {
-    height: 500px;
-    max-height: 600px;
-  }
-
   /* ========== Wrapper Layout ========== */
   .hero-banner__wrapper {
     position: relative;
-    height: 500px;
+    min-height: 500px;
+  }
+
+  /* ========== Image Container ========== */
+  .hero-banner__image-container {
+    min-height: 500px;
     max-height: 600px;
   }
 
@@ -223,7 +205,7 @@
   }
 
   /* ========== Desktop Content Box (Visible) ========== */
-  .page-width {
+  .hero-banner__content-box {
     display: block;
   }
 
@@ -253,12 +235,7 @@
 @media (min-width: 1024px) {
 
   .hero-banner__image-container {
-    height: 600px;
-    max-height: 700px;
-  }
-
-  .hero-banner__wrapper {
-    height: 600px;
+    min-height: 600px;
     max-height: 700px;
   }
 
