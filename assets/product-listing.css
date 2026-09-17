@@ -171,13 +171,13 @@
   position: relative;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   opacity: 0;
-  transform: scale(0.95);
+  transform: translateY(20px);
   transition: opacity var(--anim), transform var(--anim);
 }
 
 .prod-modal.is-open .prod-modal__content {
   opacity: 1;
-  transform: scale(1);
+  transform: translateY(0);
 }
 
 /* ========================
@@ -339,8 +339,8 @@
 }
 
 .prod-modal__color-opt[aria-pressed="true"] {
-  background: var(--primary);
-  color: var(--bg);
+  background: var(--bg);
+  color: var(--primary);
 }
 
 @media (hover: hover) {
@@ -358,12 +358,12 @@
 .prod-modal__slider {
   position: absolute;
   left: 0;
-  top: 0;
   bottom: 0;
+  height: 3px;
   width: 0;
   background: var(--primary);
   transition: transform 0.35s ease, width 0.35s ease;
-  z-index: 0;
+  z-index: 2;
   pointer-events: none;
 }
 
