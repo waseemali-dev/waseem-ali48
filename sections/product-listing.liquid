@@ -30,17 +30,9 @@
 
           {%- for variant in product.variants -%}
             {%- if variant.available -%}
-              {%- assign color_opt = variant.option1 -%}
-              {%- assign size_opt = variant.option2 -%}
+              {%- assign size_opt = variant.option1 -%}
+              {%- assign color_opt = variant.option2 -%}
               {%- assign color_val = color_opt | downcase | replace: ' ', '-' -%}
-
-              {%- unless colors_str contains color_opt -%}
-                {%- if colors_str == '' -%}
-                  {%- assign colors_str = color_opt -%}
-                {%- else -%}
-                  {%- assign colors_str = colors_str | append: '|' | append: color_opt -%}
-                {%- endif -%}
-              {%- endunless -%}
 
               {%- unless sizes_str contains size_opt -%}
                 {%- if sizes_str == '' -%}
@@ -50,7 +42,15 @@
                 {%- endif -%}
               {%- endunless -%}
 
-              {%- capture var_obj -%}{"id":"{{ variant.id }}","color":"{{ color_val }}","size":"{{ size_opt }}"}{%- endcapture -%}
+              {%- unless colors_str contains color_opt -%}
+                {%- if colors_str == '' -%}
+                  {%- assign colors_str = color_opt -%}
+                {%- else -%}
+                  {%- assign colors_str = colors_str | append: '|' | append: color_opt -%}
+                {%- endif -%}
+              {%- endunless -%}
+
+              {%- capture var_obj -%}{"id":"{{ variant.id }}","size":"{{ size_opt }}","color":"{{ color_val }}"}{%- endcapture -%}
               {%- if variants_list == '' -%}
                 {%- assign variants_list = var_obj -%}
               {%- else -%}
