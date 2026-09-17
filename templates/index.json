@@ -75,9 +75,9 @@
         "product_FWDx3C": {
           "type": "product",
           "settings": {
-            "product": "",
-            "hotspot_x": "",
-            "hotspot_y": "",
+            "product": "blue-silk-tuxedo",
+            "hotspot_x": "30",
+            "hotspot_y": "40",
             "bundle_product": ""
           }
         },
