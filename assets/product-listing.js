@@ -118,7 +118,7 @@
     if (!e.target.matches(CONFIG.colorOpt)) return;
 
     const value = e.target.dataset.color;
-    const colorIndex = 1; // option2 in Shopify is always index 1
+    const colorIndex = 1;
     selectOption(colorIndex, value);
   }
 
@@ -127,19 +127,19 @@
     syncSelectionUI();
     refreshVariantUI();
 
-    if (index === 1) { // color is always index 1
+    if (index === 1) {
       updateColorIndicator();
     }
   }
 
   function syncSelectionUI() {
-    const selectedColor = state.selectedOptions[1]; // color at index 1
+    const selectedColor = state.selectedOptions[1];
     dom.colors.querySelectorAll(CONFIG.colorOpt).forEach(btn => {
       const isSelected = btn.getAttribute('data-color') === selectedColor;
       btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
     });
 
-    const selectedSize = state.selectedOptions[0]; // size at index 0
+    const selectedSize = state.selectedOptions[0];
     dom.sizeList.querySelectorAll('.prod-modal__dropdown-option').forEach(btn => {
       const isSelected = btn.getAttribute('data-value') === selectedSize;
       btn.setAttribute('aria-selected', isSelected ? 'true' : 'false');
@@ -337,7 +337,7 @@
       opt.setAttribute('data-value', size);
 
       opt.addEventListener('click', () => {
-        selectOption(0, size); // size is always index 0
+        selectOption(0, size);
         closeDropdown();
       });
 
@@ -366,7 +366,7 @@
      ======================================== */
 
   function updateColorIndicator(instant) {
-    const selectedColor = state.selectedOptions[1]; // color at index 1
+    const selectedColor = state.selectedOptions[1];
     const selectedButton = dom.colors.querySelector(
       '.prod-modal__color-opt[aria-pressed="true"]'
     );
@@ -401,7 +401,6 @@
     const selectedSize = state.selectedOptions[0];
     const selectedColor = state.selectedOptions[1];
 
-    // Only match if BOTH size and color are selected
     if (!selectedSize || !selectedColor) return null;
 
     return state.current.variants.find(v => {
@@ -413,11 +412,8 @@
   function refreshVariantUI() {
     const variant = findMatchingVariant();
 
-    if (variant && variant.available) {
+    if (variant) {
       dom.price.textContent = variant.price;
-      dom.addBtn.disabled = false;
-    } else {
-      dom.addBtn.disabled = true;
     }
   }
 
