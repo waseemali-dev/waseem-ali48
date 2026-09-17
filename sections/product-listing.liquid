@@ -28,49 +28,67 @@
           {%- assign variants_json = '' -%}
 
           {%- comment -%}Parse product variants{%- endcomment -%}
-          {%- assign color_arr = '' | split: ',' -%}
-          {%- assign size_arr = '' | split: ',' -%}
-          {%- assign variants_arr = '' | split: ',' -%}
+          {%- assign colors_str = '' -%}
+          {%- assign sizes_str = '' -%}
+          {%- assign variants_list = '' -%}
 
           {%- for variant in product.variants -%}
             {%- if variant.available -%}
               {%- assign color_opt = variant.option1 -%}
               {%- assign size_opt = variant.option2 -%}
+              {%- assign color_val = color_opt | downcase | replace: ' ', '-' -%}
 
-              {%- unless color_arr contains color_opt -%}
-                {%- assign color_arr = color_arr | push: color_opt -%}
+              {%- unless colors_str contains color_opt -%}
+                {%- if colors_str == '' -%}
+                  {%- assign colors_str = color_opt -%}
+                {%- else -%}
+                  {%- assign colors_str = colors_str | append: '|' | append: color_opt -%}
+                {%- endif -%}
               {%- endunless -%}
 
-              {%- unless size_arr contains size_opt -%}
-                {%- assign size_arr = size_arr | push: size_opt -%}
+              {%- unless sizes_str contains size_opt -%}
+                {%- if sizes_str == '' -%}
+                  {%- assign sizes_str = size_opt -%}
+                {%- else -%}
+                  {%- assign sizes_str = sizes_str | append: '|' | append: size_opt -%}
+                {%- endif -%}
               {%- endunless -%}
 
-              {%- capture var_obj -%}{"id":"{{ variant.id }}","color":"{{ color_opt | downcase | replace: ' ', '-' }}","size":"{{ size_opt }}"}{%- endcapture -%}
-              {%- assign variants_arr = variants_arr | push: var_obj -%}
+              {%- capture var_obj -%}{"id":"{{ variant.id }}","color":"{{ color_val }}","size":"{{ size_opt }}"}{%- endcapture -%}
+              {%- if variants_list == '' -%}
+                {%- assign variants_list = var_obj -%}
+              {%- else -%}
+                {%- assign variants_list = variants_list | append: ',' | append: var_obj -%}
+              {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
 
+          {%- assign color_array = colors_str | split: '|' -%}
+          {%- assign size_array = sizes_str | split: '|' -%}
+
           {%- capture colors_json -%}
             [
-              {%- for color in color_arr -%}
-                {"name":"{{ color }}","value":"{{ color | downcase | replace: ' ', '-' }}"}
-                {%- unless forloop.last -%},{%- endunless -%}
+              {%- for color in color_array -%}
+                {%- if color != blank -%}
+                  {"name":"{{ color }}","value":"{{ color | downcase | replace: ' ', '-' }}"}
+                  {%- unless forloop.last -%},{%- endunless -%}
+                {%- endif -%}
               {%- endfor -%}
             ]
           {%- endcapture -%}
 
           {%- capture sizes_json -%}
             [
-              {%- for size in size_arr -%}
-                "{{ size }}"
-                {%- unless forloop.last -%},{%- endunless -%}
+              {%- for size in size_array -%}
+                {%- if size != blank -%}
+                  "{{ size }}"
+                  {%- unless forloop.last -%},{%- endunless -%}
+                {%- endif -%}
               {%- endfor -%}
             ]
           {%- endcapture -%}
 
-          {%- capture variants_json -%}
-            [{{ variants_arr | join: ',' }}]
-          {%- endcapture -%}
+          {%- capture variants_json -%}[{{ variants_list }}]{%- endcapture -%}
 
           <div class="prod-list__card"
                data-prod-card
