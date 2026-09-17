@@ -368,9 +368,9 @@
   }
 
   function preselectDefaultOptions() {
-    if (state.current && state.current.variants.length > 0) {
+    if (state.current && state.current.variants && state.current.variants.length > 0) {
       const firstVariant = state.current.variants[0];
-      if (firstVariant.options) {
+      if (firstVariant && firstVariant.options && Array.isArray(firstVariant.options)) {
         firstVariant.options.forEach((value, index) => {
           state.selectedOptions[index] = value;
         });
@@ -417,9 +417,10 @@
      ======================================== */
 
   function findMatchingVariant() {
-    if (!state.current) return null;
+    if (!state.current || !state.current.variants) return null;
 
     return state.current.variants.find(v => {
+      if (!v || !v.options || !Array.isArray(v.options)) return false;
       return v.options.every((value, index) => {
         const selected = state.selectedOptions[index];
         return selected === undefined || selected === value;
