@@ -68,8 +68,7 @@
           "settings": {
             "product": "black-leather-bag",
             "hotspot_x": "50%",
-            "hotspot_y": "20%",
-            "bundle_product": "classic-varsity-top"
+            "hotspot_y": "20%"
           }
         },
         "product_FWDx3C": {
@@ -77,17 +76,15 @@
           "settings": {
             "product": "blue-silk-tuxedo",
             "hotspot_x": "30",
-            "hotspot_y": "40",
-            "bundle_product": ""
+            "hotspot_y": "40"
           }
         },
         "product_hP8f4Q": {
           "type": "product",
           "settings": {
-            "product": "",
-            "hotspot_x": "",
-            "hotspot_y": "",
-            "bundle_product": ""
+            "product": "chequered-red-shirt",
+            "hotspot_x": "50%",
+            "hotspot_y": "50%"
           }
         },
         "product_nV8pTt": {
@@ -95,8 +92,7 @@
           "settings": {
             "product": "",
             "hotspot_x": "",
-            "hotspot_y": "",
-            "bundle_product": ""
+            "hotspot_y": ""
           }
         },
         "product_VDkEWb": {
@@ -104,8 +100,7 @@
           "settings": {
             "product": "",
             "hotspot_x": "",
-            "hotspot_y": "",
-            "bundle_product": ""
+            "hotspot_y": ""
           }
         },
         "product_niFBPU": {
@@ -113,8 +108,7 @@
           "settings": {
             "product": "",
             "hotspot_x": "",
-            "hotspot_y": "",
-            "bundle_product": ""
+            "hotspot_y": ""
           }
         }
       },
