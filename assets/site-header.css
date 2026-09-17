@@ -63,11 +63,11 @@
   min-width: 80px;
   text-decoration: none;
   color: inherit;
-  height: 56px;
   align-self: center;
 }
 
 .site-header__logo img {
+  display:block;
   max-width: 100%;
   height: auto;
 }
