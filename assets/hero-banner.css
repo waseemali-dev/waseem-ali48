@@ -15,11 +15,12 @@
 .hero-banner__announcement {
   padding: 10px 0;
   text-align: center;
+  background:#F5F5F5;
 }
-.hero-banner__announcement p{
-  font-size: 16px;
-  line-height: 0.838;
-  margin: 0 auto;
+.hero-banner__announcement p {
+	font-size: 16px;
+	line-height: 13.42px;
+	margin: 0 auto;
 }
 /* ============================================================
    MAIN WRAPPER
