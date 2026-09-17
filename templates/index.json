@@ -20,7 +20,7 @@
         "heading": "The Gift Guide",
         "heading_color": "#000000",
         "description": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>",
-        "text_color": "#333333",
+        "text_color": "#000000",
         "desktop_image": "shopify://shop_images/hero-lg.png",
         "mobile_image": "shopify://shop_images/hero-bg-xs.png",
         "image_fallback_color": "#ffffff",
