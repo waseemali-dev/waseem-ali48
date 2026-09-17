@@ -27,7 +27,6 @@
     modalName: '[data-modal-name]',
     modalPrice: '[data-modal-price]',
     modalDesc: '[data-modal-desc]',
-    slider: '[data-modal] .prod-modal__slider',
   };
 
   /* ========================================
@@ -63,7 +62,6 @@
     dom.name = dom.modal.querySelector(CONFIG.modalName);
     dom.price = dom.modal.querySelector(CONFIG.modalPrice);
     dom.desc = dom.modal.querySelector(CONFIG.modalDesc);
-    dom.slider = dom.modal.querySelector(CONFIG.slider);
     dom.body = document.body;
 
     return true;
@@ -107,18 +105,9 @@
     if (!e.target.matches(CONFIG.colorOpt)) return;
 
     const opts = dom.colors.querySelectorAll(CONFIG.colorOpt);
-    const index = Array.from(opts).indexOf(e.target);
-    const total = opts.length;
-
     state.color = e.target.dataset.color;
 
-    // Update slider position
-    if (total > 1) {
-      const pos = (index / (total - 1)) * 100;
-      dom.slider.style.setProperty('--slider-pos', pos + '%');
-    }
-
-    // Visual feedback
+    // Visual feedback - active class shows bottom border indicator
     opts.forEach(opt => opt.classList.remove('active'));
     e.target.classList.add('active');
   }
@@ -281,9 +270,6 @@
 
       dom.colors.appendChild(btn);
     });
-
-    // Reset slider
-    dom.slider.style.setProperty('--slider-pos', '0%');
   }
 
   function renderSizes(sizes) {
