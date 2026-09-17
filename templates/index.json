@@ -9,8 +9,31 @@
  */
 {
   "sections": {
+    "hero_banner_nLTXxR": {
+      "type": "hero-banner",
+      "name": "Hero Banner",
+      "settings": {
+        "enable_announcement": true,
+        "announcement_text": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR",
+        "announcement_bg_color": "#f5f5f5",
+        "announcement_text_color": "#000000",
+        "heading": "The Gift Guide",
+        "heading_color": "#000000",
+        "description": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>",
+        "text_color": "#333333",
+        "desktop_image": "shopify://shop_images/hero-bg-desktop.jpg",
+        "mobile_image": "shopify://shop_images/hero-bg-mobile.png",
+        "image_fallback_color": "#ffffff",
+        "show_cta": true,
+        "cta_text": "SHOP NOW",
+        "cta_link": "shopify://collections/all",
+        "cta_button_type": "primary",
+        "content_bg_color": "#ffffff"
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
+      "disabled": true,
       "settings": {
         "collection": "all",
         "products_to_show": 8,
@@ -37,32 +60,85 @@
         "padding_bottom": 36
       }
     },
-    "hero_banner_nLTXxR": {
-      "type": "hero-banner",
-      "name": "Hero Banner",
+    "product_listing_aqWyD7": {
+      "type": "product-listing",
+      "blocks": {
+        "product_X6pmEp": {
+          "type": "product",
+          "settings": {
+            "product": "black-leather-bag",
+            "hotspot_x": "50",
+            "hotspot_y": "20",
+            "bundle_product": ""
+          }
+        },
+        "product_FWDx3C": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "hotspot_x": "",
+            "hotspot_y": "",
+            "bundle_product": ""
+          }
+        },
+        "product_hP8f4Q": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "hotspot_x": "",
+            "hotspot_y": "",
+            "bundle_product": ""
+          }
+        },
+        "product_nV8pTt": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "hotspot_x": "",
+            "hotspot_y": "",
+            "bundle_product": ""
+          }
+        },
+        "product_VDkEWb": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "hotspot_x": "",
+            "hotspot_y": "",
+            "bundle_product": ""
+          }
+        },
+        "product_niFBPU": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "hotspot_x": "",
+            "hotspot_y": "",
+            "bundle_product": ""
+          }
+        }
+      },
+      "block_order": [
+        "product_X6pmEp",
+        "product_FWDx3C",
+        "product_hP8f4Q",
+        "product_nV8pTt",
+        "product_VDkEWb",
+        "product_niFBPU"
+      ],
+      "name": "Product Listing",
       "settings": {
-        "enable_announcement": true,
-        "announcement_text": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR",
-        "announcement_bg_color": "#F5F5F5",
-        "announcement_text_color": "#000000",
-        "heading": "The Gift Guide",
-        "heading_color": "#000000",
-        "description": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>",
-        "text_color": "#333333",
-        "desktop_image": "shopify://shop_images/hero-bg-desktop.jpg",
-        "mobile_image": "shopify://shop_images/hero-bg-mobile.png",
-        "image_fallback_color": "#FFFFFF",
-        "image_aspect_ratio": "16-9",
-        "show_cta": true,
-        "cta_text": "SHOP NOW",
-        "cta_link": "shopify://collections/all",
-        "cta_button_type": "primary",
-        "content_bg_color": "#ffffff"
+        "heading": "Featured Products",
+        "heading_tag": "h2",
+        "enable": true,
+        "spacing_d": 90,
+        "spacing_m": 60
       }
     }
   },
   "order": [
     "hero_banner_nLTXxR",
-    "featured_collection"
+    "featured_collection",
+    "product_listing_aqWyD7"
   ]
 }
