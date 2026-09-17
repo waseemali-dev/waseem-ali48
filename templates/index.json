@@ -62,18 +62,20 @@
     },
     "product_listing_aqWyD7": {
       "type": "product-listing",
+      "blocks": {
+        "product_JU4D7C": {
+          "type": "product",
+          "settings": {
+            "product": "black-leather-bag"
+          }
+        }
+      },
+      "block_order": [
+        "product_JU4D7C"
+      ],
       "name": "Product Listing",
       "settings": {
-        "heading": "Featured Products",
-        "heading_color": "#000000",
-        "collection": "frontpage",
-        "products_limit": 6,
-        "padding_top_mobile": 24,
-        "padding_top_tablet": 36,
-        "padding_top_desktop": 48,
-        "padding_bottom_mobile": 24,
-        "padding_bottom_tablet": 36,
-        "padding_bottom_desktop": 48
+        "heading": "Featured Products"
       }
     }
   },
