@@ -1,500 +1,264 @@
-/* ============================================
-   PRODUCT LISTING - JAVASCRIPT
-   Vanilla JS, IIFE, Production Ready
-   Matches product-gallery reference implementation
-   ============================================ */
+{%- comment -%}
+  Product Listing Section - Full Implementation
+  Status: Production Ready
+  Version: 1.0.2
+  Date: 2026-09-17
+{%- endcomment -%}
 
-(function() {
-  'use strict';
+<section class="prod-list" data-comp="prod-list" data-sp="{{ section.id }}">
+  {%- if section.settings.enable -%}
+    {%- assign heading = section.settings.heading -%}
+    {%- assign heading_tag = section.settings.heading_tag -%}
+    {%- assign spacing_d = section.settings.spacing_d -%}
+    {%- assign spacing_m = section.settings.spacing_m -%}
 
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    {%- if heading != blank -%}
+      <div class="prod-list__hd">
+        <{{ heading_tag }} class="prod-list__hd-txt">{{ heading }}</{{ heading_tag }}>
+      </div>
+    {%- endif -%}
 
-  /* ========================================
-     CONFIG
-     ======================================== */
+    <div class="prod-list__grid" style="--sp-d: {{ spacing_d }}px; --sp-m: {{ spacing_m }}px;">
+      {%- for block in section.blocks -%}
+        {%- assign product = block.settings.product -%}
 
-  const CONFIG = {
-    section: '[data-comp="prod-list"]',
-    card: '[data-prod-card]',
-    hotspot: '[data-hotspot]',
-    modal: '[data-modal="prod"]',
-    overlay: '[data-modal-overlay]',
-    closeBtn: '[data-modal-close]',
-    colors: '[data-colors]',
-    colorOpt: '[data-color-opt]',
-    colorIndicator: '[data-color-indicator]',
-    sizeDropdown: '[data-size-dropdown]',
-    sizeTrigger: '[data-size-trigger]',
-    sizeList: '[data-size-list]',
-    sizeValue: '[data-size-value]',
-    addBtn: '[data-add-cart]',
-    modalImg: '[data-modal-img]',
-    modalName: '[data-modal-name]',
-    modalPrice: '[data-modal-price]',
-    modalDesc: '[data-modal-desc]',
-  };
+        {%- if product != blank -%}
+          {%- capture variants_json -%}
+            [
+              {%- for variant in product.variants -%}
+                {
+                  "id": {{ variant.id | json }},
+                  "available": {{ variant.available | json }},
+                  "price": {{ variant.price | money | json }},
+                  "options": {{ variant.options | json }}
+                }
+                {%- unless forloop.last -%},{%- endunless -%}
+              {%- endfor -%}
+            ]
+          {%- endcapture -%}
 
-  /* ========================================
-     STATE
-     ======================================== */
+          {%- assign color_array = "" | split: "," -%}
+          {%- assign size_array = "" | split: "," -%}
 
-  const state = {
-    isOpen: false,
-    current: null,
-    selectedOptions: {},
-    activeTrigger: null,
-    isSubmitting: false,
-  };
+          {%- for variant in product.variants -%}
+            {%- if variant.available -%}
+              {%- assign size_opt = variant.option1 -%}
+              {%- assign color_opt = variant.option2 -%}
+              {%- unless size_array contains size_opt -%}
+                {%- assign size_array = size_array | push: size_opt -%}
+              {%- endunless -%}
+              {%- unless color_array contains color_opt -%}
+                {%- assign color_array = color_array | push: color_opt -%}
+              {%- endunless -%}
+            {%- endif -%}
+          {%- endfor -%}
 
-  /* ========================================
-     DOM CACHE
-     ======================================== */
+          {%- capture colors_json -%}
+            [
+              {%- for color in color_array -%}
+                {%- if color != blank -%}
+                  {
+                    "name": {{ color | json }},
+                    "value": {{ color | downcase | replace: ' ', '-' | json }}
+                  }
+                  {%- unless forloop.last -%},{%- endunless -%}
+                {%- endif -%}
+              {%- endfor -%}
+            ]
+          {%- endcapture -%}
 
-  const dom = {};
+          {%- capture sizes_json -%}
+            [
+              {%- for size in size_array -%}
+                {%- if size != blank -%}
+                  {{ size | json }}
+                  {%- unless forloop.last -%},{%- endunless -%}
+                {%- endif -%}
+              {%- endfor -%}
+            ]
+          {%- endcapture -%}
 
-  function cacheDOM() {
-    dom.section = document.querySelector(CONFIG.section);
-    if (!dom.section) {
-      console.error('Product list section not found:', CONFIG.section);
-      return false;
+          <div class="prod-list__card"
+               data-prod-card
+               data-product-id="{{ product.id }}"
+               data-product-name="{{ product.title | escape }}"
+               data-product-price="{{ product.price | money }}"
+               data-product-image="{{ product.featured_image | image_url: width: 500 }}"
+               data-product-desc="{{ product.description | strip_html | truncatewords: 20 | escape }}"
+               data-product-colors='{{ colors_json | strip_newlines }}'
+               data-product-sizes='{{ sizes_json | strip_newlines }}'
+               data-product-variants='{{ variants_json | strip_newlines }}'>
+
+            <div class="prod-list__img-wrap">
+              <img class="prod-list__img"
+                   src="{{ product.featured_image | image_url: width: 500 }}"
+                   alt="{{ product.title }}"
+                   width="500"
+                   height="500">
+
+              {%- assign hotspot_x = block.settings.hotspot_x | default: '50%' -%}
+              {%- assign hotspot_y = block.settings.hotspot_y | default: '50%' -%}
+              {%- unless hotspot_x == blank or hotspot_x contains '%' -%}
+                {%- assign hotspot_x = hotspot_x | append: '%' -%}
+              {%- endunless -%}
+              {%- unless hotspot_y == blank or hotspot_y contains '%' -%}
+                {%- assign hotspot_y = hotspot_y | append: '%' -%}
+              {%- endunless -%}
+
+              <button class="prod-list__hotspot"
+                      data-hotspot
+                      aria-label="View {{ product.title }}"
+                      style="--hotspot-x: {{ hotspot_x }}; --hotspot-y: {{ hotspot_y }};">
+                +
+              </button>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{%- comment -%}Shared Popup Modal{%- endcomment -%}
+<div class="prod-modal" data-modal="prod">
+  <div class="prod-modal__overlay" data-modal-overlay aria-hidden="true"></div>
+
+  <div class="prod-modal__content" role="dialog" aria-modal="true">
+    <button class="prod-modal__close" data-modal-close aria-label="Close product details">
+      ×
+    </button>
+
+    <div class="prod-modal__body">
+      <img class="prod-modal__img" data-modal-img src="" alt="" width="500" height="500">
+
+      <div class="prod-modal__info">
+        <h2 class="prod-modal__name" data-modal-name></h2>
+        <p class="prod-modal__price" data-modal-price></p>
+        <p class="prod-modal__desc" data-modal-desc></p>
+      </div>
+    </div>
+
+    <div class="prod-modal__form">
+      <div class="prod-modal__colors">
+        <label class="prod-modal__color-label">Color</label>
+        <div class="prod-modal__color-opts" data-colors>
+          <span class="prod-modal__color-indicator" data-color-indicator aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <div class="prod-modal__size">
+        <label class="prod-modal__size-label">Size</label>
+        <div class="prod-modal__dropdown" data-size-dropdown>
+          <button class="prod-modal__dropdown-toggle" data-size-trigger aria-haspopup="listbox" aria-expanded="false">
+            <span data-size-value>Choose your size</span>
+            <svg class="prod-modal__dropdown-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" width="14" height="14">
+              <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <ul class="prod-modal__dropdown-list" data-size-list role="listbox" hidden></ul>
+        </div>
+      </div>
+
+      <button class="prod-modal__btn btn-primary" data-add-cart>
+        ADD TO CART <span class="btn-arrow">→</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+{{ 'product-listing.css' | asset_url | stylesheet_tag }}
+{{ 'product-listing.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "Product Listing",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Featured Products"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading Tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Enable Section",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "spacing_d",
+      "min": 40,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop Spacing",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "spacing_m",
+      "min": 20,
+      "max": 80,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile Spacing",
+      "default": 60
     }
-
-    dom.modal = document.querySelector(CONFIG.modal);
-    if (!dom.modal) {
-      console.error('Modal not found:', CONFIG.modal);
-      return false;
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        },
+        {
+          "type": "text",
+          "id": "hotspot_x",
+          "label": "Hotspot X Position",
+          "default": "50%",
+          "placeholder": "50%",
+          "info": "Use %, clamp() safe from edges"
+        },
+        {
+          "type": "text",
+          "id": "hotspot_y",
+          "label": "Hotspot Y Position",
+          "default": "50%",
+          "placeholder": "50%",
+          "info": "Use %, clamp() safe from edges"
+        }
+      ]
     }
-
-    dom.overlay = dom.modal.querySelector(CONFIG.overlay);
-    dom.closeBtn = dom.modal.querySelector(CONFIG.closeBtn);
-    dom.colors = dom.modal.querySelector(CONFIG.colors);
-    dom.colorIndicator = dom.modal.querySelector(CONFIG.colorIndicator);
-    dom.sizeDropdown = dom.modal.querySelector(CONFIG.sizeDropdown);
-    dom.sizeTrigger = dom.modal.querySelector(CONFIG.sizeTrigger);
-    dom.sizeList = dom.modal.querySelector(CONFIG.sizeList);
-    dom.sizeValue = dom.modal.querySelector(CONFIG.sizeValue);
-    dom.addBtn = dom.modal.querySelector(CONFIG.addBtn);
-    dom.img = dom.modal.querySelector(CONFIG.modalImg);
-    dom.name = dom.modal.querySelector(CONFIG.modalName);
-    dom.price = dom.modal.querySelector(CONFIG.modalPrice);
-    dom.desc = dom.modal.querySelector(CONFIG.modalDesc);
-    dom.body = document.body;
-
-    return true;
-  }
-
-  /* ========================================
-     INIT EVENTS
-     ======================================== */
-
-  function bindEvents() {
-    const hotspots = dom.section.querySelectorAll(CONFIG.hotspot);
-    if (hotspots.length === 0) {
-      console.warn('No hotspots found');
+  ],
+  "presets": [
+    {
+      "name": "Product Listing",
+      "blocks": [
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" }
+      ]
     }
-
-    hotspots.forEach(hotspot => {
-      hotspot.addEventListener('click', handleHotspotClick);
-    });
-
-    dom.closeBtn.addEventListener('click', closeModal);
-    dom.overlay.addEventListener('click', closeModal);
-    document.addEventListener('keydown', handleKeydown);
-
-    dom.colors.addEventListener('click', handleColorSelect);
-    dom.sizeTrigger.addEventListener('click', toggleDropdown);
-    document.addEventListener('click', handleOutsideClick);
-    dom.addBtn.addEventListener('click', handleAddToCart);
-
-    window.addEventListener('resize', function() {
-      if (state.isOpen) {
-        updateColorIndicator(true);
-      }
-    });
-  }
-
-  /* ========================================
-     HANDLERS
-     ======================================== */
-
-  function handleHotspotClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const card = e.target.closest(CONFIG.card);
-    if (!card) {
-      console.error('Card not found from hotspot click');
-      return;
-    }
-
-    const productId = card.getAttribute('data-product-id');
-    if (!productId) {
-      console.error('Product ID not found on card');
-      return;
-    }
-
-    loadProduct(productId);
-    openModal();
-  }
-
-  function handleColorSelect(e) {
-    if (!e.target.matches(CONFIG.colorOpt)) return;
-
-    const value = e.target.dataset.color;
-    const colorIndex = 1;
-    selectOption(colorIndex, value);
-  }
-
-  function selectOption(index, value) {
-    state.selectedOptions[index] = value;
-    syncSelectionUI();
-    refreshVariantUI();
-
-    if (index === 1) {
-      updateColorIndicator();
-    }
-  }
-
-  function syncSelectionUI() {
-    const selectedColor = state.selectedOptions[1];
-    dom.colors.querySelectorAll(CONFIG.colorOpt).forEach(btn => {
-      const isSelected = btn.getAttribute('data-color') === selectedColor;
-      btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
-    });
-
-    const selectedSize = state.selectedOptions[0];
-    dom.sizeList.querySelectorAll('.prod-modal__dropdown-option').forEach(btn => {
-      const isSelected = btn.getAttribute('data-value') === selectedSize;
-      btn.setAttribute('aria-selected', isSelected ? 'true' : 'false');
-    });
-    if (selectedSize) {
-      dom.sizeValue.textContent = selectedSize;
-    }
-  }
-
-  function toggleDropdown() {
-    if (isDropdownOpen()) {
-      closeDropdown();
-    } else {
-      openDropdown();
-    }
-  }
-
-  function openDropdown() {
-    dom.sizeList.hidden = false;
-    requestAnimationFrame(() => {
-      dom.sizeList.classList.add('is-open');
-    });
-    dom.sizeTrigger.setAttribute('aria-expanded', 'true');
-  }
-
-  function closeDropdown() {
-    dom.sizeList.classList.remove('is-open');
-    dom.sizeTrigger.setAttribute('aria-expanded', 'false');
-
-    const finish = () => {
-      dom.sizeList.hidden = true;
-    };
-    if (prefersReducedMotion) {
-      finish();
-    } else {
-      dom.sizeList.addEventListener('transitionend', finish, { once: true });
-    }
-  }
-
-  function isDropdownOpen() {
-    return !dom.sizeList.hidden;
-  }
-
-  function handleOutsideClick(e) {
-    if (!state.isOpen) return;
-    if (!dom.sizeDropdown.contains(e.target) && isDropdownOpen()) {
-      closeDropdown();
-    }
-  }
-
-  function handleKeydown(e) {
-    if (e.key === 'Escape' && state.isOpen) {
-      closeModal();
-    }
-  }
-
-  function handleAddToCart(e) {
-    e.preventDefault();
-
-    if (state.isSubmitting) return;
-
-    let variant = findMatchingVariant();
-
-    // Fallback to first variant if no exact match
-    if (!variant && state.current && state.current.variants && state.current.variants.length > 0) {
-      variant = state.current.variants[0];
-    }
-
-    if (!variant) {
-      alert('No variant available');
-      return;
-    }
-
-    state.isSubmitting = true;
-    dom.addBtn.disabled = true;
-    dom.addBtn.textContent = 'Adding...';
-
-    fetch('/cart/add.js', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: [{ id: variant.id, quantity: 1 }] })
-    })
-      .then(res => res.json())
-      .then(() => {
-        showSuccessMessage();
-        closeModal();
-        state.isSubmitting = false;
-        dom.addBtn.disabled = false;
-        dom.addBtn.textContent = 'ADD TO CART →';
-      })
-      .catch(err => {
-        console.error('Cart error:', err);
-        alert('Failed to add to cart');
-        state.isSubmitting = false;
-        dom.addBtn.disabled = false;
-        dom.addBtn.textContent = 'ADD TO CART →';
-      });
-  }
-
-  /* ========================================
-     MODAL CONTROLS
-     ======================================== */
-
-  function openModal() {
-    state.isOpen = true;
-    dom.modal.classList.add('is-open');
-    dom.body.style.overflow = 'hidden';
-    document.addEventListener('keydown', handleKeydown);
-  }
-
-  function closeModal() {
-    state.isOpen = false;
-    dom.modal.classList.remove('is-open');
-    dom.body.style.overflow = '';
-    closeDropdown();
-    resetModal();
-    document.removeEventListener('keydown', handleKeydown);
-  }
-
-  function resetModal() {
-    state.selectedOptions = {};
-    dom.sizeValue.textContent = 'Choose your size';
-    dom.sizeList.innerHTML = '';
-    dom.colorIndicator.style.width = '0';
-  }
-
-  /* ========================================
-     PRODUCT LOADING
-     ======================================== */
-
-  function loadProduct(productId) {
-    const card = document.querySelector(`[data-product-id="${productId}"]`);
-    if (!card) {
-      console.error('Card not found for product:', productId);
-      return;
-    }
-
-    try {
-      state.current = {
-        id: productId,
-        name: card.dataset.productName,
-        price: card.dataset.productPrice,
-        image: card.dataset.productImage,
-        desc: card.dataset.productDesc,
-        colors: JSON.parse(card.dataset.productColors),
-        sizes: JSON.parse(card.dataset.productSizes),
-        variants: JSON.parse(card.dataset.productVariants),
-      };
-
-      renderModal();
-      preselectDefaultOptions();
-    } catch (err) {
-      console.error('Error loading product:', err);
-    }
-  }
-
-  function renderModal() {
-    const p = state.current;
-
-    dom.img.src = p.image;
-    dom.img.alt = p.name;
-    dom.name.textContent = p.name;
-    dom.price.textContent = p.price;
-    dom.desc.textContent = p.desc;
-
-    renderColors(p.colors);
-    renderSizes(p.sizes);
-  }
-
-  function renderColors(colors) {
-    const indicator = dom.colorIndicator;
-    dom.colors.innerHTML = '';
-    dom.colors.appendChild(indicator);
-
-    colors.forEach((color, idx) => {
-      const btn = document.createElement('button');
-      btn.className = 'prod-modal__color-opt';
-      btn.type = 'button';
-      btn.dataset.colorOpt = '';
-      btn.dataset.color = color.value;
-      btn.textContent = color.name;
-      btn.setAttribute('aria-pressed', 'false');
-      btn.setAttribute('aria-label', `Select ${color.name}`);
-
-      if (window.CSS && window.CSS.supports && window.CSS.supports('color', color.value)) {
-        btn.style.setProperty('--swatch-color', color.value);
-      }
-
-      dom.colors.appendChild(btn);
-    });
-
-    dom.colorIndicator.style.width = '0';
-  }
-
-  function renderSizes(sizes) {
-    dom.sizeList.innerHTML = '';
-
-    sizes.forEach(size => {
-      const li = document.createElement('li');
-      li.setAttribute('role', 'presentation');
-
-      const opt = document.createElement('button');
-      opt.className = 'prod-modal__dropdown-option';
-      opt.type = 'button';
-      opt.textContent = size;
-      opt.setAttribute('role', 'option');
-      opt.setAttribute('aria-selected', 'false');
-      opt.setAttribute('data-value', size);
-
-      opt.addEventListener('click', () => {
-        selectOption(0, size);
-        closeDropdown();
-      });
-
-      li.appendChild(opt);
-      dom.sizeList.appendChild(li);
-    });
-  }
-
-  function preselectDefaultOptions() {
-    if (state.current && state.current.variants && state.current.variants.length > 0) {
-      const firstVariant = state.current.variants[0];
-      if (firstVariant && firstVariant.options && Array.isArray(firstVariant.options)) {
-        firstVariant.options.forEach((value, index) => {
-          state.selectedOptions[index] = value;
-        });
-      }
-    }
-
-    syncSelectionUI();
-    refreshVariantUI();
-    updateColorIndicator(true);
-  }
-
-  /* ========================================
-     COLOR INDICATOR UPDATE
-     ======================================== */
-
-  function updateColorIndicator(instant) {
-    const selectedColor = state.selectedOptions[1];
-    const selectedButton = dom.colors.querySelector(
-      '.prod-modal__color-opt[aria-pressed="true"]'
-    );
-
-    if (!selectedButton || !selectedColor) {
-      dom.colorIndicator.style.width = '0';
-      return;
-    }
-
-    const apply = () => {
-      dom.colorIndicator.style.width = selectedButton.offsetWidth + 'px';
-      dom.colorIndicator.style.transform = 'translateX(' + selectedButton.offsetLeft + 'px)';
-    };
-
-    if (instant || prefersReducedMotion) {
-      dom.colorIndicator.style.transition = 'none';
-      apply();
-      void dom.colorIndicator.offsetWidth;
-      dom.colorIndicator.style.transition = '';
-    } else {
-      apply();
-    }
-  }
-
-  /* ========================================
-     VARIANT MATCHING
-     ======================================== */
-
-  function findMatchingVariant() {
-    if (!state.current || !state.current.variants) return null;
-
-    const selectedSize = state.selectedOptions[0];
-    const selectedColor = state.selectedOptions[1];
-
-    if (!selectedSize || !selectedColor) return null;
-
-    return state.current.variants.find(v => {
-      if (!v || !v.options || !Array.isArray(v.options)) return false;
-      return v.options[0] === selectedSize && v.options[1] === selectedColor;
-    });
-  }
-
-  function refreshVariantUI() {
-    const variant = findMatchingVariant();
-
-    if (variant) {
-      dom.price.textContent = variant.price;
-    }
-  }
-
-  /* ========================================
-     SUCCESS MESSAGE
-     ======================================== */
-
-  function showSuccessMessage() {
-    const msg = document.createElement('div');
-    msg.className = 'prod-modal__success';
-    msg.textContent = '✓ Product added to cart';
-    document.body.appendChild(msg);
-
-    setTimeout(() => {
-      msg.style.animation = 'slideInUp 300ms cubic-bezier(0.34, 1.56, 0.64, 1) reverse';
-      setTimeout(() => msg.remove(), 300);
-    }, 2000);
-  }
-
-  /* ========================================
-     INITIALIZATION
-     ======================================== */
-
-  function init() {
-    if (!cacheDOM()) {
-      console.error('Failed to cache DOM elements');
-      return;
-    }
-    bindEvents();
-    console.log('Product Listing initialized successfully');
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
-  /* ========================================
-     CLEANUP (Section Unload)
-     ======================================== */
-
-  document.addEventListener('shopify:section:unload', function() {
-    if (state.isOpen) {
-      closeModal();
-    }
-  });
-})();
+  ]
+}
+{% endschema %}
