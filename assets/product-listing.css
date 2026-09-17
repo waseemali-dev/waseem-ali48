@@ -347,9 +347,9 @@
   position: absolute;
   bottom: -1px;
   left: 0;
+  width: 0;
   height: 2px;
   background: var(--primary);
-  transform: translateX(calc(var(--slider-pos, 0%) * 100%));
   transition: transform var(--anim), width var(--anim);
   z-index: 0;
   pointer-events: none;
@@ -553,5 +553,22 @@
   .btn-arrow {
     transition: none !important;
     animation: none !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #e0e0e0;
+    --text-light: #999;
+    --bg: #1a1a1a;
+    --border: #333;
+  }
+
+  .prod-list__img-wrap {
+    background: #2a2a2a;
+  }
+
+  .prod-modal__img {
+    background: #2a2a2a;
   }
 }
