@@ -46,39 +46,6 @@
               color var(--theme-button-animation-duration) var(--theme-button-animation-easing),
               opacity var(--theme-button-animation-duration) var(--theme-button-animation-easing);
 }
-
-/* Primary Button Type - Black */
-.theme-button--primary {
-  color: var(--theme-button-primary-text);
-}
-.theme-button--primary:hover {
-  color: var(--theme-button-secondary-text);
-}
-.theme-button--primary:after {
-  background-color: var(--theme-button-primary-bg);
-}
-
-/* Secondary Button Type - Yellow */
-.theme-button--secondary {
-  background-color: var(--theme-button-secondary-bg);
-  color: var(--theme-button-secondary-text);
-  box-shadow: 0px 2px 4px 0px #00000033;
-}
-.theme-button--secondary:hover {
-  color: var(--theme-button-primary-text);
-}
-
-
-
-.theme-button--secondary:before {
-  background-color: var(--theme-button-primary-bg);
-}
-
-/* Secondary Button Type - Yellow */
-.theme-button--primary:before {
-  background-color: var(--theme-button-secondary-bg);
-}
-
 .theme-button::before,
 .theme-button::after{
   content: '';
@@ -94,10 +61,48 @@
 .theme-button::before{
   left: -100%;
   transition: left var(--theme-button-animation-duration) var(--theme-button-animation-easing);
+  z-index:1;
 }
 .theme-button:hover::before{
 left: 0;
 }
+
+/* Primary Button Type - Black */
+.theme-button--primary {
+  color: var(--theme-button-primary-text);
+}
+.theme-button--primary:hover {
+  color: var(--theme-button-secondary-text);
+}
+.theme-button--primary:after {
+  background-color: var(--theme-button-primary-bg);
+}
+
+.theme-button--primary:before {
+  background-color: var(--theme-button-secondary-bg);
+}
+
+/* Secondary Button Type - Yellow */
+.theme-button--secondary {
+  background-color: var(--theme-button-secondary-bg);
+  color: var(--theme-button-secondary-text);
+  box-shadow: 0px 2px 4px 0px #00000033;
+}
+.theme-button--secondary:hover {
+  color: var(--theme-button-primary-text);
+}
+.theme-button--secondary:after {
+  background-color: var(--theme-button-secondary-bg);
+}
+
+.theme-button--secondary:before {
+  background-color: var(--theme-button-primary-bg);
+}
+
+/* Secondary Button Type - Yellow */
+
+
+
 /*  THEME BUTTON ELEMENTS - TEXT & ARROW (BEM) */
 
 .theme-button__text {
