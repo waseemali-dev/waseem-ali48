@@ -62,71 +62,18 @@
     },
     "product_listing_aqWyD7": {
       "type": "product-listing",
-      "blocks": {
-        "product_X6pmEp": {
-          "type": "product",
-          "settings": {
-            "product": "black-leather-bag",
-            "hotspot_x": "50%",
-            "hotspot_y": "20%"
-          }
-        },
-        "product_FWDx3C": {
-          "type": "product",
-          "settings": {
-            "product": "blue-silk-tuxedo",
-            "hotspot_x": "30",
-            "hotspot_y": "40"
-          }
-        },
-        "product_hP8f4Q": {
-          "type": "product",
-          "settings": {
-            "product": "chequered-red-shirt",
-            "hotspot_x": "50%",
-            "hotspot_y": "50%"
-          }
-        },
-        "product_VDkEWb": {
-          "type": "product",
-          "settings": {
-            "product": "classic-leather-jacket",
-            "hotspot_x": "50%",
-            "hotspot_y": "50%"
-          }
-        },
-        "product_niFBPU": {
-          "type": "product",
-          "settings": {
-            "product": "classic-varsity-top",
-            "hotspot_x": "50%",
-            "hotspot_y": "50%"
-          }
-        },
-        "product_RUrHa6": {
-          "type": "product",
-          "settings": {
-            "product": "dark-denim-top",
-            "hotspot_x": "50%",
-            "hotspot_y": "50%"
-          }
-        }
-      },
-      "block_order": [
-        "product_X6pmEp",
-        "product_FWDx3C",
-        "product_hP8f4Q",
-        "product_VDkEWb",
-        "product_niFBPU",
-        "product_RUrHa6"
-      ],
       "name": "Product Listing",
       "settings": {
         "heading": "Featured Products",
-        "heading_tag": "h2",
-        "enable": true,
-        "spacing_d": 90,
-        "spacing_m": 60
+        "heading_color": "#000000",
+        "collection": "frontpage",
+        "products_limit": 6,
+        "padding_top_mobile": 24,
+        "padding_top_tablet": 36,
+        "padding_top_desktop": 48,
+        "padding_bottom_mobile": 24,
+        "padding_bottom_tablet": 36,
+        "padding_bottom_desktop": 48
       }
     }
   },
