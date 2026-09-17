@@ -340,8 +340,7 @@
 }
 
 .prod-modal__color-opt[aria-pressed="true"] {
-  background: var(--primary);
-  color: var(--bg);
+  color: #fff;
 }
 
 @media (hover: hover) {
@@ -363,10 +362,11 @@
   bottom: 0;
   width: 0;
   background: var(--primary);
+  transform: translateX(0);
   transition:
     transform 350ms cubic-bezier(0.4, 0, 0.2, 1),
     width 350ms cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
   will-change: transform, width;
 }
