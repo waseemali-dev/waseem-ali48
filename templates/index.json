@@ -66,7 +66,9 @@
         "product_JU4D7C": {
           "type": "product",
           "settings": {
-            "product": "black-leather-bag"
+            "product": "black-leather-bag",
+            "hotspot_x": 51,
+            "hotspot_y": 8
           }
         }
       },
@@ -75,7 +77,12 @@
       ],
       "name": "Product Listing",
       "settings": {
-        "heading": "Featured Products"
+        "heading": "Featured Products",
+        "heading_tag": "h2",
+        "enable": true,
+        "spacing_d": 90,
+        "spacing_m": 60,
+        "description_limit": 120
       }
     }
   },
