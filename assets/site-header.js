@@ -11,9 +11,17 @@
   function setupMenuToggle() {
     if (!toggle) return;
 
-    toggle.addEventListener('click', function() {
+    toggle.addEventListener('click', function(e) {
+      e.preventDefault();
       const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', !isExpanded);
+      toggle.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+    });
+
+    toggle.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle.click();
+      }
     });
   }
 
@@ -48,7 +56,14 @@
     }
   }
 
-  // Initialize
-  setupMenuToggle();
-  setupStickyHeader();
+  // Ensure DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setupMenuToggle();
+      setupStickyHeader();
+    });
+  } else {
+    setupMenuToggle();
+    setupStickyHeader();
+  }
 })();
