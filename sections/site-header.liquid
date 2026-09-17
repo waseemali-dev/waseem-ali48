@@ -63,6 +63,7 @@
 
 {%- comment -%} Inject CSS and JS {%- endcomment -%}
 {{ 'site-header.css' | asset_url | stylesheet_tag }}
+
 <script src="{{ 'site-header.js' | asset_url }}" defer></script>
 
 {%- comment -%} Preload/Prefetch critical resources {%- endcomment -%}
