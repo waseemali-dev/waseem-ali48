@@ -73,7 +73,7 @@
 }
 
 .site-header__logo-text {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -82,7 +82,7 @@
 /* Center Text (Hidden on Mobile) */
 .site-header__text {
   display: none;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   white-space: nowrap;
   flex: 1;
@@ -121,7 +121,7 @@
 }
 
 .site-header__menu-text {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.6;
   text-align: center;
@@ -188,7 +188,7 @@ body.header-sticky-enabled {
   }
 
   .site-header__menu-text {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 
@@ -228,7 +228,7 @@ body.header-sticky-enabled {
   }
 
   .site-header__menu-text {
-    font-size: 14px;
+    font-size: 16px;
     text-align: center;
   }
 
