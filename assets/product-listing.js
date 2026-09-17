@@ -44,8 +44,6 @@
     selectedOptions: {},
     activeTrigger: null,
     isSubmitting: false,
-    colorIndex: -1,
-    sizeIndex: -1,
   };
 
   /* ========================================
@@ -120,7 +118,8 @@
     if (!e.target.matches(CONFIG.colorOpt)) return;
 
     const value = e.target.dataset.color;
-    selectOption(state.colorIndex, value);
+    const colorIndex = 1; // option2 in Shopify is always index 1
+    selectOption(colorIndex, value);
   }
 
   function selectOption(index, value) {
@@ -128,19 +127,19 @@
     syncSelectionUI();
     refreshVariantUI();
 
-    if (index === state.colorIndex) {
+    if (index === 1) { // color is always index 1
       updateColorIndicator();
     }
   }
 
   function syncSelectionUI() {
-    const selectedColor = state.selectedOptions[state.colorIndex];
+    const selectedColor = state.selectedOptions[1]; // color at index 1
     dom.colors.querySelectorAll(CONFIG.colorOpt).forEach(btn => {
       const isSelected = btn.getAttribute('data-color') === selectedColor;
       btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
     });
 
-    const selectedSize = state.selectedOptions[state.sizeIndex];
+    const selectedSize = state.selectedOptions[0]; // size at index 0
     dom.sizeList.querySelectorAll('.prod-modal__dropdown-option').forEach(btn => {
       const isSelected = btn.getAttribute('data-value') === selectedSize;
       btn.setAttribute('aria-selected', isSelected ? 'true' : 'false');
@@ -256,8 +255,6 @@
 
   function resetModal() {
     state.selectedOptions = {};
-    state.colorIndex = -1;
-    state.sizeIndex = -1;
     dom.sizeValue.textContent = 'Choose your size';
     dom.sizeList.innerHTML = '';
     dom.colorIndicator.style.width = '0';
@@ -282,22 +279,8 @@
       variants: JSON.parse(card.dataset.productVariants),
     };
 
-    // Find color and size indices
-    state.colorIndex = findOptionIndex(['Color'], 'color');
-    state.sizeIndex = findOptionIndex(['Size'], 'size');
-
     renderModal();
     preselectDefaultOptions();
-  }
-
-  function findOptionIndex(options, keyword) {
-    if (!options) return -1;
-    for (let i = 0; i < options.length; i++) {
-      if (options[i] && options[i].toLowerCase().indexOf(keyword) !== -1) {
-        return i;
-      }
-    }
-    return -1;
   }
 
   function renderModal() {
@@ -314,7 +297,6 @@
   }
 
   function renderColors(colors) {
-    // Preserve indicator element
     const indicator = dom.colorIndicator;
     dom.colors.innerHTML = '';
     dom.colors.appendChild(indicator);
@@ -329,7 +311,6 @@
       btn.setAttribute('aria-pressed', 'false');
       btn.setAttribute('aria-label', `Select ${color.name}`);
 
-      // Set swatch color for the left accent bar
       if (window.CSS && window.CSS.supports && window.CSS.supports('color', color.value)) {
         btn.style.setProperty('--swatch-color', color.value);
       }
@@ -337,13 +318,11 @@
       dom.colors.appendChild(btn);
     });
 
-    // Reset indicator
     dom.colorIndicator.style.width = '0';
   }
 
   function renderSizes(sizes) {
     dom.sizeList.innerHTML = '';
-    state.selectedOptions[state.sizeIndex] = null;
 
     sizes.forEach(size => {
       const li = document.createElement('li');
@@ -358,7 +337,7 @@
       opt.setAttribute('data-value', size);
 
       opt.addEventListener('click', () => {
-        selectOption(state.sizeIndex, size);
+        selectOption(0, size); // size is always index 0
         closeDropdown();
       });
 
@@ -387,7 +366,7 @@
      ======================================== */
 
   function updateColorIndicator(instant) {
-    const selectedColor = state.selectedOptions[state.colorIndex];
+    const selectedColor = state.selectedOptions[1]; // color at index 1
     const selectedButton = dom.colors.querySelector(
       '.prod-modal__color-opt[aria-pressed="true"]'
     );
@@ -405,7 +384,7 @@
     if (instant || prefersReducedMotion) {
       dom.colorIndicator.style.transition = 'none';
       apply();
-      void dom.colorIndicator.offsetWidth; // force reflow
+      void dom.colorIndicator.offsetWidth;
       dom.colorIndicator.style.transition = '';
     } else {
       apply();
@@ -419,25 +398,24 @@
   function findMatchingVariant() {
     if (!state.current || !state.current.variants) return null;
 
+    const selectedSize = state.selectedOptions[0];
+    const selectedColor = state.selectedOptions[1];
+
+    // Only match if BOTH size and color are selected
+    if (!selectedSize || !selectedColor) return null;
+
     return state.current.variants.find(v => {
       if (!v || !v.options || !Array.isArray(v.options)) return false;
-      return v.options.every((value, index) => {
-        const selected = state.selectedOptions[index];
-        return selected === undefined || selected === value;
-      });
+      return v.options[0] === selectedSize && v.options[1] === selectedColor;
     });
   }
 
   function refreshVariantUI() {
     const variant = findMatchingVariant();
 
-    if (variant) {
+    if (variant && variant.available) {
       dom.price.textContent = variant.price;
-      if (variant.available) {
-        dom.addBtn.disabled = false;
-      } else {
-        dom.addBtn.disabled = true;
-      }
+      dom.addBtn.disabled = false;
     } else {
       dom.addBtn.disabled = true;
     }
