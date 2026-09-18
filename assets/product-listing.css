@@ -6,7 +6,6 @@
 
 :root {
   --primary: #000;
-  --text: #333;
   --text-light: #666;
   --bg: #fff;
   --border: #ccc;
@@ -201,7 +200,7 @@
 }
 
 .prod-modal__name {
-  margin: 0;
+  margin: 0 0 8px;
   font-size: 16px;
   font-weight: 300;
   line-height: 1.2;
@@ -210,16 +209,18 @@
 
 .prod-modal__price {
   margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: 400;
+  color: var(--primary);
 }
 
 .prod-modal__desc {
   margin: 0;
-  font-size: 13px;
-  line-height: 1.4;
-  color: var(--text-light);
+  font-size: 14px;
+  line-height: 1.1;
+  color: var(--primary);
+  letter-spacing:-0.01em;
   overflow-wrap: break-word;
 }
 @media (min-width: 768px) {
