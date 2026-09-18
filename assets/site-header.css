@@ -12,7 +12,7 @@
   position: relative;
   z-index: 100;
   padding:10px 0; 
-  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  transition: box-shadow 0.3s ease-out, background-color 0.3s ease-out;
 }
 
 .site-header__container {
@@ -26,20 +26,22 @@
 
 /* Hamburger Toggle Button (Mobile) */
 .site-header__toggle {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  background: none;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  gap: 6px;
-  flex-shrink: 0;
-  transition: all 0.3s ease;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 18px;
+	height: 10px;
+	padding: 0;
+	background: none;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	gap: 6px;
+	flex-shrink: 0;
+	transition: all 0.3s ease-out;
+	position: relative;
+	z-index: 2;
 }
 
 .site-header__toggle:focus {
@@ -47,12 +49,12 @@
 }
 
 .site-header__toggle-line {
-  display: block;
-  width: 24px;
-  height: 2px;
-  background-color: #000000;
-  transition: all 0.3s ease;
-  transform-origin: center;
+	display: block;
+	width: 12px;
+	height: 2px;
+	background-color: #000000;
+	transition: all 0.3s ease-out;
+	transform-origin: center;
 }
 
 /* Logo Section */
@@ -105,7 +107,7 @@
   max-height: 0;
   background-color: #ffffff;
   overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
   opacity: 0;
   visibility: hidden;
   border-top: 1px solid #f0f0f0;
@@ -168,25 +170,6 @@
 
 body.header-sticky-enabled {
   padding-top: 56px;
-}
-
-/* ======================
-   LARGE MOBILE (480px+)
-   ====================== */
-
-@media (min-width: 480px) {
-  .site-header__logo-text {
-    font-size: 16px;
-  }
-
-  .site-header__toggle-line {
-    width: 26px;
-  }
-
-  .site-header__menu-text {
-    font-size: 16px;
-  }
-
 }
 
 /* ======================
@@ -312,13 +295,8 @@ body.header-sticky-enabled {
     flex-wrap: wrap;
   }
 
-  .site-header__toggle {
-    position: relative;
-    z-index: 2;
-  }
-
   .site-header__toggle-line {
-    transition: transform .35s ease, opacity .25s ease;
+    transition: transform .3s ease-out, opacity .3s ease-out;
   }
 
   .site-header__menu {
@@ -327,9 +305,9 @@ body.header-sticky-enabled {
     visibility: hidden;
     overflow: hidden;
     transition:
-      max-height .4s ease,
-      opacity .3s ease,
-      visibility .3s ease;
+      max-height .3s ease-out,
+      opacity .3s ease-out,
+      visibility .3s ease-out;
   }
 
   .site-header__menu.menu-open {
