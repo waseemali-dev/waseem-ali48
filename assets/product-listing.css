@@ -289,7 +289,7 @@
 .prod-modal__color-opt {
 	isolation: isolate;
 	flex: 1;
-	padding: 11px 7px 11px 9px;
+	padding: 16px 7px 11px 9px;
 	background: transparent;
 	color: var(--primary);
 	border: none;
@@ -315,6 +315,7 @@
   bottom: 0;
   width: 4px;
   background-color: var(--swatch-color, transparent);
+  border-right: 1px solid var(--border);
 }
 
 .prod-modal__color-opt[aria-pressed="true"] {
