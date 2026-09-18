@@ -1,16 +1,7 @@
-/* ============================================================
-  HERO BANNER SECTION - STYLESHEET
-  ============================================================
-  Mobile-First Responsive Design (< 768px | ≥ 768px)
-  - No JavaScript required
-  - Pure CSS positioning & layout
-  - Flexible responsive sizing with clamp()
-  ============================================================ */
+/* 
+HERO BANNER SECTION - STYLESHEET
 
-
-/* ============================================================
-  ANNOUNCEMENT BANNER (Positioned at bottom of section)
-  ============================================================ */
+Mobile-First Responsive Design (< 768px | ≥ 768px) */
 
 .hero-banner__announcement {
 padding: 10px 0;
@@ -22,9 +13,6 @@ font-size: 14px;
 line-height: 13.42px;
 margin: 0 auto;
 }
-/* ============================================================
-  MAIN WRAPPER
-  ============================================================ */
 
 .section-hero-banner {
 width: 100%;
@@ -40,11 +28,11 @@ display: flex;
 flex-direction: column;
 }
 
-/* ============================================================
-  MOBILE CONTENT CARD
-  Mobile (<768px): Visible styled card above image
-  Desktop (≥768px): Hidden
-  ============================================================ */
+/* 
+MOBILE CONTENT CARD
+Mobile (<768px): Visible styled card above image
+Desktop (≥768px): Hidden
+ */
 
 .hero-banner__mobile-card {
 order: -2;
@@ -53,22 +41,22 @@ padding: 0 16px;
 }
 
 .hero-banner__mobile-card-content {
-	position: relative;
-	z-index: 2;
-	padding: 49px 0 12px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	row-gap: 24px;
-	text-align: center;
+position: relative;
+z-index: 2;
+padding: 49px 0 12px;
+display: flex;
+flex-direction: column;
+align-items: center;
+row-gap: 24px;
+text-align: center;
 }
 
-/* ============================================================
-  IMAGE CONTAINER
-  ============================================================
-  Mobile: Shows mobile image, aspect ratio locked
-  Desktop: Shows desktop image, full height
-  ============================================================ */
+/* 
+IMAGE CONTAINER
+
+Mobile: Shows mobile image, aspect ratio locked
+Desktop: Shows desktop image, full height
+ */
 
 .hero-banner__image-container {
 position: relative;
@@ -99,11 +87,11 @@ aspect-ratio: auto 375 / 264;
 min-height:264px;
 }
 
-/* ============================================================
-  DESKTOP CONTENT BOX
-  Mobile (<768px): Hidden
-  Desktop (≥768px): Visible, absolutely positioned bottom-left
-  ============================================================ */
+/* 
+DESKTOP CONTENT BOX
+Mobile (<768px): Hidden
+Desktop (≥768px): Visible, absolutely positioned bottom-left
+ */
 
 .hero-banner__content-box {
 display: none;
@@ -123,11 +111,11 @@ flex-direction:column;
 row-gap:clamp(2.4rem, 3.61vw, 5rem);
 }
 
-/* ============================================================
-  MOBILE CTA OVERLAY
-  Mobile (<768px): Visible, centered at bottom of image
-  Desktop (≥768px): Hidden
-  ============================================================ */
+/* 
+MOBILE CTA OVERLAY
+Mobile (<768px): Visible, centered at bottom of image
+Desktop (≥768px): Hidden
+ */
 
 .hero-banner__mobile-cta {
 position: absolute;
@@ -138,9 +126,9 @@ z-index: 3;
 width: auto;
 }
 
-/* ============================================================
-  HEADING & TEXT STYLING
-  ============================================================ */
+/* 
+HEADING & TEXT STYLING
+ */
 
 .hero-banner__heading {
 margin: 0;
@@ -171,41 +159,41 @@ padding: 0;
 margin-top: 12px;
 }
 
-/* ============================================================
-  RESPONSIVE BREAKPOINT: TABLET & DESKTOP (≥768px)
-  ============================================================ */
+/* 
+RESPONSIVE BREAKPOINT: TABLET & DESKTOP (≥768px)
+ */
 
 @media (min-width: 768px) {
 
 /* ========== Wrapper Layout ========== */
 .hero-banner__wrapper {
-  position: relative;
-  min-height: 500px;
+position: relative;
+min-height: 500px;
 }
 
 /* ========== Image Container ========== */
 .hero-banner__image-container {
-  min-height: 600px;
+min-height: 600px;
 }
 
 /* Show desktop image, hide mobile image */
 .hero-banner__image--desktop {
-  display: block;
+display: block;
 }
 
 .hero-banner__image--mobile {
-  display: none;
+display: none;
 }
 
 /* ========== Mobile Card (Hidden) ========== */
 .hero-banner__mobile-card {
-  display: none;
+display: none;
 }
 
 /* ========== Desktop Content Box (Visible) ========== */
 .hero-banner__content-box {
-  display: block;
-  background-color:#FFFFFF;
+display: block;
+background-color:#FFFFFF;
 }
 .hero-banner__content-box::before {
 content: "";
@@ -217,42 +205,40 @@ position: absolute;
 background: #ffffff;
 }
 .hero-banner__description {
-  line-height: 1.4;
+line-height: 1.4;
 }
 
 /* ========== Mobile CTA (Hidden) ========== */
 .hero-banner__mobile-cta {
-  display: none;
+display: none;
 }
 
 /* ========== Heading & Text ========== */
 .hero-banner__heading {
-  font-size: clamp(3.2rem, 5.28vw, 7rem);
+font-size: clamp(3.2rem, 5.28vw, 7rem);
 }
 .hero-banner__announcement p {
 font-size: 16px;
 }
 }
 
-/* ============================================================
-  RESPONSIVE BREAKPOINT: LARGE DESKTOP (≥1024px)
-  ============================================================ */
+/* 
+RESPONSIVE BREAKPOINT: LARGE DESKTOP (≥1024px)
+ */
 
 @media (min-width: 1024px) {
 
 .hero-banner__image-container {
-  min-height: 780;
+min-height: 780;
 }
 
 .hero-banner__description {
-  font-size: 20px;
+font-size: 20px;
 }
 
 }
 
-/* ============================================================
-  ACCESSIBILITY
-  ============================================================ */
+/* ACCESSIBILITY */
 
 /* Focus states for keyboard navigation */
 .hero-banner__content-box:focus-within {
@@ -263,11 +249,11 @@ outline-offset: 2px;
 /* High contrast mode support */
 @media (prefers-contrast: more) {
 .hero-banner__heading {
-  font-weight: 700;
+font-weight: 700;
 }
 
 .hero-banner__description {
-  font-weight: 500;
+font-weight: 500;
 }
 }
 
@@ -276,41 +262,39 @@ outline-offset: 2px;
 .hero-banner__image,
 .hero-banner__content-box,
 .hero-banner__mobile-cta {
-  transition: none;
+transition: none;
 }
 }
 
-/* ============================================================
-  PRINT STYLES
-  ============================================================ */
+/* 
+PRINT STYLES
+ */
 
 @media print {
 .hero-banner__announcement {
-  display: none;
+display: none;
 }
 
 .hero-banner__mobile-cta {
-  display: none;
+display: none;
 }
 
 .hero-banner__image-container {
-  max-height: 300px;
+max-height: 300px;
 }
 }
 
-/* ============================================================
-  UTILITY CLASSES
-  ============================================================ */
+/* UTILITY CLASSES */
 
 /* Hide elements responsively */
 @media (max-width: 767px) {
 .hero-banner__image--desktop {
-  display: none !important;
+display: none !important;
 }
 }
 
 @media (min-width: 768px) {
 .hero-banner__image--mobile {
-  display: none !important;
+display: none !important;
 }
 }
