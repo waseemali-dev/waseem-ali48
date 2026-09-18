@@ -124,7 +124,7 @@
       "settings": {
         "heading": "Featured Products",
         "enable": true,
-        "description_limit": 80,
+        "description_limit": 90,
         "spacing_d": 90,
         "spacing_m": 40
       }
