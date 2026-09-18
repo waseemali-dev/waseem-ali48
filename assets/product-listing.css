@@ -494,10 +494,6 @@
 	line-height: 20px;
 }
 
-.prod-modal__btn:hover:not(:disabled) {
-  background: #222;
-}
-
 .prod-modal__btn:active:not(:disabled) {
   transform: scale(0.98);
 }
