@@ -393,7 +393,7 @@ body.header-sticky-enabled {
 
   .site-header__toggle[aria-expanded="true"]
   .site-header__toggle-line:nth-child(1) {
-    transform: translateY(3.5px) rotate(45deg);
+    transform: translateY(0.5px) rotate(45deg);
   }
 
   .site-header__toggle[aria-expanded="true"]
