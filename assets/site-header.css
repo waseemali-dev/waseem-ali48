@@ -1,86 +1,341 @@
-/* Site Header - Final Toggle Fixes
-   Add these styles after your existing site-header.css rules
-*/
+/* Site Header - Mobile First CSS */
+/* Responsive header with hamburger menu and sticky option */
 
-/* Fix background syntax issues in existing CSS:
-   background-color: ##F7F7F7;  -> #F7F7F7
-   background-color#f5f5f5;     -> background-color: #f5f5f5;
-*/
+/* ======================
+   BASE STYLES (MOBILE)
+   ====================== */
 
-.site-header__toggle {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 20px;
-  height: 20px;
-  padding: 0;
-  gap: 5px;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  flex-shrink: 0;
+.site-header {
+  width: 100%;
+  background-color: ##F7F7F7;
+  color: #000000;
   position: relative;
-  z-index: 2;
+  z-index: 100;
+  padding:10px 0; 
+  transition: box-shadow 0.3s ease-out, background-color 0.3s ease-out;
+}
+
+.site-header__container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+/* Hamburger Toggle Button (Mobile) */
+.site-header__toggle {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 18px;
+	/* height: 10px; */
+	padding: 0;
+	background: none;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	gap: 6px;
+	flex-shrink: 0;
+	transition: all 0.3s ease-out;
+	position: relative;
+	z-index: 2;
+}
+
+.site-header__toggle:focus {
+  outline: none;
 }
 
 .site-header__toggle-line {
-  display: block;
-  width: 20px;
-  height: 2px;
-  background-color: #000;
-  border-radius: 0;
-  transform-origin: center;
-  transition: transform .3s ease, opacity .25s ease;
+	display: block;
+	width: 18px;
+	height: 2px;
+	background-color: #000000;
+	transition: transform .3s ease-out, opacity .3s ease-out;
+	transform-origin: center;
 }
 
-/* Single toggle animation for mobile */
+/* Logo Section */
+.site-header__logo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 80px;
+  text-decoration: none;
+  color: inherit;
+  align-self: center;
+}
+
+.site-header__logo img {
+  display:block;
+  max-width: 100%;
+  height: auto;
+}
+
+.site-header__logo-text {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Center Text (Hidden on Mobile) */
+.site-header__text {
+  display: none;
+  font-size: 16px;
+  line-height:13.42px;
+  white-space: nowrap;
+  flex: 1;
+}
+
+/* Button Wrapper (Hidden on Mobile) */
+.site-header__button-wrapper {
+  display: none;
+  flex-shrink: 0;
+}
+
+/* Mobile Menu (Collapsed by default) */
+.site-header__menu {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-height: 0;
+  background-color: #ffffff;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+  opacity: 0;
+  visibility: hidden;
+  border-top: 1px solid #f0f0f0;
+  order: 999;
+  flex-basis: 100%;
+}
+
+.site-header__menu-content {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.site-header__menu-text {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.site-header__menu-button {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Menu Open State */
+.site-header__menu.menu-open {
+  max-height: 500px;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Hamburger Animation - Close to Open (X icon) */
 .site-header__toggle[aria-expanded="true"] .site-header__toggle-line:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+  transform: rotate(45deg) translateY(7px);
 }
 
 .site-header__toggle[aria-expanded="true"] .site-header__toggle-line:nth-child(2) {
   opacity: 0;
+  transform: translateX(-8px);
 }
 
 .site-header__toggle[aria-expanded="true"] .site-header__toggle-line:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+  transform: rotate(-45deg) translateY(-7px);
 }
 
-/* Mobile only menu behavior */
-@media (max-width: 991px) {
+/* Sticky Header State */
+.site-header.header-sticky {
+  position: fixed;
+  top: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-  .site-header__toggle {
-    display: flex;
+.site-header.header-sticky.with-shadow {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+body.header-sticky-enabled {
+  padding-top: 56px;
+}
+
+/* ======================
+   TABLET (768px - 991px)
+   ====================== */
+
+@media (min-width: 768px) {
+  .site-header__container {
+    gap: 20px;
+    flex-wrap: nowrap;
+  }
+  
+  .site-header__logo-text {
+    font-size: 16px;
   }
 
   .site-header__menu {
-    width: 100%;
-    flex-basis: 100%;
+    order: auto;
+    flex-basis: auto;
+    position: relative;
+  }
+
+  .site-header__menu-content {
+    flex-direction: row;
+    padding: 12px 24px;
+    gap: 20px;
+  }
+
+  .site-header__menu-text {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .site-header__menu-button {
+    width: auto;
+  }
+}
+
+/* ======================
+   DESKTOP (992px+)
+   ====================== */
+
+@media (min-width: 992px) {
+  .site-header {
+    background-color#f5f5f5;
+  }
+  .site-header__container {
+    gap: 24px;
+    flex-wrap: nowrap;
+  }
+
+  /* Hide hamburger on desktop */
+  .site-header__toggle {
+    display: none;
+  }
+
+  /* Logo on left */
+  .site-header__logo {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+    min-width: auto;
+  }
+
+  .site-header__logo-text {
+    font-size: 16px;
+  }
+
+  /* Center text in middle */
+  .site-header__text {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    font-weight: 400;
+  }
+
+  /* Button on right */
+  .site-header__button-wrapper {
+    display: flex;
+    flex: 0 0 auto;
+  }
+
+  /* Hide mobile menu on desktop */
+  .site-header__menu {
+    display: none;
+  }
+  .site-header__button-wrapper {
+    display: flex;
+  }
+
+}
+
+/* ======================
+   LARGE DESKTOP (1280px+)
+   ====================== */
+
+@media (min-width: 1280px) {
+   .site-header__logo-text {
+    font-size: 16px;
+  }
+}
+
+/* ======================
+   ACCESSIBILITY
+   ====================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .site-header__toggle,
+  .site-header__toggle-line,
+  .site-header__menu {
+    transition: none;
+  }
+}
+
+
+/* ==========================
+   Improved Mobile Menu Flow
+   ========================== */
+
+@media (max-width: 991px) {
+
+  .site-header__container {
+    flex-wrap: wrap;
+  }
+  .site-header__menu {
     max-height: 0;
     opacity: 0;
     visibility: hidden;
     overflow: hidden;
     transition:
-      max-height .4s ease,
-      opacity .3s ease,
-      visibility .3s ease;
+      max-height .3s ease-out,
+      opacity .3s ease-out,
+      visibility .3s ease-out;
   }
 
   .site-header__menu.menu-open {
     opacity: 1;
     visibility: visible;
   }
-}
 
-/* Desktop: same toggle element hidden, no duplicate */
-@media (min-width: 992px) {
-
-  .site-header__toggle {
-    display: none;
+  .site-header__menu-content {
+    padding: 24px 16px;
   }
 
+  .site-header__toggle[aria-expanded="true"] .site-header__toggle-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .site-header__toggle[aria-expanded="true"] .site-header__toggle-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .site-header__toggle[aria-expanded="true"] .site-header__toggle-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+}
+
+@media (min-width: 992px) {
   .site-header__menu {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header__menu,
+  .site-header__toggle-line {
+    transition: none !important;
   }
 }
