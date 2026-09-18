@@ -4,7 +4,7 @@
     {%- if section.settings.header_enable -%}
       
       {%- comment -%} Mobile Hamburger Toggle {%- endcomment -%}
-      <button class="site-header__toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+      <button class="site-header__toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu-{{ section.id }}">
         <span class="site-header__toggle-line"></span>
         <span class="site-header__toggle-line"></span>
         <span class="site-header__toggle-line"></span>
@@ -44,7 +44,7 @@
       {%- endif -%}
 
       {%- comment -%} Mobile Menu (Collapsed by default) {%- endcomment -%}
-      <nav class="site-header__menu" data-component="mobile-menu">
+      <nav id="mobile-menu-{{ section.id }}" class="site-header__menu" data-component="mobile-menu" aria-hidden="true">
         <div class="site-header__menu-content">
           
           {%- comment -%} Center Text in Menu {%- endcomment -%}
