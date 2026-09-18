@@ -444,14 +444,14 @@
 .prod-modal__dropdown-option {
   display: block;
   width: 100%;
-  padding: 10px 12px;
+  padding: 10px;
   font-size: 13px;
-  text-align: left;
+  text-align: center;
   background: var(--bg);
-  color: var(--text);
+  color: var(--primary);
   border: none;
   cursor: pointer;
-  transition: all 150ms ease-out;
+  transition: all 300ms ease-out;
 }
 
 .prod-modal__dropdown-option[aria-selected="true"],
@@ -567,12 +567,4 @@
   top: 100%;
   border-top: 0;
   box-shadow: none;
-}
-
-.prod-modal__dropdown-option {
-  height: 38px;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
