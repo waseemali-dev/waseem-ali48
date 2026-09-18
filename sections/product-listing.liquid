@@ -1,129 +1,140 @@
 {%- liquid
-  assign heading = section.settings.heading
-  assign description_limit = section.settings.description_limit
-  assign spacing_d = section.settings.spacing_d
-  assign spacing_m = section.settings.spacing_m
+assign heading = section.settings.heading
+assign description_limit = section.settings.description_limit
+assign spacing_d = section.settings.spacing_d
+assign spacing_m = section.settings.spacing_m
 -%}
 
 <section
-  class="prod-list"
-  data-section-id="{{ section.id }}"
-  data-component="prod-list"
-  data-description-limit="{{ description_limit }}"
+class="prod-list"
+data-section-id="{{ section.id }}"
+data-component="prod-list"
+data-description-limit="{{ description_limit }}"
 >
-  <div class="page-width">
-  {%- if section.settings.enable -%}
-    {%- if heading != blank -%}
-      <div class="prod-list__hd">
-        <h2 class="prod-list__hd-txt">{{ heading }}</h2>
-      </div>
-    {%- endif -%}
+<div class="page-width">
+{%- if section.settings.enable -%}
+{%- if heading != blank -%}
+  <div class="prod-list__hd">
+    <h2 class="prod-list__hd-txt">{{ heading }}</h2>
+  </div>
+{%- endif -%}
 
-    <div class="prod-list__grid">
-      {%- for block in section.blocks -%}
-        {%- assign product = block.settings.product -%}
-        {%- if product != blank -%}
-          <div class="prod-list__card" {{ block.shopify_attributes }}>
-            <div
-              class="prod-list__img-wrap"
-              style="--hotspot-x: {{ block.settings.hotspot_x | default: '50' }}%; --hotspot-y: {{ block.settings.hotspot_y | default: '50' }}%;"
-            >
-              <img
-                class="prod-list__img"
-                src="{{ product.featured_image | image_url: width: 433 }}"
-                alt="{{ product.title }}" width="433" height="444"
-              >
+<div class="prod-list__grid">
+  {%- for block in section.blocks -%}
+    {%- assign product = block.settings.product -%}
+    {%- if product != blank -%}
+      <div class="prod-list__card" {{ block.shopify_attributes }}>
+        <div
+          class="prod-list__img-wrap"
+          style="--hotspot-x: {{ block.settings.hotspot_x | default: '50' }}%; --hotspot-y: {{ block.settings.hotspot_y | default: '50' }}%;"
+        >
+          <img
+            class="prod-list__img"
+            src="{{ product.featured_image | image_url: width: 433 }}"
+            alt="{{ product.title }}" width="433" height="444"
+          >
 
-              <button
-                type="button"
-                class="prod-list__hotspot"
-                data-action="open-quick-add"
-                aria-label="Quick add {{ product.title | escape }}"
-                aria-haspopup="dialog"
-              >
+          <button
+            type="button"
+            class="prod-list__hotspot"
+            data-action="open-quick-add"
+            aria-label="Quick add {{ product.title | escape }}"
+            aria-haspopup="dialog"
+          >
 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 <circle cx="11" cy="11" r="11" fill="#F8F8F8" fill-opacity="0.9"/>
 <path d="M11.3457 7.04175V15.5033" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/>
 <path d="M7.11523 11.2725H15.5768" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/>
 </svg>
-              </button>
-
-
-              {%- comment -%}
-                Product data for this card, read by product-listing.js
-              {%- endcomment -%}
-              <script type="application/json" data-product-json>
-                {
-                  "id": {{ product.id | json }},
-                  "title": {{ product.title | json }},
-                  "image": {{ product.featured_image | image_url: width: 200 | json }},
-                  "description": {{ product.description | strip_html | json }},
-                  "optionNames": {{ product.options | json }},
-                  "variants": [
-                    {%- for variant in product.variants -%}
-                      {
-                        "id": {{ variant.id | json }},
-                        "available": {{ variant.available | json }},
-                        "price": {{ variant.price | money | json }},
-                        "options": {{ variant.options | json }}
-                      }{%- unless forloop.last -%},{%- endunless -%}
-                    {%- endfor -%}
-                  ]
-                }
-              </script>
-            </div>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
-  </div>
-    {%- comment -%}Shared Popup Modal{%- endcomment -%}
-    <div class="prod-modal" data-quick-add-overlay hidden>
-      <div class="prod-modal__overlay" data-modal-overlay aria-hidden="true"></div>
-
-      <div class="prod-modal__content" role="dialog" aria-modal="true" data-quick-add-popup>
-        <button class="prod-modal__close" data-action="close-quick-add" aria-label="Close product details">
-          ×
-        </button>
-
-        <div class="prod-modal__body">
-          <img class="prod-modal__img" data-modal-img src="" alt="">
-
-          <div class="prod-modal__info">
-            <h2 class="prod-modal__name" data-modal-name></h2>
-            <p class="prod-modal__price" data-modal-price></p>
-            <p class="prod-modal__desc" data-modal-desc></p>
-          </div>
-        </div>
-
-        <div class="prod-modal__form">
-          <div class="prod-modal__colors" data-color-wrap hidden>
-            <label class="prod-modal__color-label" data-color-label>Color</label>
-            <div class="prod-modal__color-opts" data-color-options>
-              <span class="prod-modal__slider" data-color-indicator aria-hidden="true"></span>
-            </div>
-          </div>
-
-          <div class="prod-modal__size" data-size-wrap hidden>
-            <label class="prod-modal__size-label" data-size-label>Size</label>
-            <div class="prod-modal__dropdown" data-size-dropdown>
-              <button type="button" class="prod-modal__dropdown-toggle" data-dropdown-toggle aria-haspopup="listbox" aria-expanded="false">
-                <span data-dropdown-value>Choose your size</span>
-                <span class="prod-modal__dropdown-icon">▼</span>
-              </button>
-              <ul class="prod-modal__dropdown-list" data-dropdown-list role="listbox" hidden></ul>
-            </div>
-          </div>
-
-          <p class="prod-modal__status" data-modal-status role="status" aria-live="polite"></p>
-
-          <button class="prod-modal__btn btn-primary" data-action="add-to-cart">
-            ADD TO CART <span class="btn-arrow">→</span>
           </button>
+
+
+          {%- comment -%}
+            Product data for this card, read by product-listing.js
+          {%- endcomment -%}
+          <script type="application/json" data-product-json>
+            {
+              "id": {{ product.id | json }},
+              "title": {{ product.title | json }},
+              "image": {{ product.featured_image | image_url: width: 200 | json }},
+              "description": {{ product.description | strip_html | json }},
+              "optionNames": {{ product.options | json }},
+              "variants": [
+                {%- for variant in product.variants -%}
+                  {
+                    "id": {{ variant.id | json }},
+                    "available": {{ variant.available | json }},
+                    "price": {{ variant.price | money | json }},
+                    "options": {{ variant.options | json }}
+                  }{%- unless forloop.last -%},{%- endunless -%}
+                {%- endfor -%}
+              ]
+            }
+          </script>
         </div>
       </div>
+    {%- endif -%}
+  {%- endfor -%}
+</div>
+</div>
+{%- comment -%}Shared Popup Modal{%- endcomment -%}
+<div class="prod-modal" data-quick-add-overlay hidden>
+  <div class="prod-modal__overlay" data-modal-overlay aria-hidden="true"></div>
+
+  <div class="prod-modal__content" role="dialog" aria-modal="true" data-quick-add-popup>
+    <button class="prod-modal__close" data-action="close-quick-add" aria-label="Close product details">
+      <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4.24219 4.24279L12.7275 12.7281" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/>
+<path d="M4.24219 12.7278L12.7275 4.24249" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/>
+</svg>
+    </button>
+
+    <div class="prod-modal__body">
+      <img class="prod-modal__img" data-modal-img src="" alt="">
+
+      <div class="prod-modal__info">
+        <h2 class="prod-modal__name" data-modal-name></h2>
+        <p class="prod-modal__price" data-modal-price></p>
+        <p class="prod-modal__desc" data-modal-desc></p>
+      </div>
     </div>
-  {%- endif -%}
+
+    <div class="prod-modal__form">
+      <div class="prod-modal__colors" data-color-wrap hidden>
+        <label class="prod-modal__color-label" data-color-label>Color</label>
+        <div class="prod-modal__color-opts" data-color-options>
+          <span class="prod-modal__slider" data-color-indicator aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <div class="prod-modal__size" data-size-wrap hidden>
+        <label class="prod-modal__size-label" data-size-label>Size</label>
+        <div class="prod-modal__dropdown" data-size-dropdown>
+          <button type="button" class="prod-modal__dropdown-toggle" data-dropdown-toggle aria-haspopup="listbox" aria-expanded="false">
+            <span data-dropdown-value>Choose your size</span>
+            <span class="prod-modal__dropdown-icon">
+<svg width="15" height="9" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.06067 1.06067L7.06067 7.06067L13.0607 1.06067" stroke="black" stroke-width="1.5" stroke-linecap="square"/>
+</svg>
+            </span>
+          </button>
+          <ul class="prod-modal__dropdown-list" data-dropdown-list role="listbox" hidden></ul>
+        </div>
+      </div>
+
+      <p class="prod-modal__status" data-modal-status role="status" aria-live="polite"></p>
+
+      <button class="prod-modal__btn btn-primary" data-action="add-to-cart">
+        ADD TO CART <span class="btn-arrow">
+<svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.75 4.77295L9.20657e-08 4.77295L-9.20657e-08 6.27295L0.75 6.27295L0.75 4.77295ZM34.9798 6.05328C35.2727 5.76039 35.2727 5.28551 34.9798 4.99262L30.2068 0.21965C29.9139 -0.0732432 29.4391 -0.0732433 29.1462 0.21965C28.8533 0.512544 28.8533 0.987417 29.1462 1.28031L33.3888 5.52295L29.1462 9.76559C28.8533 10.0585 28.8533 10.5334 29.1462 10.8263C29.4391 11.1191 29.9139 11.1191 30.2068 10.8263L34.9798 6.05328ZM0.75 6.27295L34.4495 6.27295L34.4495 4.77295L0.75 4.77295L0.75 6.27295Z" fill="white"/>
+</svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+{%- endif -%}
 </section>
 
 {{ 'product-listing.css' | asset_url | stylesheet_tag }}
@@ -131,97 +142,97 @@
 
 {% schema %}
 {
-  "name": "Product Listing",
+"name": "Product Listing",
+"settings": [
+{
+  "type": "text",
+  "id": "heading",
+  "label": "Section Heading",
+  "default": "Featured Products"
+},
+
+{
+  "type": "checkbox",
+  "id": "enable",
+  "label": "Enable Section",
+  "default": true
+},
+{
+  "type": "range",
+  "id": "description_limit",
+  "min": 20,
+  "max": 300,
+  "step": 10,
+  "unit": "ch",
+  "label": "Description character limit",
+  "default": 120
+},
+{
+  "type": "range",
+  "id": "spacing_d",
+  "min": 40,
+  "max": 120,
+  "step": 10,
+  "unit": "px",
+  "label": "Desktop Spacing",
+  "default": 90
+},
+{
+  "type": "range",
+  "id": "spacing_m",
+  "min": 20,
+  "max": 80,
+  "step": 10,
+  "unit": "px",
+  "label": "Mobile Spacing",
+  "default": 60
+}
+],
+"blocks": [
+{
+  "type": "product",
+  "name": "Product",
   "settings": [
     {
-      "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
-      "default": "Featured Products"
-    },
-  
-    {
-      "type": "checkbox",
-      "id": "enable",
-      "label": "Enable Section",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "description_limit",
-      "min": 20,
-      "max": 300,
-      "step": 10,
-      "unit": "ch",
-      "label": "Description character limit",
-      "default": 120
-    },
-    {
-      "type": "range",
-      "id": "spacing_d",
-      "min": 40,
-      "max": 120,
-      "step": 10,
-      "unit": "px",
-      "label": "Desktop Spacing",
-      "default": 90
-    },
-    {
-      "type": "range",
-      "id": "spacing_m",
-      "min": 20,
-      "max": 80,
-      "step": 10,
-      "unit": "px",
-      "label": "Mobile Spacing",
-      "default": 60
-    }
-  ],
-  "blocks": [
-    {
       "type": "product",
-      "name": "Product",
-      "settings": [
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Select Product"
-        },
-        {
-          "type": "range",
-          "id": "hotspot_x",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "label": "Hotspot X Position",
-          "default": 50
-        },
-        {
-          "type": "range",
-          "id": "hotspot_y",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "label": "Hotspot Y Position",
-          "default": 50
-        }
-      ]
-    }
-  ],
-  "presets": [
+      "id": "product",
+      "label": "Select Product"
+    },
     {
-      "name": "Product Listing",
-      "blocks": [
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" }
-      ]
+      "type": "range",
+      "id": "hotspot_x",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Hotspot X Position",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "hotspot_y",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Hotspot Y Position",
+      "default": 50
     }
   ]
+}
+],
+"presets": [
+{
+  "name": "Product Listing",
+  "blocks": [
+    { "type": "product" },
+    { "type": "product" },
+    { "type": "product" },
+    { "type": "product" },
+    { "type": "product" },
+    { "type": "product" }
+  ]
+}
+]
 }
 {% endschema %}
