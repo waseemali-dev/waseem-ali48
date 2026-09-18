@@ -50,10 +50,10 @@
 
 .site-header__toggle-line {
 	display: block;
-	width: 12px;
+	width: 18px;
 	height: 2px;
 	background-color: #000000;
-	transition: all 0.3s ease-out;
+	transition: transform .3s ease-out, opacity .3s ease-out;
 	transform-origin: center;
 }
 
@@ -294,11 +294,6 @@ body.header-sticky-enabled {
   .site-header__container {
     flex-wrap: wrap;
   }
-
-  .site-header__toggle-line {
-    transition: transform .3s ease-out, opacity .3s ease-out;
-  }
-
   .site-header__menu {
     max-height: 0;
     opacity: 0;
