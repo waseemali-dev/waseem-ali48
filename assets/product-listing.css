@@ -129,18 +129,19 @@
 }
 
 .prod-modal__content {
-  width: 100%;
-  max-width: 350px;
-  max-height: 90vh;
-  overflow-y: auto;
-  background: var(--bg);
-  border-radius: 8px;
-  padding: 28px 20px 24px;
-  position: relative;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  opacity: 0;
-  transform: scale(0.95);
-  transition: opacity var(--anim), transform var(--anim);
+	width: 100%;
+	max-width: 311px;
+	max-height: 447px;
+	overflow-y: auto;
+	background: var(--bg);
+	border-radius: 8px;
+	padding: 36px 20px 25px;
+	position: relative;
+	opacity: 0;
+	transform: scale(.95);
+	transition: opacity var(--anim),transform var(--anim);
+	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+	border-radius: 0;
 }
 
 .prod-modal.is-open .prod-modal__content {
