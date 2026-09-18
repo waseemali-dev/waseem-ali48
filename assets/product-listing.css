@@ -383,6 +383,7 @@
   align-items: center;
   justify-content: space-between;
   transition: border-color 300ms ease-out;
+  position: relative;
 }
 
 .prod-modal__dropdown-toggle:hover {
@@ -393,7 +394,7 @@
   outline: 2px solid var(--primary);
   outline-offset: -2px;
 }
-prod-modal__dropdown-toggle::after{
+.prod-modal__dropdown-toggle::after{
   content:'';
   width:1px;
   height:100%;
