@@ -371,7 +371,7 @@
 
 .prod-modal__dropdown-toggle {
   width: 100%;
-  padding: 10px 0 10px 13px;
+  padding: 11px 21px 11px 13px;
   border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
@@ -393,9 +393,17 @@
   outline: 2px solid var(--primary);
   outline-offset: -2px;
 }
-
+prod-modal__dropdown-toggle::after{
+  content:'';
+  width:1px;
+  height:100%;
+  background: var(--border);
+  position:absolute;
+  top:1;
+  right:55px;
+}
 .prod-modal__dropdown-icon {
-  font-size: 10px;
+  
   transition: transform 300ms ease-out;
   flex-shrink: 0;
 }
