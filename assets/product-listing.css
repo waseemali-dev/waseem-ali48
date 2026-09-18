@@ -177,10 +177,11 @@
    ======================== */
 
 .prod-modal__body {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
+	display: flex;
+  flex-wrap:flex-wrap;
+	align-items: flex-start;
+  justify-content:space-between;
 	gap: 8px;
-	align-items: start;
 	margin-bottom: 10px;
 }
 
@@ -195,7 +196,8 @@
 .prod-modal__info {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  width:calc(100% - 128px);
 }
 
 .prod-modal__name {
