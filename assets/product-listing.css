@@ -187,10 +187,9 @@
 .prod-modal__img {
   width: 100%;
   height: auto;
-  aspect-ratio: 1;
+  aspect-ratio: 120 / 140;
   object-fit: cover;
-  background: #f0f0f0;
-  border-radius: 4px;
+  max-width:120px;
 }
 
 .prod-modal__info {
