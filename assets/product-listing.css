@@ -533,11 +533,11 @@
 }
 
 .prod-modal__status[data-state="error"] {
-  color: #c0392b;
+  color: #bd2130;
 }
 
 .prod-modal__status[data-state="success"] {
-  color: #1a7f37;
+  color: #28a745;
 }
 
 /* ========================
