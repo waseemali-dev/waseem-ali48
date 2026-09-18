@@ -371,7 +371,7 @@
 
 .prod-modal__dropdown-toggle {
   width: 100%;
-  padding: 10px 68px 10px 13px;
+  padding: 10px 0 10px 13px;
   border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
