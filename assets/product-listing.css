@@ -294,6 +294,7 @@
 	color: var(--primary);
 	border: none;
 	font-size: 18px;
+  line-height:1;
 	font-weight: 400;
 	cursor: pointer;
 	transition: color .3s cubic-bezier(.4,0,.2,1);
