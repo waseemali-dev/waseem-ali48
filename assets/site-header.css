@@ -7,7 +7,7 @@
 
 .site-header {
   width: 100%;
-  background-color: ##F7F7F7;
+  background-color: #F7F7F7;
   color: #000000;
   position: relative;
   z-index: 100;
@@ -245,8 +245,9 @@ body.header-sticky-enabled {
 
 @media (min-width: 992px) {
   .site-header {
-    background-color#f5f5f5;
+    background-color:#f5f5f5;
   }
+  
   .site-header__container {
     gap: 24px;
     flex-wrap: nowrap;
