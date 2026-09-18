@@ -335,9 +335,9 @@ body.header-sticky-enabled {
   .site-header__toggle {
     display: flex;
     width: 18px;
-    height: 18px;
+    height: 10px;
     padding: 0;
-    gap: 5px;
+    gap: 2px;
     align-items: center;
     justify-content: center;
   }
