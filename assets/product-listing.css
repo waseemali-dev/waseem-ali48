@@ -289,7 +289,7 @@
 .prod-modal__color-opt {
 	isolation: isolate;
 	flex: 1;
-	padding: 16px 7px 11px 9px;
+	padding: 11px 7px 11px 14px;
 	background: transparent;
 	color: var(--primary);
 	border: none;
