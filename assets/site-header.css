@@ -104,12 +104,10 @@
   right: 0;
   width: 100%;
   max-height: 0;
-  background-color: #ffffff;
   overflow: hidden;
   transition: max-height 0.3s ease, opacity 0.3s ease;
   opacity: 0;
   visibility: hidden;
-  border-top: 1px solid #f0f0f0;
   order: 999;
   flex-basis: 100%;
 }
