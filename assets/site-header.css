@@ -224,8 +224,8 @@ body.header-sticky-enabled {
 
   .site-header__menu-content {
     flex-direction: row;
-    padding: 12px 24px;
-    gap: 20px;
+    padding: 25px 0;
+    gap: 16px;
   }
 
   .site-header__menu-text {
