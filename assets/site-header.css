@@ -104,6 +104,7 @@
   right: 0;
   width: 100%;
   max-height: 0;
+  background-color: #F2F2F2;
   overflow: hidden;
   transition: max-height 0.3s ease, opacity 0.3s ease;
   opacity: 0;
