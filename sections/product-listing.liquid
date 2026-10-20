@@ -142,7 +142,8 @@
 </section>
 
 {{ 'product-listing.css' | asset_url | stylesheet_tag }}
-{{ 'product-listing.js' | asset_url | script_tag }}
+{% comment %} {{ 'product-listing.js' | asset_url | script_tag }} {% endcomment %}
+<script src="{{ 'product-listing.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
