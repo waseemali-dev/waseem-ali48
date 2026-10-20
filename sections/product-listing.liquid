@@ -1,3 +1,4 @@
+{{ 'product-listing.css' | asset_url | stylesheet_tag }}
 {%- liquid
 assign heading = section.settings.heading
 assign description_limit = section.settings.description_limit
@@ -137,7 +138,6 @@ data-description-limit="{{ description_limit }}"
 {%- endif -%}
 </section>
 
-{{ 'product-listing.css' | asset_url | stylesheet_tag }}
 {{ 'product-listing.js' | asset_url | script_tag }}
 
 {% schema %}
